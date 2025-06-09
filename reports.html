@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crane Monitoring - Reports & Data Export</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --gray-color: #95a5a6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            text-align: center;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .logo h2 {
+            font-size: 1.5rem;
+        }
+        
+        .nav-menu {
+            margin-top: 20px;
+        }
+        
+        .nav-item {
+            padding: 12px 20px;
+            transition: all 0.3s;
+        }
+        
+        .nav-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .nav-item.active {
+            background-color: var(--primary-color);
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            padding: 20px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .page-title h1 {
+            font-size: 1.8rem;
+            color: var(--dark-color);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        /* Filter Controls */
+        .log-controls {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .filter-group {
+            margin-bottom: 0;
+        }
+        
+        .filter-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .filter-select, .filter-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            align-self: flex-end;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: var(--dark-color);
+            border: 1px solid #ddd;
+        }
+        
+        /* Report Table */
+        .log-table-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 20px;
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        
+        .log-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        
+        .log-table th {
+            text-align: left;
+            padding: 12px 15px;
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: var(--dark-color);
+            border-bottom: 2px solid #eee;
+            position: sticky;
+            top: 0;
+        }
+        
+        .log-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .log-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .log-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .report-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-ready {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-processing {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-failed {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        /* Export Options */
+        .export-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .export-btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+        
+        .export-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        .export-btn.pdf {
+            background-color: #e74c3c;
+        }
+        
+        .export-btn.excel {
+            background-color: #2ecc71;
+        }
+        
+        .export-btn.png {
+            background-color: #3498db;
+        }
+        
+        .export-btn.csv {
+            background-color: #9b59b6;
+        }
+        
+        .export-btn.json {
+            background-color: #f39c12;
+        }
+        
+        /* Custom Date Range */
+        .custom-date-range {
+            display: none;
+            grid-column: 1 / -1;
+            margin-top: 10px;
+        }
+        
+        .date-range-inputs {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .date-range-input {
+            flex: 1;
+        }
+        
+        /* Report Preview */
+        .report-preview {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .preview-content {
+            max-height: 400px;
+            overflow: auto;
+            border: 1px solid #eee;
+            padding: 15px;
+            background-color: #f9f9f9;
+        }
+        
+        /* Stats Cards */
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray-color);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+            
+            .log-controls {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                grid-column: 1;
+            }
+            
+            .date-range-inputs {
+                flex-direction: column;
+            }
+        }
+        
+        .logout-button {
+            margin-left: 15px;
+            padding: 6px 12px;
+            background-color: var(--danger-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.2s;
+        }
+        
+        .logout-button:hover {
+            background-color: #c0392b;
+        }
+        
+        /* Tab Navigation */
+        .report-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .report-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 600;
+            color: var(--gray-color);
+            transition: all 0.2s;
+        }
+        
+        .report-tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        
+        .report-tab:hover:not(.active) {
+            color: var(--dark-color);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Schedule Section */
+        .schedule-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .schedule-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background-color: #eee;
+            color: #555;
+        }
+        
+        .badge-primary {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .badge-success {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+        
+        .badge-warning {
+            background-color: #fff8e1;
+            color: #ffa000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="logo">
+                <h2>CraneMonitor Pro</h2>
+            </div>
+            <div class="nav-menu">
+                <div class="nav-item">
+                    <a href="dash.html" class="nav-link">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="operations.html" class="nav-link">
+                        <i class="fas fa-history"></i>
+                        <span>Operations Log</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="load.html" class="nav-link">
+                        <i class="fas fa-weight-hanging"></i>
+                        <span>Load Lift Log</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="voltage.html" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Voltage Monitoring</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="temperature.html" class="nav-link">
+                        <i class="fas fa-temperature-high"></i>
+                        <span>Temperature</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="errors.html" class="nav-link">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Error Log</span>
+                    </a>
+                </div>
+                <div class="nav-item active">
+                    <a href="reports.html" class="nav-link">
+                        <i class="fas fa-file-export"></i>
+                        <span>Reports</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="alerts.html" class="nav-link">
+                        <i class="fas fa-bell"></i>
+                        <span>Alerts</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="help.html" class="nav-link">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Help</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <div class="header">
+                <div class="page-title">
+                    <h1>Reports & Data Export</h1>
+                    <p>Generate, schedule, and export detailed crane operation reports</p>
+                </div>
+                <div class="user-info">
+                    <img src="profile.png" alt="User">
+                    <span>Admin User</span>
+                    <button id="logoutBtn" class="logout-button">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Tab Navigation -->
+            <div class="report-tabs">
+                <div class="report-tab active" data-tab="standard-reports">Standard Reports</div>
+                <div class="report-tab" data-tab="custom-reports">Custom Reports</div>
+                <div class="report-tab" data-tab="scheduled-reports">Scheduled Reports</div>
+            </div>
+            
+            <!-- Standard Reports Tab -->
+            <div class="tab-content active" id="standard-reports">
+                <!-- Stats Cards -->
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-label">Reports Generated</div>
+                        <div class="stat-value">142</div>
+                        <div class="stat-label">This Month</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Most Used Report</div>
+                        <div class="stat-value">Operations</div>
+                        <div class="stat-label">45% of total</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Avg. Report Size</div>
+                        <div class="stat-value">3.2MB</div>
+                        <div class="stat-label">PDF format</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Scheduled Reports</div>
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Active</div>
+                    </div>
+                </div>
+                
+                <!-- Report Configuration -->
+                <div class="log-controls">
+                    <div class="filter-group">
+                        <label class="filter-label">Report Type</label>
+                        <select class="filter-select" id="report-type">
+                            <option value="operations">Operations Log</option>
+                            <option value="load">Load Lift Log</option>
+                            <option value="errors">Error Log</option>
+                            <option value="voltage">Voltage Data</option>
+                            <option value="temperature">Temperature Data</option>
+                            <option value="maintenance">Maintenance History</option>
+                            <option value="performance">Performance Summary</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Time Range</label>
+                        <select class="filter-select" id="time-range">
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="quarter">This Quarter</option>
+                            <option value="year">This Year</option>
+                            <option value="custom">Custom Range</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Crane Selection</label>
+                        <select class="filter-select" id="crane-selection">
+                            <option value="all">All Cranes</option>
+                            <option value="CRN-001">Gantry Crane #1 (CRN-001)</option>
+                            <option value="CRN-002">Overhead Crane #2 (CRN-002)</option>
+                            <option value="CRN-003">Jib Crane #3 (CRN-003)</option>
+                            <option value="CRN-004">Bridge Crane #4 (CRN-004)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Report Format</label>
+                        <select class="filter-select" id="report-format">
+                            <option value="pdf">PDF (Portable Document)</option>
+                            <option value="excel">Excel (XLSX)</option>
+                            <option value="csv">CSV (Comma Separated)</option>
+                            <option value="json">JSON</option>
+                        </select>
+                    </div>
+                    
+                    <div class="custom-date-range" id="custom-date-range">
+                        <div class="date-range-inputs">
+                            <div class="date-range-input">
+                                <label class="filter-label">Start Date</label>
+                                <input type="text" class="filter-input date-picker" id="start-date" placeholder="Select start date">
+                            </div>
+                            <div class="date-range-input">
+                                <label class="filter-label">End Date</label>
+                                <input type="text" class="filter-input date-picker" id="end-date" placeholder="Select end date">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="generate-report">
+                            <i class="fas fa-file-alt"></i>
+                            Generate Report
+                        </button>
+                        <button class="btn btn-secondary" id="preview-report">
+                            <i class="fas fa-eye"></i>
+                            Preview
+                        </button>
+                        <button class="btn btn-secondary" id="reset-filters">
+                            <i class="fas fa-redo"></i>
+                            Reset
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Report Preview -->
+                <div class="report-preview" id="report-preview">
+                    <div class="preview-header">
+                        <h3>Report Preview</h3>
+                        <button class="btn btn-secondary" id="close-preview">
+                            <i class="fas fa-times"></i> Close
+                        </button>
+                    </div>
+                    <div class="preview-content">
+                        <h4>Crane Operations Report</h4>
+                        <p><strong>Date Range:</strong> June 1, 2023 - June 15, 2023</p>
+                        <p><strong>Cranes Included:</strong> All (5 cranes)</p>
+                        <hr>
+                        <h5>Summary Statistics</h5>
+                        <ul>
+                            <li>Total Operations: 1,245</li>
+                            <li>Average Load Weight: 3.2 tons</li>
+                            <li>Busiest Crane: CRN-002 (328 operations)</li>
+                            <li>Peak Usage Day: June 12 (142 operations)</li>
+                        </ul>
+                        <hr>
+                        <h5>Detailed Operations</h5>
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background-color: #f8f9fa;">
+                                    <th style="padding: 8px; border: 1px solid #ddd;">Timestamp</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd;">Crane ID</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd;">Operation</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd;">Load (tons)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">2023-06-15 08:23:45</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">CRN-001</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">Hoist Up</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">2.5</td>
+                                </tr>
+                                <tr style="background-color: #f9f9f9;">
+                                    <td style="padding: 8px; border: 1px solid #ddd;">2023-06-15 08:45:12</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">CRN-002</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">Travel Left</td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">3.8</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Generated Reports Section -->
+                <div class="log-table-container">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3>Recent Reports</h3>
+                        <div>
+                            <button class="btn btn-secondary" id="refresh-reports">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <table class="log-table">
+                        <thead>
+                            <tr>
+                                <th>Report ID</th>
+                                <th>Type</th>
+                                <th>Date Range</th>
+                                <th>Cranes</th>
+                                <th>Generated On</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>RPT-20230615-001</td>
+                                <td>
+                                    <div>Operations Log</div>
+                                    <div><span class="badge badge-primary">Standard</span></div>
+                                </td>
+                                <td>Jun 1-15, 2023</td>
+                                <td>All Cranes</td>
+                                <td>Jun 15, 2023 09:45</td>
+                                <td><span class="report-status status-ready">Ready</span></td>
+                                <td>
+                                    <button class="export-btn pdf" title="Download PDF"><i class="fas fa-file-pdf"></i></button>
+                                    <button class="export-btn excel" title="Download Excel"><i class="fas fa-file-excel"></i></button>
+                                    <button class="export-btn csv" title="Download CSV"><i class="fas fa-file-csv"></i></button>
+                                    <button class="btn btn-secondary" title="Share"><i class="fas fa-share-alt"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>RPT-20230614-002</td>
+                                <td>
+                                    <div>Load Lift Log</div>
+                                    <div><span class="badge badge-success">Custom</span></div>
+                                </td>
+                                <td>Jun 1-14, 2023</td>
+                                <td>CRN-001, CRN-002</td>
+                                <td>Jun 14, 2023 14:30</td>
+                                <td><span class="report-status status-ready">Ready</span></td>
+                                <td>
+                                    <button class="export-btn pdf" title="Download PDF"><i class="fas fa-file-pdf"></i></button>
+                                    <button class="export-btn excel" title="Download Excel"><i class="fas fa-file-excel"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>RPT-20230615-003</td>
+                                <td>
+                                    <div>Error Log</div>
+                                    <div><span class="badge badge-warning">Scheduled</span></div>
+                                </td>
+                                <td>Jun 10-15, 2023</td>
+                                <td>CRN-003</td>
+                                <td>Jun 15, 2023 11:20</td>
+                                <td><span class="report-status status-processing">Processing</span></td>
+                                <td>
+                                    <button class="export-btn" disabled title="Preparing"><i class="fas fa-spinner fa-spin"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>RPT-20230613-004</td>
+                                <td>
+                                    <div>Voltage Data</div>
+                                    <div><span class="badge badge-primary">Standard</span></div>
+                                </td>
+                                <td>Jun 1-13, 2023</td>
+                                <td>All Cranes</td>
+                                <td>Jun 13, 2023 16:45</td>
+                                <td><span class="report-status status-failed">Failed</span></td>
+                                <td>
+                                    <button class="btn btn-secondary" title="Retry"><i class="fas fa-redo"></i></button>
+                                    <button class="btn btn-secondary" title="View Error"><i class="fas fa-info-circle"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Quick Export Options -->
+                <div class="log-table-container">
+                    <h3>Quick Export</h3>
+                    <p>Export current view data in different formats or share with team members:</p>
+                    <div class="export-options">
+                        <button class="export-btn pdf"><i class="fas fa-file-pdf"></i> Export as PDF</button>
+                        <button class="export-btn excel"><i class="fas fa-file-excel"></i> Export as Excel</button>
+                        <button class="export-btn csv"><i class="fas fa-file-csv"></i> Export as CSV</button>
+                        <button class="export-btn json"><i class="fas fa-file-code"></i> Export as JSON</button>
+                        <button class="export-btn png"><i class="fas fa-file-image"></i> Export Chart as PNG</button>
+                        <button class="btn btn-primary"><i class="fas fa-share-alt"></i> Share Report</button>
+                        <button class="btn btn-secondary"><i class="fas fa-envelope"></i> Email Report</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Custom Reports Tab -->
+            <div class="tab-content" id="custom-reports">
+                <div class="log-table-container">
+                    <h3>Custom Report Builder</h3>
+                    <p>Create custom reports by selecting specific data fields and filters.</p>
+                    
+                    <div class="log-controls" style="grid-template-columns: 1fr 1fr;">
+                        <div>
+                            <h4 style="margin-bottom: 15px;">Available Data Fields</h4>
+                            <div style="border: 1px solid #eee; padding: 10px; border-radius: 4px; max-height: 300px; overflow-y: auto;">
+                                <div style="margin-bottom: 10px;">
+                                    <h5 style="margin-bottom: 5px;">Operations Data</h5>
+                                    <div style="display: flex; flex-direction: column; gap: 5px;">
+                                        <label style="display: flex; align-items: center; gap: 8px;">
+                                            <input type="checkbox"> Timestamp
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 8px;">
+                                            <input type="checkbox"> Crane ID
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 8px;">
+                                            <input type="checkbox"> Operation Type
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 8px;">
+                                            <input type="checkbox"> Duration
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div style="margin-bottom: 10px;">
+                                    <h5 style="margin-bottom: 5px;">Load Data</h5>
+                                    <div style="display: flex; flex-direction: column; gap: 5px;">
+                                        <label style="display: flex; align-items: center; gap: 8px;">
+                                            <input type="checkbox"> Load Weight
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 8px;">
+                                            <input type="checkbox"> Load Unit
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 8px;">
+                                            <input type="checkbox"> Overload Events
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div style="margin-bottom: 10px;">
+                                    <h5 style="margin-bottom: 5px;">System Data</h5>
+                                    <div style="display: flex; flex-direction: column; gap: 5px;">
+                                        <label style="display: flex; align-items: center; gap: 8px;">
+                                            <input type="checkbox"> Voltage Readings
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 8px;">
+                                            <input type="checkbox"> Temperature Readings
+                                        </label>
+                                        <label style="display: flex; align-items: center; gap: 8px;">
+                                            <input type="checkbox"> Error Codes
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 style="margin-bottom: 15px;">Selected Fields</h4>
+                            <div style="border: 1px solid #eee; padding: 10px; border-radius: 4px; min-height: 300px; background-color: #f9f9f9;">
+                                <p style="color: #999; text-align: center; margin-top: 100px;">Drag and drop fields here to build your report</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-save"></i> Save Template
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-file-alt"></i> Generate Custom Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Scheduled Reports Tab -->
+            <div class="tab-content" id="scheduled-reports">
+                <div class="schedule-section">
+                    <h3>Scheduled Reports</h3>
+                    <p>Configure automatic report generation and delivery.</p>
+                    
+                    <button class="btn btn-primary" id="add-schedule" style="margin-bottom: 20px;">
+                        <i class="fas fa-plus"></i> Add New Schedule
+                    </button>
+                    
+                    <table class="log-table">
+                        <thead>
+                            <tr>
+                                <th>Schedule Name</th>
+                                <th>Report Type</th>
+                                <th>Frequency</th>
+                                <th>Recipients</th>
+                                <th>Next Run</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Weekly Operations</td>
+                                <td>Operations Log</td>
+                                <td>Every Monday</td>
+                                <td>operations@company.com</td>
+                                <td>Jun 19, 2023</td>
+                                <td><span class="report-status status-ready">Active</span></td>
+                                <td>
+                                    <button class="btn btn-secondary" title="Edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-secondary" title="Disable"><i class="fas fa-pause"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Monthly Safety</td>
+                                <td>Error Log</td>
+                                <td>1st of month</td>
+                                <td>safety-team@company.com</td>
+                                <td>Jul 1, 2023</td>
+                                <td><span class="report-status status-ready">Active</span></td>
+                                <td>
+                                    <button class="btn btn-secondary" title="Edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-secondary" title="Disable"><i class="fas fa-pause"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Quarterly Maintenance</td>
+                                <td>Maintenance Report</td>
+                                <td>Quarterly</td>
+                                <td>maintenance@company.com</td>
+                                <td>Sep 1, 2023</td>
+                                <td><span class="report-status status-ready">Active</span></td>
+                                <td>
+                                    <button class="btn btn-secondary" title="Edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-secondary" title="Disable"><i class="fas fa-pause"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set active nav item
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.getAttribute('href') === 'reports.html') {
+                    link.parentElement.classList.add('active');
+                }
+            });
+            
+            // Initialize date pickers
+            flatpickr(".date-picker", {
+                dateFormat: "Y-m-d",
+                allowInput: true
+            });
+            
+            // Show/hide custom date range
+            document.getElementById('time-range').addEventListener('change', function() {
+                const customDateRange = document.getElementById('custom-date-range');
+                customDateRange.style.display = this.value === 'custom' ? 'block' : 'none';
+            });
+            
+            // Tab navigation
+            document.querySelectorAll('.report-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs and contents
+                    document.querySelectorAll('.report-tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Generate report button functionality
+            document.getElementById('generate-report').addEventListener('click', function() {
+                const reportType = document.getElementById('report-type').value;
+                const timeRange = document.getElementById('time-range').value;
+                const craneSelection = document.getElementById('crane-selection').value;
+                const reportFormat = document.getElementById('report-format').value;
+                
+                // Show loading state
+                const button = this;
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+                button.disabled = true;
+                
+                // Simulate report generation
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                    
+                    // Show success notification
+                    showNotification('Report generated successfully!', 'success');
+                    
+                    // In a real app, you would update the reports table with the new report
+                }, 2000);
+            });
+            
+            // Preview report
+            document.getElementById('preview-report').addEventListener('click', function() {
+                document.getElementById('report-preview').style.display = 'block';
+            });
+            
+            // Close preview
+            document.getElementById('close-preview').addEventListener('click', function() {
+                document.getElementById('report-preview').style.display = 'none';
+            });
+            
+            // Reset filters
+            document.getElementById('reset-filters').addEventListener('click', function() {
+                document.getElementById('report-type').value = 'operations';
+                document.getElementById('time-range').value = 'today';
+                document.getElementById('crane-selection').value = 'all';
+                document.getElementById('report-format').value = 'pdf';
+                document.getElementById('custom-date-range').style.display = 'none';
+            });
+            
+            // Export button functionality
+            document.querySelectorAll('.export-btn').forEach(btn => {
+                if (!btn.disabled) {
+                    btn.addEventListener('click', function() {
+                        const format = this.classList.contains('pdf') ? 'PDF' : 
+                                      this.classList.contains('excel') ? 'Excel' : 
+                                      this.classList.contains('csv') ? 'CSV' : 
+                                      this.classList.contains('json') ? 'JSON' : 'PNG';
+                        
+                        showNotification(`Preparing ${format} export...`, 'info');
+                    });
+                }
+            });
+            
+            // Add new schedule
+            document.getElementById('add-schedule').addEventListener('click', function() {
+                showNotification('Opening schedule configuration...', 'info');
+            });
+            
+            // Refresh reports
+            document.getElementById('refresh-reports').addEventListener('click', function() {
+                const button = this;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
+                
+                setTimeout(() => {
+                    button.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh';
+                    showNotification('Reports list updated', 'success');
+                }, 1000);
+            });
+            
+            // Logout functionality
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                // Clear any authentication tokens or session data
+                localStorage.removeItem('isLoggedIn');
+                sessionStorage.removeItem('authToken');
+                
+                // Redirect to login page
+                window.location.href = 'index.html';
+            });
+            
+            // Notification function
+            function showNotification(message, type) {
+                const notification = document.createElement('div');
+                notification.className = `notification notification-${type}`;
+                notification.innerHTML = `
+                    <div class="notification-content">
+                        <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'times-circle' : 'info-circle'}"></i>
+                        <span>${message}</span>
+                    </div>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.classList.add('show');
+                }, 10);
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, 3000);
+            }
+            
+            // Add notification styles
+            const style = document.createElement('style');
+            style.textContent = `
+                .notification {
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    padding: 15px 20px;
+                    border-radius: 4px;
+                    color: white;
+                    transform: translateY(100px);
+                    opacity: 0;
+                    transition: all 0.3s ease;
+                    z-index: 1000;
+                }
+                
+                .notification.show {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+                
+                .notification-success {
+                    background-color: var(--success-color);
+                }
+                
+                .notification-error {
+                    background-color: var(--danger-color);
+                }
+                
+                .notification-info {
+                    background-color: var(--primary-color);
+                }
+                
+                .notification-content {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+                
+                .notification i {
+                    font-size: 1.2rem;
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
