@@ -48,8 +48,17 @@
     position: relative;
     z-index: 10;
     width: 60px;
-    transition: width 0.3s ease;
+    transition: width 0.3s ease, background-color 0.2s ease;
     overflow: hidden;
+}
+
+.sidebar:hover {
+    width: 250px;
+}
+
+.sidebar:hover .nav-link span {
+    display: inline;
+    opacity: 1;
 }
 
 .sidebar.expanded {
@@ -327,10 +336,14 @@
 .dropdown-menu {
     display: none;
     padding-left: 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
 }
 
 .dropdown-menu.show {
     display: block;
+    max-height: 200px;
 }
 
 .dropdown-item {
@@ -339,6 +352,11 @@
     align-items: center;
     color: #fff;
     text-decoration: none;
+    transition: all 0.2s;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .dropdown-item i {
@@ -347,12 +365,25 @@
 
 .dropdown-toggle .dropdown-icon {
     margin-left: auto;
-    transition: transform 0.3s;
+    transition: transform 0.3s ease;
 }
 
-.dropdown-toggle.show .dropdown-icon {
+.dropdown-toggle.show .dropdown-icon,
+.sidebar:hover .dropdown-toggle.show .dropdown-icon {
     transform: rotate(180deg);
 }
+
+/* Close dropdowns when sidebar is collapsed */
+.sidebar:not(:hover):not(.expanded) .dropdown-menu {
+    display: none !important;
+    max-height: 0 !important;
+    padding: 0 !important;
+}
+
+.sidebar:not(:hover):not(.expanded) .dropdown-toggle.show .dropdown-icon {
+    transform: rotate(0deg) !important;
+}
+
 
 /* Account Dropdown */
 .user-info-wrapper {
@@ -638,7 +669,7 @@
     <a href="#" class="nav-link dropdown-toggle">
         <i class="fas fa-cog"></i>
         <span>Settings</span>
-        <i class="fas fa-chevron-down dropdown-icon"></i>
+       
     </a>
     <div class="dropdown-menu">
         <a href="machine.html" class="dropdown-item">
@@ -729,62 +760,60 @@
 
     <script>document.addEventListener('DOMContentLoaded', function() {
     // Sidebar toggle
-    const sidebar = document.getElementById('sidebar');
-    const sidebarToggle = document.getElementById('sidebarToggle');
-    const mainContainer = document.getElementById('mainContainer');
-    
-    sidebarToggle.addEventListener('click', function() {
-        sidebar.classList.toggle('expanded');
-        mainContainer.classList.toggle('sidebar-expanded');
-    });
-
-    // Settings dropdown
-    document.querySelectorAll('.nav-item.dropdown').forEach(dropdown => {
-        const toggle = dropdown.querySelector('.dropdown-toggle');
+  // Add this to your existing JavaScript code
+document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+    toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        const dropdown = this.closest('.dropdown');
         const menu = dropdown.querySelector('.dropdown-menu');
         
-        toggle.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            // Close all other dropdowns first
-            document.querySelectorAll('.dropdown-menu').forEach(m => {
-                if (m !== menu) m.classList.remove('show');
-            });
-            
-            // Toggle current dropdown
-            menu.classList.toggle('show');
-            toggle.classList.toggle('show');
-        });
+        // Close all other dropdowns
+        closeAllDropdownsExcept(menu, this);
+        
+        // Toggle current dropdown
+        menu.classList.toggle('show');
+        this.classList.toggle('show');
     });
+});
 
-    // Account dropdown
-    const accountTrigger = document.getElementById('accountDropdownTrigger');
-    const accountMenu = document.getElementById('accountDropdownMenu');
+// Function to close all dropdowns
+function closeAllDropdowns() {
+    document.querySelectorAll('.dropdown-menu').forEach(m => {
+        m.classList.remove('show');
+    });
+    document.querySelectorAll('.dropdown-toggle').forEach(t => {
+        t.classList.remove('show');
+    });
+}
+
+// Function to close all dropdowns except a specific one
+function closeAllDropdownsExcept(exceptMenu = null, exceptToggle = null) {
+    document.querySelectorAll('.dropdown-menu').forEach(m => {
+        if (m !== exceptMenu) m.classList.remove('show');
+    });
+    document.querySelectorAll('.dropdown-toggle').forEach(t => {
+        if (t !== exceptToggle) t.classList.remove('show');
+    });
+}
+
+// Close dropdowns when sidebar is collapsed
+const sidebars = document.getElementById('sidebar');
+const sidebarToggles= document.getElementById('sidebarToggle');
+
+sidebarToggles.addEventListener('click', function() {
+    // Check if sidebar is being collapsed (not expanded)
+    if (!sidebars.classList.contains('expanded')) {
+        closeAllDropdowns();
+    }
+});
+
+// Also close dropdowns when clicking outside
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.dropdown')) {
+        closeAllDropdowns();
+    }
+});
     
-    accountTrigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        accountMenu.classList.toggle('show');
-        accountTrigger.classList.toggle('active');
-    });
-
-    // Close dropdowns when clicking outside
-    document.addEventListener('click', () => {
-        document.querySelectorAll('.dropdown-menu').forEach(menu => {
-            menu.classList.remove('show');
-        });
-        document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
-            toggle.classList.remove('show');
-        });
-        accountTrigger.classList.remove('active');
-    });
-
-    // Prevent dropdown from closing when clicking inside
-    document.querySelectorAll('.dropdown-menu').forEach(menu => {
-        menu.addEventListener('click', (e) => {
-            e.stopPropagation();
-        });
-    });
 
     // Rest of your existing code (machine table, logout, etc.)
     const userPlan = 'pro';
