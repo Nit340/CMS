@@ -202,7 +202,7 @@ margin-bottom: 20px;
             font-size: 0.85rem;
         }
         
-        input[type="text"] {
+        input[type="text"], select {
             width: 100%;
             padding: 8px 12px;
             border: 1px solid #ddd;
@@ -211,7 +211,7 @@ margin-bottom: 20px;
             transition: border-color 0.3s;
         }
         
-        input[type="text"]:focus {
+        input[type="text"]:focus, select:focus {
             border-color: var(--primary-color);
             outline: none;
             box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
@@ -743,8 +743,8 @@ margin-bottom: 20px;
 </div>
             </div>
                        <div class="page-title">
-       <h1>Machine Management</h1>
-                    <p>Manage all machine configurations and details</p>
+       <h1>Device Management</h1>
+                    <p>Manage all Device configurations and details</p>
                 </div>
             
             
@@ -754,8 +754,30 @@ margin-bottom: 20px;
                 <form id="deviceForm">
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="deviceId">Device ID</label>
-                            <input type="text" id="deviceId" name="deviceId" placeholder="eg: 3489209" required>
+                            <label for="deviceName">Device Name</label>
+                            <input type="text" id="deviceName" name="deviceName" placeholder="eg: Crane Sensor 1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="deviceId">Device Token</label>
+                            <input type="text" id="devicetoken" name="devicetoken" placeholder="eg: 3489209" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="protocol">Protocol</label>
+                            <select id="protocol" name="protocol" required>
+                                <option value="">Select Protocol</option>
+                                <option value="MQTT">MQTT</option>
+                                <option value="HTTP">HTTP</option>
+                                <option value="CoAP">CoAP</option>
+                                <option value="WebSocket">WebSocket</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="topic"> Pub Topic</label>
+                            <input type="text" id="pubtopic" name="pubtopic" placeholder="eg: crane/sensor/data" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subTopic">Sub Topic</label>
+                            <input type="text" id="subTopic" name="subTopic" placeholder="eg: /status">
                         </div>
                         <div class="form-group">
                             <label for="hardwareVersion">Hardware Version</label>
@@ -766,8 +788,12 @@ margin-bottom: 20px;
                             <input type="text" id="softwareVersion" name="softwareVersion" placeholder="eg: 1.2.0" required>
                         </div>
                         <div class="form-group">
-                            <label for="model">Model</label>
-                            <input type="text" id="model" name="model" placeholder="Model number" required>
+                            <label for="model">Api Path</label>
+                            <input type="text" id="apipath" name="apipath" placeholder="Api Path" required>
+                        </div>
+                         <div class="form-group">
+                            <label for="model">Device Status</label>
+                            <input type="text" id="devicestatus" name="devicestatus" placeholder="Device status" required>
                         </div>
                     </div>
                     
@@ -792,10 +818,15 @@ margin-bottom: 20px;
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Device ID</th>
+                            <th>Device Name</th>
+                            <th>Device Token</th>
+                            <th>Protocol</th>
+                            <th>Pub Topic</th>
+                            <th>Sub Topic</th>
                             <th>Hardware Version</th>
                             <th>Software Version</th>
-                            <th>Model</th>
+                            <th>Api Path</th>
+                            <th>Device status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -899,24 +930,36 @@ margin-bottom: 20px;
     let devices = [
         {
             id: 1,
-            deviceId: "DEV3489209",
+            deviceName: "Main Crane Sensor",
+            devicetoken: "DEV3489209",
+            protocol: "MQTT",
+            pubtopic: "crane/sensor/main",
+            subTopic: "/status",
             hardwareVersion: "2.3.0",
             softwareVersion: "1.2.0",
-            model: "CRANE-X200"
+            
         },
         {
             id: 2,
-            deviceId: "DEV3489210",
+            deviceName: "Auxiliary Sensor",
+            devicetoken: "DEV3489210",
+            protocol: "HTTP",
+            pubtopic: "crane/sensor/aux",
+            subTopic: "/diagnostics",
             hardwareVersion: "2.4.1",
             softwareVersion: "1.3.2",
-            model: "CRANE-Y300"
+            
         },
         {
             id: 3,
-            deviceId: "DEV3489211",
+            deviceName: "Backup Sensor",
+            devicetoken: "DEV3489211",
+            protocol: "WebSocket",
+            pubtopic: "crane/sensor/backup",
+            subTopic: "/alerts",
             hardwareVersion: "3.0.0",
             softwareVersion: "2.0.0",
-            model: "CRANE-Z400"
+           
         }
     ];
 
@@ -935,10 +978,15 @@ margin-bottom: 20px;
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${index + 1}</td>
-                <td>${device.deviceId}</td>
+                <td>${device.deviceName}</td>
+                <td>${device.devicetoken}</td>
+                <td>${device.protocol}</td>
+                <td>${device.pubtopic}</td>
+                <td>${device.subTopic || '-'}</td>
                 <td>${device.hardwareVersion}</td>
                 <td>${device.softwareVersion}</td>
-                <td>${device.model}</td>
+               <td></td>
+                <td></td>
                 <td class="action-btns">
                     <button class="edit-btn" data-id="${device.id}">
                         <i class="fas fa-edit"></i>
@@ -969,7 +1017,11 @@ margin-bottom: 20px;
         
         if (device) {
             // Populate form
+            document.getElementById('deviceName').value = device.deviceName;
             document.getElementById('deviceId').value = device.deviceId;
+            document.getElementById('protocol').value = device.protocol;
+            document.getElementById('topic').value = device.topic;
+            document.getElementById('subTopic').value = device.subTopic;
             document.getElementById('hardwareVersion').value = device.hardwareVersion;
             document.getElementById('softwareVersion').value = device.softwareVersion;
             document.getElementById('model').value = device.model;
@@ -1012,7 +1064,11 @@ margin-bottom: 20px;
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         
+        const deviceName = document.getElementById('deviceName').value;
         const deviceId = document.getElementById('deviceId').value;
+        const protocol = document.getElementById('protocol').value;
+        const topic = document.getElementById('topic').value;
+        const subTopic = document.getElementById('subTopic').value;
         const hardwareVersion = document.getElementById('hardwareVersion').value;
         const softwareVersion = document.getElementById('softwareVersion').value;
         const model = document.getElementById('model').value;
@@ -1023,20 +1079,30 @@ margin-bottom: 20px;
             if (index !== -1) {
                 devices[index] = {
                     ...devices[index],
-                    deviceId,
+                    deviceName,
+                    devicetoken,
+                    protocol,
+                    pubtopic,
+                    subTopic,
                     hardwareVersion,
                     softwareVersion,
-                    model
+                    apipath,
+                    devicestatus
                 };
             }
         } else {
             // Add new device
             const newDevice = {
                 id: devices.length > 0 ? Math.max(...devices.map(d => d.id)) + 1 : 1,
-                deviceId,
-                hardwareVersion,
-                softwareVersion,
-                model
+                 deviceName,
+                    devicetoken,
+                    protocol,
+                    pubtopic,
+                    subTopic,
+                    hardwareVersion,
+                    softwareVersion,
+                    apipath,
+                    devicestatus
             };
             devices.push(newDevice);
         }
