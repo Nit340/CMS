@@ -7,32 +7,36 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2980b9;
-            --success-color: #2ecc71;
-            --warning-color: #f39c12;
-            --danger-color: #e74c3c;
-            --light-color: #ecf0f1;
-            --dark-color: #2c3e50;
-            --gray-color: #95a5a6;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f5f7fa;
-            color: #333;
-        }
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2980b9;
+    --success-color: #2ecc71;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+    --light-color: #ecf0f1;
+    --dark-color: #2c3e50;
+    --gray-color: #95a5a6;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f5f7fa;
+    color: #333;
+    overflow-x: hidden;
+}
+
+/* Main Container */
 .container {
     display: grid;
     grid-template-columns: 60px 1fr;
     min-height: 100vh;
+    width: 100vw;
     transition: grid-template-columns 0.3s ease;
 }
 
@@ -48,6 +52,7 @@
     position: relative;
     z-index: 10;
     width: 60px;
+    height: 100vh;
     transition: width 0.3s ease, background-color 0.2s ease;
     overflow: hidden;
 }
@@ -134,6 +139,14 @@
 /* Main Content */
 .main-content {
     padding: 20px;
+    width: calc(100vw - 60px);
+    transition: width 0.3s ease;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.container.sidebar-expanded .main-content {
+    width: calc(100vw - 250px);
 }
 
 .header {
@@ -163,7 +176,8 @@
 }
 
 .page-title {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
+    width: 100%;
 }
 
 .page-title h1 {
@@ -175,223 +189,174 @@
     font-size: 0.9rem;
     color: var(--gray-color);
 }
-        
 
-        
-        /* Filter Controls */
-        .log-controls {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            padding: 20px;
-            margin-bottom: 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        
-        .filter-group {
-            margin-bottom: 0;
-        }
-        
-        .filter-label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--dark-color);
-        }
-        
-        .filter-select, .filter-input {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 0.9rem;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            align-self: flex-end;
-        }
-        
-        .btn {
-            padding: 8px 16px;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: all 0.2s;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .btn-secondary {
-            background-color: white;
-            color: var(--dark-color);
-            border: 1px solid #ddd;
-        }
-        
-        /* Chart Containers */
-        .chart-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .chart-container {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            padding: 20px;
-            height: 300px;
-            position: relative;
-        }
-        
-        .chart-title {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: var(--dark-color);
-        }
-        
-        .chart-wrapper {
-            width: 100%;
-            height: calc(100% - 30px);
-            position: relative;
-        }
-        
-        /* Temperature Log Table */
-        .log-table-container {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            padding: 20px;
-            overflow-x: auto;
-        }
-        
-        .log-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
-        }
-        
-        .log-table th {
-            text-align: left;
-            padding: 12px 15px;
-            background-color: #f8f9fa;
-            font-weight: 600;
-            color: var(--dark-color);
-            border-bottom: 2px solid #eee;
-            position: sticky;
-            top: 0;
-        }
-        
-        .log-table td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .log-table tr:last-child td {
-            border-bottom: none;
-        }
-        
-        .log-table tr:hover {
-            background-color: #f8f9fa;
-        }
-        
-        .temp-status {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        
-        .status-normal {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        
-        .status-warning {
-            background-color: #fff3cd;
-            color: #856404;
-        }
-        
-        .status-danger {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        
-        /* Dropdown Menu */
-        .dropdown-menu {
-            display: none;
-            padding-left: 20px;
-        }
+/* Filter Controls */
+.log-controls {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    padding: 20px;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    width: 100%;
+}
 
-        .dropdown-menu.show {
-            display: block;
-        }
+.filter-group {
+    margin-bottom: 0;
+}
 
-        .dropdown-item {
-            padding: 10px 15px;
-            display: flex;
-            align-items: center;
-            color: #fff;
-            text-decoration: none;
-        }
+.filter-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--dark-color);
+}
 
-        .dropdown-item i {
-            margin-right: 10px;
-        }
+.filter-select, .filter-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
 
-        .dropdown-toggle .dropdown-icon {
-            margin-left: auto;
-            transition: transform 0.3s;
-        }
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    align-self: flex-end;
+}
 
-        .dropdown-toggle.show .dropdown-icon {
-            transform: rotate(180deg);
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 1200px) {
-            .chart-row {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-            
-            .sidebar {
-                display: none;
-            }
-            
-            .chart-row {
-                grid-template-columns: 1fr;
-            }
-            
-            .log-controls {
-                grid-template-columns: 1fr;
-            }
-            
-            .action-buttons {
-                grid-column: 1;
-            }
-        }
-      /* Dropdown menu styles */
+.btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-secondary {
+    background-color: white;
+    color: var(--dark-color);
+    border: 1px solid #ddd;
+}
+/* Chart Row Alignment Fix */
+.chart-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    align-items: stretch; /* This ensures all items stretch to same height */
+}
+
+.chart-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    padding: 20px;
+    height: 100%; /* Make height consistent */
+    min-height: 300px; /* Set minimum height */
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--dark-color);
+    flex-shrink: 0; /* Prevent title from shrinking */
+}
+
+.chart-wrapper {
+    width: 100%;
+    flex-grow: 1; /* Allow chart area to grow */
+    position: relative;
+    min-height: 200px; /* Minimum height for chart area */
+}
+
+.chart-wrapper canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Temperature Log Table */
+.log-table-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    padding: 20px;
+    overflow-x: auto;
+    width: 100%;
+}
+
+.log-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.log-table th {
+    text-align: left;
+    padding: 12px 15px;
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: var(--dark-color);
+    border-bottom: 2px solid #eee;
+    position: sticky;
+    top: 0;
+}
+
+.log-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.log-table tr:last-child td {
+    border-bottom: none;
+}
+
+.log-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.temp-status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-normal {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-warning {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Dropdown Menu */
 .dropdown-menu {
     display: none;
     padding-left: 20px;
@@ -568,6 +533,7 @@
 .logout-account-btn:focus {
     color: var(--danger-color) !important;
 }
+
 .account-menu-item.plan-info {
     background-color: #f8f9fa;
     color: var(--dark-color);
@@ -584,14 +550,13 @@
 .plan-basic { color: var(--primary-color); }
 .plan-advanced { color: var(--success-color); }
 .plan-pro { color: gold; }
-.customer-logo{
-    width:30px;
+
+.customer-logo {
+    width: 30px;
     height: 30px;
     border-radius: 50%;
     object-fit: cover;
 }
-
-
 
 .notification {
     position: fixed;
@@ -623,6 +588,67 @@
 /* Settings dropdown without arrow */
 .settings-dropdown .dropdown-icon {
     display: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .chart-row {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 992px) {
+    .log-controls {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .action-buttons {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+    
+    .sidebar {
+        display: none;
+    }
+    
+    .main-content {
+        width: 100vw !important;
+        padding: 15px;
+    }
+    
+    .chart-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .log-controls {
+        grid-template-columns: 1fr;
+    }
+    
+    .action-buttons {
+        grid-column: 1;
+    }
+    
+    .header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 576px) {
+    .account-menu {
+        position: fixed;
+        top: auto;
+        bottom: 70px;
+        left: 20px;
+        right: 20px;
+        width: calc(100% - 40px);
+    }
 }
     </style>
 </head>

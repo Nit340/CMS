@@ -321,6 +321,15 @@ body {
 }
 
 /* Account Dropdown */
+.user-info-wrapper {
+    --primary-color: #4361ee;
+    --danger-color: #ef233c;
+    --text-color: #2b2d42;
+    --hover-bg: #f8f9fa;
+    --transition-speed: 0.25s;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
 .account-dropdown {
     position: relative;
     display: inline-block;
@@ -329,84 +338,129 @@ body {
 .account-trigger {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 8px 12px;
-    border-radius: 20px;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all var(--transition-speed) ease;
+    background: transparent;
+    border: none;
+    color: var(--text-color);
 }
 
 .account-trigger:hover {
-    background-color: rgba(0,0,0,0.05);
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
-.customer-logo {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    object-fit: cover;
+.account-trigger:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.account-trigger .fa-user-circle {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+.account-trigger span {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.account-trigger .fa-caret-down {
+    font-size: 0.75rem;
+    transition: transform var(--transition-speed);
+}
+
+.account-trigger.active .fa-caret-down {
+    transform: rotate(180deg);
 }
 
 .account-menu {
     position: absolute;
     right: 0;
-    top: calc(100% + 5px);
-    background: white;
-    min-width: 200px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    padding: 10px 0;
-    z-index: 100;
+    top: calc(100% + 0.5rem);
+    background-color: white;
+    min-width: 180px;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 0;
+    z-index: 1000;
     opacity: 0;
-    visibility: hidden;
     transform: translateY(-10px);
-    transition: all 0.3s;
+    visibility: hidden;
+    transition: 
+        opacity var(--transition-speed) ease,
+        transform var(--transition-speed) ease;
 }
 
 .account-menu.show {
     opacity: 1;
-    visibility: visible;
     transform: translateY(0);
+    visibility: visible;
 }
 
 .account-menu-item {
-    padding: 8px 15px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    color: var(--dark-color);
+    gap: 0.75rem;
+    padding: 0.625rem 1rem;
+    color: var(--text-color);
     text-decoration: none;
-    font-size: 0.9rem;
-    transition: all 0.2s;
+    font-size: 0.875rem;
+    transition: 
+        background-color var(--transition-speed),
+        color var(--transition-speed);
 }
 
-.account-menu-item:hover {
-    background-color: #f8f9fa;
+.account-menu-item:hover,
+.account-menu-item:focus {
+    background-color: var(--hover-bg);
     color: var(--primary-color);
+}
+
+.account-menu-item i {
+    width: 1.25rem;
+    text-align: center;
+    color: inherit;
 }
 
 .account-menu-divider {
     height: 1px;
-    background-color: #eee;
-    margin: 5px 0;
+    background-color: #e9ecef;
+    margin: 0.5rem 0;
 }
 
-/* Sidebar toggle button */
-.sidebar-toggle {
-    position: fixed;
-    left: 10px;
-    top: 15px;
-    z-index: 20;
-    background: var(--dark-color);
-    color: white;
+.logout-account-btn {
+    background: none;
     border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 100%;
+    text-align: left;
     cursor: pointer;
+    font: inherit;
+    color: inherit;
+}
+
+.logout-account-btn:hover,
+.logout-account-btn:focus {
+    color: var(--danger-color) !important;
+}
+.account-menu-item.plan-info {
+    background-color: #f8f9fa;
+    color: var(--dark-color);
+    font-weight: 600;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.account-menu-item.plan-info i {
+    margin-right: 8px;
+}
+.customer-logo {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 /* Help Section Styles */
@@ -676,111 +730,43 @@ body {
 </head>
 <body>
     <div class="container" id="mainContainer">
-        <!-- Sidebar Navigation -->
-        <div class="sidebar" id="sidebar">
-            <button class="sidebar-toggle" id="sidebarToggle">
-                <i class="fas fa-bars"></i>
-            </button>
-            
-            <div class="nav-menu">
-                <div class="nav-item">
-                    <a href="dash.html" class="nav-link">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </div>
-                <div class="nav-item">
-                    <a href="operations.html" class="nav-link">
-                        <i class="fas fa-history"></i>
-                        <span>Operations Log</span>
-                    </a>
-                </div>
-                <div class="nav-item">
-                    <a href="load.html" class="nav-link">
-                        <i class="fas fa-weight-hanging"></i>
-                        <span>Load Monitoring</span>
-                    </a>
-                </div>
-                <div class="nav-item">
-                    <a href="vibration.html" class="nav-link">
-                        <i class="fas fa-wave-square"></i>
-                        <span>Vibration Monitoring</span>
-                    </a>
-                </div>
-                <div class="nav-item">
-                    <a href="energy.html" class="nav-link">
-                        <i class="fas fa-bolt"></i>
-                        <span>Energy Monitoring</span>
-                    </a>
-                </div>
-                <div class="nav-item">
-                    <a href="temperature.html" class="nav-link">
-                        <i class="fas fa-temperature-high"></i>
-                        <span>Temperature</span>
-                    </a>
-                </div>
-                <div class="nav-item">
-                    <a href="errors.html" class="nav-link">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <span>Error Log</span>
-                    </a>
-                </div>
-                <div class="nav-item">
-                    <a href="reports.html" class="nav-link">
-                        <i class="fas fa-file-export"></i>
-                        <span>Reports</span>
-                    </a>
-                </div>
-                <div class="nav-item">
-                    <a href="alerts.html" class="nav-link">
-                        <i class="fas fa-bell"></i>
-                        <span>Alerts</span>
-                    </a>
-                </div>
-                <div class="nav-item">
-                    <a href="settings.html" class="nav-link">
-                        <i class="fas fa-cog"></i>
-                        <span>Settings</span>
-                    </a>
-                </div>
-                <div class="nav-item active">
-                    <a href="help.html" class="nav-link">
-                        <i class="fas fa-question-circle"></i>
-                        <span>Help Center</span>
-                    </a>
-                </div>
-            </div>
-        </div>
+                <!-- Sidebar Navigation -->
+
+      <div id="sidebar-container"></div>
         
-        <!-- Main Content Area -->
+          <!-- Main Content Area -->
         <div class="main-content">
             <div class="header">
                 <div class="header-left">
                     <div class="header-logo">CraneIQ</div>
                 </div>
                 
-                <div class="account-dropdown">
-                    <div class="account-trigger" id="accountTrigger">
-                        <img src="https://via.placeholder.com/30" class="customer-logo" alt="User">
-                        <span>Hilton (Pro Plan)</span>
-                        <i class="fas fa-caret-down"></i>
-                    </div>
-                    <div class="account-menu" id="accountMenu">
-                        <div class="account-menu-item">
-                            <i class="fas fa-user"></i>
-                            <span>My Profile</span>
-                        </div>
-                        <div class="account-menu-item">
-                            <i class="fas fa-crown" style="color: gold;"></i>
-                            <span>Pro Plan</span>
-                        </div>
-                        <div class="account-menu-divider"></div>
-                        <div class="account-menu-item">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span>
-                        </div>
-                    </div>
-                </div>
+               <div class="user-info-wrapper">
+    <div class="account-dropdown">
+        <div class="account-trigger" id="accountDropdownTrigger">
+           <img src="image/houzz.png" class="customer-logo">
+            <span>Hilton (Pro Plan)</span>
+            <i class="fas fa-caret-down"></i>
+        </div>
+        <div class="account-menu" id="accountDropdownMenu">
+            <div class="account-menu-item plan-info">
+                <i class="fas fa-crown" style="color: gold;"></i>
+                <span>Pro Plan</span>
+            </div>
+            <div class="account-menu-divider"></div>
+            <a href="#" class="account-menu-item">
+                <i class="fas fa-user"></i> Profile
+            </a>
+            <a href="#" class="account-menu-item">
+                <i class="fas fa-sync-alt"></i> Upgrade Plan
+            </a>
+            <div class="account-menu-divider"></div>
+            <button id="accountLogoutBtn" class="account-menu-item logout-account-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </div>
+</div>
             </div>
 
             <div class="page-title">
@@ -1197,53 +1183,126 @@ body {
             </div>
         </div>
     </div>
-
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const sidebar = document.getElementById('sidebar');
-        const sidebarToggle = document.getElementById('sidebarToggle');
+        // Load the sidebar
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('sidebar-container').innerHTML = data;
+                initializeSidebar(); // Call this after loading
+            });
+
+        function initializeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            
+            if (sidebar && sidebarToggle) {
+                sidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('expanded');
+                    document.querySelector('.container').classList.toggle('sidebar-expanded');
+                });
+
+                // Dropdown functionality
+                document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+                    toggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const dropdown = this.closest('.dropdown');
+                        const menu = dropdown.querySelector('.dropdown-menu');
+                        
+                        // Close all other dropdowns
+                        closeAllDropdownsExcept(menu, this);
+                        
+                        // Toggle current dropdown
+                        menu.classList.toggle('show');
+                        this.classList.toggle('show');
+                    });
+                });
+
+                // Function to close all dropdowns
+                function closeAllDropdowns() {
+                    document.querySelectorAll('.dropdown-menu').forEach(m => {
+                        m.classList.remove('show');
+                    });
+                    document.querySelectorAll('.dropdown-toggle').forEach(t => {
+                        t.classList.remove('show');
+                    });
+                }
+
+                // Function to close all dropdowns except a specific one
+                function closeAllDropdownsExcept(exceptMenu = null, exceptToggle = null) {
+                    document.querySelectorAll('.dropdown-menu').forEach(m => {
+                        if (m !== exceptMenu) m.classList.remove('show');
+                    });
+                    document.querySelectorAll('.dropdown-toggle').forEach(t => {
+                        if (t !== exceptToggle) t.classList.remove('show');
+                    });
+                }
+
+                // Close dropdowns when sidebar is collapsed
+                sidebarToggle.addEventListener('click', function() {
+                    if (!sidebar.classList.contains('expanded')) {
+                        closeAllDropdowns();
+                    }
+                });
+
+                // Also close dropdowns when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('.dropdown')) {
+                        closeAllDropdowns();
+                    }
+                });
+            }
+        }
+    });
+</script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+
         const mainContainer = document.getElementById('mainContainer');
         const accountTrigger = document.getElementById('accountTrigger');
         const accountMenu = document.getElementById('accountMenu');
         const faqQuestions = document.querySelectorAll('.faq-question');
         
-        // Toggle sidebar
-        sidebarToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('expanded');
-            mainContainer.classList.toggle('sidebar-expanded');
-        });
-        
-        // Toggle account dropdown
-        accountTrigger.addEventListener('click', function(e) {
-            e.stopPropagation();
-            accountMenu.classList.toggle('show');
-        });
-        
-        // Close dropdown when clicking elsewhere
-        document.addEventListener('click', function() {
-            accountMenu.classList.remove('show');
-        });
-        
-        // FAQ functionality
-        faqQuestions.forEach(question => {
-            question.addEventListener('click', function() {
-                const answer = this.nextElementSibling;
-                const icon = this.querySelector('i');
-                
-                // Toggle answer visibility
-                answer.classList.toggle('show');
-                
-                // Rotate icon
-                if (answer.classList.contains('show')) {
-                    icon.classList.remove('fa-chevron-down');
-                    icon.classList.add('fa-chevron-up');
-                } else {
-                    icon.classList.remove('fa-chevron-up');
-                    icon.classList.add('fa-chevron-down');
-                }
-            });
-        });
-        
+  
+         const dropdownTrigger = document.getElementById('accountDropdownTrigger');
+    const dropdownMenu = document.getElementById('accountDropdownMenu');
+
+
+  
+
+    // Toggle dropdown when clicking the trigger
+    dropdownTrigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle('show');
+    });
+
+    // Close dropdown when clicking anywhere else
+    document.addEventListener('click', function() {
+        dropdownMenu.classList.remove('show');
+    });
+    
+    // Prevent dropdown from closing when clicking inside it
+    dropdownMenu.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+
+        displayUserPlan();
+        const userPlan = 'pro'; // This would come from your auth system
+
+function displayUserPlan() {
+       // Option 1: For user dropdown
+    const planName = userPlan.charAt(0).toUpperCase() + userPlan.slice(1);
+    document.querySelector('.account-trigger span').textContent = `Hilton (${planName} Plan)`;
+    
+    // Update plan info in dropdown
+    const planItem = document.querySelector('.account-menu-item.plan-info');
+    planItem.innerHTML = `<i class="fas ${userPlan === 'pro' ? 'fa-crown' : userPlan === 'advanced' ? 'fa-star' : 'fa-user'}"></i>
+                         <span>${planName} Plan</span>`;
+    planItem.classList.add(`plan-${userPlan}`);
+}
+
+ 
         // Set active nav item
         document.querySelectorAll('.nav-item').forEach(item => {
             if (item.querySelector('a').getAttribute('href') === 'help.html') {
