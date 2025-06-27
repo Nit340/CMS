@@ -995,7 +995,79 @@
             </div>
         </div>
     </div>
+ <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Load the sidebar
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('sidebar-container').innerHTML = data;
+                initializeSidebar(); // Call this after loading
+            });
 
+        function initializeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            
+            if (sidebar && sidebarToggle) {
+                sidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('expanded');
+                    document.querySelector('.container').classList.toggle('sidebar-expanded');
+                });
+
+                // Dropdown functionality
+                document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+                    toggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const dropdown = this.closest('.dropdown');
+                        const menu = dropdown.querySelector('.dropdown-menu');
+                        
+                        // Close all other dropdowns
+                        closeAllDropdownsExcept(menu, this);
+                        
+                        // Toggle current dropdown
+                        menu.classList.toggle('show');
+                        this.classList.toggle('show');
+                    });
+                });
+
+                // Function to close all dropdowns
+                function closeAllDropdowns() {
+                    document.querySelectorAll('.dropdown-menu').forEach(m => {
+                        m.classList.remove('show');
+                    });
+                    document.querySelectorAll('.dropdown-toggle').forEach(t => {
+                        t.classList.remove('show');
+                    });
+                }
+
+                // Function to close all dropdowns except a specific one
+                function closeAllDropdownsExcept(exceptMenu = null, exceptToggle = null) {
+                    document.querySelectorAll('.dropdown-menu').forEach(m => {
+                        if (m !== exceptMenu) m.classList.remove('show');
+                    });
+                    document.querySelectorAll('.dropdown-toggle').forEach(t => {
+                        if (t !== exceptToggle) t.classList.remove('show');
+                    });
+                }
+
+                // Close dropdowns when sidebar is collapsed
+                sidebarToggle.addEventListener('click', function() {
+                    if (!sidebar.classList.contains('expanded')) {
+                        closeAllDropdowns();
+                    }
+                });
+
+                // Also close dropdowns when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('.dropdown')) {
+                        closeAllDropdowns();
+                    }
+                });
+            }
+        }
+    });
+</script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // UI Interactions
