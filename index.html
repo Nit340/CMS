@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CraneMonitor Pro - Login</title>
+    <title>CraneIQ Pro - Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
@@ -11,6 +11,8 @@
             --secondary-color: #2980b9;
             --dark-color: #2c3e50;
             --light-color: #ecf0f1;
+            --error-color: #e74c3c;
+            --success-color: #2ecc71;
         }
         
         * {
@@ -28,7 +30,7 @@
             min-height: 100vh;
         }
         
-        .login-container {
+        .container {
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
@@ -54,12 +56,12 @@
             font-size: 0.9rem;
         }
         
-        .login-form .input-group {
+        .form .input-group {
             margin-bottom: 20px;
             text-align: left;
         }
         
-        .login-form label {
+        .form label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
@@ -129,47 +131,62 @@
             margin-right: 8px;
         }
         
-        .forgot-password a {
+        .forgot-password a, .signup-link a {
             color: var(--primary-color);
             text-decoration: none;
         }
         
-        .forgot-password a:hover {
+        .forgot-password a:hover, .signup-link a:hover {
             text-decoration: underline;
         }
         
-        .login-footer {
+        .footer {
             margin-top: 30px;
             font-size: 0.9rem;
             color: var(--dark-color);
             opacity: 0.7;
         }
         
-        .error-message {
-            color: #e74c3c;
+        .signup-link {
+            margin-top: 15px;
+        }
+        
+        .message {
             margin-bottom: 15px;
             font-size: 0.9rem;
+            padding: 10px;
+            border-radius: 4px;
             display: none;
+        }
+        
+        .error {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--error-color);
+            display: block;
+        }
+        
+        .success {
+            background-color: rgba(46, 204, 113, 0.1);
+            color: var(--success-color);
+            display: block;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
+    <div class="container">
         <div class="logo">
-            <h2>CraneMonitor Pro</h2>
+            <h2>CraneIQ Pro</h2>
             <p>Industrial Crane Monitoring System</p>
         </div>
         
-        <div class="error-message" id="errorMessage">
-            Invalid username or password. Please try again.
-        </div>
+        <div class="message" id="message"></div>
         
-        <form class="login-form" id="loginForm">
+        <form class="form" id="loginForm">
             <div class="input-group">
-                <label for="username">Username</label>
+                <label for="email">Email</label>
                 <div class="input-field">
-                    <i class="fas fa-user"></i>
-                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
                 </div>
             </div>
             
@@ -187,15 +204,19 @@
                     <label for="remember">Remember me</label>
                 </div>
                 <div class="forgot-password">
-                    <a href="#">Forgot password?</a>
+                    <a href="AUTH/forgot-password.html">Forgot password?</a>
                 </div>
             </div>
             
             <button type="submit" class="btn">Login</button>
         </form>
         
-        <div class="login-footer">
-            <p>© 2023 CraneMonitor Pro. All rights reserved.</p>
+        <div class="signup-link">
+            <p>Don't have an account yet? <a href="AUTH/signup.html">Sign Up</a></p>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 CraneIQ Pro. All rights reserved.</p>
         </div>
     </div>
 
@@ -203,26 +224,47 @@
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Get input values
-            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
             
             // Simple validation (in real app, this would check against a database)
-            if (username === 'admin' && password === 'admin123') {
-                // Store login state (for demonstration)
-                localStorage.setItem('isLoggedIn', 'true');
+            if (email === 'admin@craneiq.com' && password === 'Admin@123') {
+                // Store login state
+                if (remember) {
+                    localStorage.setItem('rememberMe', 'true');
+                    localStorage.setItem('email', email);
+                } else {
+                    localStorage.removeItem('rememberMe');
+                    localStorage.removeItem('email');
+                }
                 
-                // Redirect to dashboard
-                window.location.href = 'dash.html'; // Change to your dashboard page
+                sessionStorage.setItem('isLoggedIn', 'true');
+                
+                // Show success message
+                document.getElementById('message').textContent = 'Login successful! Redirecting...';
+                document.getElementById('message').className = 'message success';
+                
+                // Redirect to home page after 1 second
+                setTimeout(() => {
+                    window.location.href = 'dash.html';
+                }, 1000);
             } else {
                 // Show error message
-                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('message').textContent = 'Invalid email or password. Please try again.';
+                document.getElementById('message').className = 'message error';
             }
         });
         
-        // Check if already logged in (for demonstration)
-        if (localStorage.getItem('isLoggedIn') === 'true') {
-            window.location.href = 'dash.html'; // Redirect if already logged in
+        // Check if remember me was checked previously
+        if (localStorage.getItem('rememberMe') === 'true') {
+            document.getElementById('remember').checked = true;
+            document.getElementById('email').value = localStorage.getItem('email') || '';
+        }
+        
+        // Check if already logged in
+        if (sessionStorage.getItem('isLoggedIn') === 'true') {
+            window.location.href = 'dash.html';
         }
     </script>
 </body>
