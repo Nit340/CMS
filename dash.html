@@ -1894,17 +1894,28 @@ function displayUserPlan() {
 
     // Authentication functions
     function checkAuth() {
-        if (!localStorage.getItem('isLoggedIn')) {
+        // Check both sessionStorage and localStorage for login status
+        const isLoggedIn = sessionStorage.getItem('isLoggedIn') || localStorage.getItem('isLoggedIn');
+        
+        if (!isLoggedIn) {
+            // Redirect to login if not authenticated
             window.location.href = 'index.html';
+            return false;
         }
+        return true;
     }
 
-    function logout() {
+    // Only proceed with the rest if authenticated
+    if (!checkAuth()) return;
+      function logout() {
+        sessionStorage.removeItem('isLoggedIn');
         localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('rememberMe');
+        localStorage.removeItem('email');
         window.location.href = 'index.html';
     }
 
-    // Initialize the app
+    // Initialize the app only if authenticated
     init();
 });
     </script>
