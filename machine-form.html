@@ -15,10 +15,6 @@
             --light-color: #ecf0f1;
             --dark-color: #2c3e50;
             --gray-color: #95a5a6;
-            --oee-color: #4361ee;
-            --availability-color: #4cc9f0;
-            --performance-color: #4895ef;
-            --quality-color: #560bad;
         }
 
         * {
@@ -196,34 +192,35 @@
             border-bottom: 1px solid #eee;
         }
         
-        .machine-type-selector h4 {
-            margin-bottom: 10px;
-            color: var(--dark-color);
-        }
-        
-        .type-select-btn {
-            padding: 10px 15px;
-            margin-right: 10px;
-            border: 1px solid #ddd;
-            background: white;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .type-select-btn.active {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-        
-        /* Machine Type Options */
-        .machine-type-option {
-            display: none;
-        }
-        
-        .machine-type-option.active {
+        .machine-type-selector label {
             display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 0.85rem;
+        }
+        
+        .machine-type-selector select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            transition: border-color 0.3s;
+            background-color: white;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 16px;
+        }
+        
+        .machine-type-selector select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
         }
         
         /* Form Grid Layout */
@@ -266,12 +263,6 @@
         
         .full-width {
             grid-column: span 2;
-        }
-        
-        .threshold-group {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
         }
         
         .form-actions {
@@ -322,92 +313,7 @@
             font-size: 1.2rem;
         }
         
-        /* Switch Configuration Styles */
-        .switch-config {
-            margin-bottom: 20px;
-        }
-        
-        .switch-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        
-        .switch-title {
-            font-size: 1rem;
-            color: var(--dark-color);
-            font-weight: 600;
-        }
-        
-        .add-switch-btn {
-            background-color: var(--success-color);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 5px 10px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .switch-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 15px;
-        }
-        
-        .switch-table th {
-            background-color: #f8f9fa;
-            padding: 8px 10px;
-            text-align: left;
-            font-weight: 600;
-            font-size: 0.8rem;
-        }
-        
-        .switch-table td {
-            padding: 8px 10px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .switch-table select {
-            width: 100%;
-            padding: 6px 8px;
-        }
-        
-        .switch-table input[type="text"],
-        .switch-table input[type="number"] {
-            width: 100%;
-            padding: 6px 8px;
-        }
-        
-        .remove-switch {
-            color: var(--danger-color);
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        
-        /* Custom I/O Name Input */
-        .custom-io-input {
-            display: none;
-            margin-top: 5px;
-        }
-        
         /* Responsive adjustments */
-        @media (max-width: 992px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .full-width, .section-header {
-                grid-column: span 1;
-            }
-        }
-        
         @media (max-width: 768px) {
             .container {
                 grid-template-columns: 1fr;
@@ -417,14 +323,12 @@
                 display: none;
             }
             
-            .machine-type-selector {
-                display: flex;
-                flex-direction: column;
+            .form-grid {
+                grid-template-columns: 1fr;
             }
             
-            .type-select-btn {
-                margin-bottom: 10px;
-                margin-right: 0;
+            .full-width, .section-header {
+                grid-column: span 1;
             }
         }
         
@@ -460,28 +364,11 @@
             background-color: rgba(0, 0, 0, 0.05);
         }
 
-        .account-trigger:focus {
-            outline: 2px solid var(--primary-color);
-            outline-offset: 2px;
-        }
-
-        .account-trigger .fa-user-circle {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-        }
-
-        .account-trigger span {
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
-
-        .account-trigger .fa-caret-down {
-            font-size: 0.75rem;
-            transition: transform var(--transition-speed);
-        }
-
-        .account-trigger.active .fa-caret-down {
-            transform: rotate(180deg);
+        .customer-logo {
+            width:30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
         .account-menu {
@@ -569,12 +456,6 @@
         .plan-basic { color: var(--primary-color); }
         .plan-advanced { color: var(--success-color); }
         .plan-pro { color: gold; }
-        .customer-logo{
-            width:30px;
-            height: 30px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
 
         .notification {
             position: fixed;
@@ -602,40 +483,6 @@
         .notification-error {
             background-color: var(--danger-color);
         }
-        .machine-type-selector {
-    margin-bottom: 20px;
-}
-
-.machine-type-selector label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: var(--dark-color);
-    font-size: 0.85rem;
-}
-
-.machine-type-selector select {
-    width: 100%;
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 0.85rem;
-    transition: border-color 0.3s;
-    background-color: white;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    background-size: 16px;
-}
-
-.machine-type-selector select:focus {
-    border-color: var(--primary-color);
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-}
     </style>
 </head>
 <body>
@@ -678,280 +525,22 @@
             </div>
    <div class="page-title">
                           <h1> Machine Configuration</h1>
-                    <p>Add new machine configuration</p>
+                    <p>Configure machine settings</p>
                 </div>
             
             <div class="form-container">
                 <form id="machineForm">
                     <div class="machine-type-selector">
-    <label for="machineTypeDropdown">Machine Type:</label>
-    <select id="machineTypeDropdown" class="form-control">
-        <option value="crane" selected>Crane</option>
-        <option value="cnc">CNC Machine</option>
-        <option value="boomlift">Boomlift</option>
-        <option value="scissor">Scissor Lift</option>
-    </select>
-    <input type="hidden" id="machineType" name="machineType" value="crane">
-</div>
-                    
-                    <!-- Crane Configuration -->
-                    <div id="crane-config" class="machine-type-option active">
-                        <h3 class="section-header">Crane Specifications</h3>
-                        <div class="form-grid">
-                            <div class="form-group full-width">
-                                <label for="swl">Safe Working Load (kg)</label>
-                                <input type="number" id="swl" name="swl">
-                            </div>
-                            <div class="form-group">
-                                <label for="stage1Threshold">Warning Threshold (%)</label>
-                                <input type="number" id="stage1Threshold" name="stage1Threshold" min="0" max="100">
-                            </div>
-                            <div class="form-group">
-                                <label for="stage2Threshold">Upper Threshold (%)</label>
-                                <input type="number" id="stage2Threshold" name="stage2Threshold" min="0" max="100">
-                            </div>
-                            <div class="form-group full-width">
-                                <label for="craneSpeed">Crane Speed (m/min)</label>
-                                <input type="number" id="craneSpeed" name="craneSpeed">
-                            </div>
-                        </div>
-
-                        <h3 class="section-header">Temperature Settings</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="motorWarningTemp">Warning Temp (°C)</label>
-                                <input type="number" id="motorWarningTemp" name="motorWarningTemp">
-                            </div>
-                            <div class="form-group">
-                                <label for="motorCriticalTemp">Critical Temp (°C)</label>
-                                <input type="number" id="motorCriticalTemp" name="motorCriticalTemp">
-                            </div>
-                        </div>
-
-                        <h3 class="section-header">Switch Limits</h3>
-                        <div class="form-grid">
-                            <!-- Hoist Operation -->
-                            <div class="form-group full-width switch-config">
-                                <div class="switch-header">
-                                    <h4 class="switch-title">Hoist Operation (Up/Down)</h4>
-                                    <button class="add-switch-btn" type="button" onclick="addSwitch('hoist')">
-                                        <i class="fas fa-plus"></i> Add
-                                    </button>
-                                </div>
-                                <table class="switch-table" id="hoistSwitchTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Operation</th>
-                                            <th>Device I/O</th>
-                                            <th>Error Type</th>
-                                            <th>Parametric Name</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Rows will be added dynamically -->
-                                    </tbody>
-                                </table>
-                            </div>
-                            
-                            <!-- Cross Travel -->
-                            <div class="form-group full-width switch-config">
-                                <div class="switch-header">
-                                    <h4 class="switch-title">Cross Travel (Left/Right)</h4>
-                                    <button class="add-switch-btn" type="button" onclick="addSwitch('crossTravel')">
-                                        <i class="fas fa-plus"></i> Add
-                                    </button>
-                                </div>
-                                <table class="switch-table" id="crossTravelSwitchTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Operation</th>
-                                            <th>Device I/O</th>
-                                            <th>Error Type</th>
-                                            <th>Parametric Name</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Rows will be added dynamically -->
-                                    </tbody>
-                                </table>
-                            </div>
-                            
-                            <!-- Long Travel -->
-                            <div class="form-group full-width switch-config">
-                                <div class="switch-header">
-                                    <h4 class="switch-title">Long Travel (Forward/Reverse)</h4>
-                                    <button class="add-switch-btn" type="button" onclick="addSwitch('longTravel')">
-                                        <i class="fas fa-plus"></i> Add
-                                    </button>
-                                </div>
-                                <table class="switch-table" id="longTravelSwitchTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Operation</th>
-                                            <th>Device I/O</th>
-                                            <th>Error Type</th>
-                                            <th>Parametric Name</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Rows will be added dynamically -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        <label for="machineTypeDropdown">Machine Type:</label>
+                        <select id="machineTypeDropdown" class="form-control" required>
+                            <option value="">Select Machine Type</option>
+                            <!-- Options will be populated by JavaScript -->
+                        </select>
+                        <input type="hidden" id="machineTypeId" name="machineTypeId">
                     </div>
                     
-                    <!-- CNC Machine Configuration -->
-                    <div id="cnc-config" class="machine-type-option">
-                        <h3 class="section-header">CNC Machine Specifications</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="spindleSpeed">Max Spindle Speed (RPM)</label>
-                                <input type="number" id="spindleSpeed" name="spindleSpeed">
-                            </div>
-                            <div class="form-group">
-                                <label for="toolCount">Tool Count</label>
-                                <input type="number" id="toolCount" name="toolCount">
-                            </div>
-                            <div class="form-group">
-                                <label for="axisCount">Axis Count</label>
-                                <select id="axisCount" name="axisCount">
-                                    <option value="3">3 Axis</option>
-                                    <option value="4">4 Axis</option>
-                                    <option value="5">5 Axis</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="workAreaX">Work Area X (mm)</label>
-                                <input type="number" id="workAreaX" name="workAreaX">
-                            </div>
-                            <div class="form-group">
-                                <label for="workAreaY">Work Area Y (mm)</label>
-                                <input type="number" id="workAreaY" name="workAreaY">
-                            </div>
-                            <div class="form-group">
-                                <label for="workAreaZ">Work Area Z (mm)</label>
-                                <input type="number" id="workAreaZ" name="workAreaZ">
-                            </div>
-                        </div>
-                        
-                        <h3 class="section-header">Tool Changer Configuration</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="toolChangeTime">Tool Change Time (sec)</label>
-                                <input type="number" id="toolChangeTime" name="toolChangeTime" step="0.1">
-                            </div>
-                            <div class="form-group">
-                                <label for="maxToolWeight">Max Tool Weight (kg)</label>
-                                <input type="number" id="maxToolWeight" name="maxToolWeight" step="0.1">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Boomlift Configuration -->
-                    <div id="boomlift-config" class="machine-type-option">
-                        <h3 class="section-header">Boomlift Specifications</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="platformHeight">Max Platform Height (m)</label>
-                                <input type="number" id="platformHeight" name="platformHeight" step="0.1">
-                            </div>
-                            <div class="form-group">
-                                <label for="horizontalReach">Horizontal Reach (m)</label>
-                                <input type="number" id="horizontalReach" name="horizontalReach" step="0.1">
-                            </div>
-                            <div class="form-group">
-                                <label for="capacity">Capacity (kg)</label>
-                                <input type="number" id="capacity" name="capacity">
-                            </div>
-                            <div class="form-group">
-                                <label for="powerType">Power Type</label>
-                                <select id="powerType" name="powerType">
-                                    <option value="electric">Electric</option>
-                                    <option value="diesel">Diesel</option>
-                                    <option value="hybrid">Hybrid</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="outriggerType">Outrigger Type</label>
-                                <select id="outriggerType" name="outriggerType">
-                                    <option value="fixed">Fixed</option>
-                                    <option value="extendable">Extendable</option>
-                                    <option value="none">None</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Scissor Lift Configuration -->
-                    <div id="scissor-config" class="machine-type-option">
-                        <h3 class="section-header">Scissor Lift Specifications</h3>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="liftHeight">Max Lift Height (m)</label>
-                                <input type="number" id="liftHeight" name="liftHeight" step="0.1">
-                            </div>
-                            <div class="form-group">
-                                <label for="platformSize">Platform Size (m²)</label>
-                                <input type="number" id="platformSize" name="platformSize" step="0.1">
-                            </div>
-                            <div class="form-group">
-                                <label for="driveType">Drive Type</label>
-                                <select id="driveType" name="driveType">
-                                    <option value="electric">Electric</option>
-                                    <option value="diesel">Diesel</option>
-                                    <option value="hybrid">Hybrid</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="maxSlope">Max Slope Angle (°)</label>
-                                <input type="number" id="maxSlope" name="maxSlope" min="0" max="30">
-                            </div>
-                            <div class="form-group">
-                                <label for="platformCapacity">Platform Capacity (kg)</label>
-                                <input type="number" id="platformCapacity" name="platformCapacity">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Common fields for all machine types -->
-                    <h3 class="section-header">Basic Details</h3>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="machineId">Machine ID</label>
-                            <input type="text" id="machineId" name="machineId" placeholder="MAC5632" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="deviceId">Device ID</label>
-                            <select id="deviceId" name="deviceId" required>
-                                <option value="">Select Device</option>
-                                <option value="DEV001">DEV001</option>
-                                <option value="DEV002">DEV002</option>
-                                <option value="DEV003">DEV003</option>
-                                <option value="DEV004">DEV004</option>
-                                <option value="DEV005">DEV005</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="machineName">Name</label>
-                            <input type="text" id="machineName" name="machineName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="manufacturer">Manufacturer</label>
-                            <input type="text" id="manufacturer" name="manufacturer" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="model">Model</label>
-                            <input type="text" id="model" name="model" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="line">Line/Area</label>
-                            <input type="text" id="line" name="line" required>
-                        </div>
-                    </div>
+                    <!-- Dynamic form sections will be inserted here -->
+                    <div id="dynamic-form-sections"></div>
                     
                     <div class="form-actions">
                         <button type="button" id="cancelBtn" class="btn btn-secondary">
@@ -972,7 +561,7 @@
             .then(response => response.text())
             .then(data => {
                 document.getElementById('sidebar-container').innerHTML = data;
-                initializeSidebar(); // Call this after loading
+                initializeSidebar();
             });
 
         function initializeSidebar() {
@@ -993,45 +582,21 @@
                         const menu = dropdown.querySelector('.dropdown-menu');
                         
                         // Close all other dropdowns
-                        closeAllDropdownsExcept(menu, this);
+                        document.querySelectorAll('.dropdown-menu').forEach(m => {
+                            if (m !== menu) m.classList.remove('show');
+                        });
                         
                         // Toggle current dropdown
                         menu.classList.toggle('show');
-                        this.classList.toggle('show');
                     });
                 });
 
-                // Function to close all dropdowns
-                function closeAllDropdowns() {
-                    document.querySelectorAll('.dropdown-menu').forEach(m => {
-                        m.classList.remove('show');
-                    });
-                    document.querySelectorAll('.dropdown-toggle').forEach(t => {
-                        t.classList.remove('show');
-                    });
-                }
-
-                // Function to close all dropdowns except a specific one
-                function closeAllDropdownsExcept(exceptMenu = null, exceptToggle = null) {
-                    document.querySelectorAll('.dropdown-menu').forEach(m => {
-                        if (m !== exceptMenu) m.classList.remove('show');
-                    });
-                    document.querySelectorAll('.dropdown-toggle').forEach(t => {
-                        if (t !== exceptToggle) t.classList.remove('show');
-                    });
-                }
-
-                // Close dropdowns when sidebar is collapsed
-                sidebarToggle.addEventListener('click', function() {
-                    if (!sidebar.classList.contains('expanded')) {
-                        closeAllDropdowns();
-                    }
-                });
-
-                // Also close dropdowns when clicking outside
+                // Close dropdowns when clicking outside
                 document.addEventListener('click', function(e) {
                     if (!e.target.closest('.dropdown')) {
-                        closeAllDropdowns();
+                        document.querySelectorAll('.dropdown-menu').forEach(m => {
+                            m.classList.remove('show');
+                        });
                     }
                 });
             }
@@ -1050,449 +615,157 @@
         document.addEventListener('click', function() {
             accountDropdownMenu.classList.remove('show');
         });
+
+        // Load machine types from localStorage
+        const machineTypes = JSON.parse(localStorage.getItem('machineTypes') || '[]');
+        const machineTypeDropdown = document.getElementById('machineTypeDropdown');
         
-        // Prevent account dropdown from closing when clicking inside it
-        accountDropdownMenu.addEventListener('click', function(e) {
-            e.stopPropagation();
+        // Clear existing options except the first one
+        while (machineTypeDropdown.options.length > 1) {
+            machineTypeDropdown.remove(1);
+        }
+        
+        // Add machine types from storage
+        machineTypes.forEach(type => {
+            const option = document.createElement('option');
+            option.value = type.id;
+            option.textContent = type.name;
+            machineTypeDropdown.appendChild(option);
         });
 
-     document.getElementById('machineTypeDropdown').addEventListener('change', function() {
-    const type = this.value;
-    document.getElementById('machineType').value = type;
-    
-    // Hide all config sections
-    document.querySelectorAll('.machine-type-option').forEach(div => {
-        div.classList.remove('active');
-    });
-    
-    // Show selected config section
-    document.getElementById(`${type}-config`).classList.add('active');
-    
-    // Update form title based on machine type
-    const typeName = this.options[this.selectedIndex].text;
-    document.querySelector('.page-title h1').textContent = `${typeName} Configuration`;
-});
+        // Handle machine type selection change
+        machineTypeDropdown.addEventListener('change', function() {
+            const typeId = this.value;
+            document.getElementById('machineTypeId').value = typeId;
+            
+            // Find the selected machine type
+            const selectedType = machineTypes.find(t => t.id == typeId);
+            if (!selectedType) return;
+            
+            // Update form title
+            document.querySelector('.page-title h1').textContent = `${selectedType.name} Configuration`;
+            
+            // Generate the form based on the machine type definition
+            generateFormFromTypeDefinition(selectedType);
+        });
 
-        // Sample data - in a real app, this would come from an API
-        const machines = [
-            {
-                id: 1,
-                type: "crane",
-                machineId: "MAC5632",
-                deviceId: "DEV001",
-                name: "Crane A",
-                manufacturer: "ABC Manufacturing",
-                model: "X-2000",
-                line: "Production Line 1",
-                swl: 5000,
-                stage1Threshold: 80,
-                stage2Threshold: 90,
-                motorWarningTemp: 70,
-                motorCriticalTemp: 85,
-                craneSpeed: 30,
-                hoistSwitches: [
-                    {
-                        operation: "Up",
-                        ioName: "IO_HOIST_UP",
-                        errorType: "Overload",
-                        parametricName: "hoist_up_sensor"
-                    },
-                    {
-                        operation: "Down",
-                        ioName: "IO_HOIST_DOWN",
-                        errorType: "Limit Switch",
-                        parametricName: "hoist_down_sensor"
+        // Function to generate form from machine type definition
+        function generateFormFromTypeDefinition(machineType) {
+            const formSections = document.getElementById('dynamic-form-sections');
+            formSections.innerHTML = '';
+            
+            if (!machineType.fields) return;
+            
+            // Create sections based on the machine type definition
+            for (const [sectionName, fields] of Object.entries(machineType.fields)) {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'form-section';
+                
+                const sectionHeader = document.createElement('h3');
+                sectionHeader.className = 'section-header';
+                sectionHeader.textContent = sectionName;
+                sectionDiv.appendChild(sectionHeader);
+                
+                const sectionGrid = document.createElement('div');
+                sectionGrid.className = 'form-grid';
+                
+                // Create fields for this section
+                for (const [fieldName, config] of Object.entries(fields)) {
+                    const formGroup = document.createElement('div');
+                    formGroup.className = 'form-group';
+                    
+                    const label = document.createElement('label');
+                    label.htmlFor = `${sectionName}_${fieldName}`;
+                    label.textContent = fieldName;
+                    
+                    let input;
+                    if (config.type === 'select') {
+                        input = document.createElement('select');
+                        input.id = `${sectionName}_${fieldName}`;
+                        input.name = `${sectionName}_${fieldName}`;
+                        
+                        // Add options if they exist
+                        if (config.options && Array.isArray(config.options)) {
+                            config.options.forEach(option => {
+                                const optionElement = document.createElement('option');
+                                optionElement.value = option.value;
+                                optionElement.textContent = option.label;
+                                input.appendChild(optionElement);
+                            });
+                        }
+                    } else {
+                        input = document.createElement('input');
+                        input.type = config.type || 'text';
+                        input.id = `${sectionName}_${fieldName}`;
+                        input.name = `${sectionName}_${fieldName}`;
                     }
-                ],
-                crossTravelSwitches: [
-                    {
-                        operation: "Left",
-                        ioName: "IO_CT_LEFT",
-                        errorType: "Limit Switch",
-                        parametricName: "cross_left_sensor"
-                    },
-                    {
-                        operation: "Right",
-                        ioName: "IO_CT_RIGHT",
-                        errorType: "Emergency Stop",
-                        parametricName: "cross_right_sensor"
+                    
+                    if (config.required) {
+                        input.required = true;
                     }
-                ],
-                longTravelSwitches: [
-                    {
-                        operation: "Forward",
-                        ioName: "IO_LT_FWD",
-                        errorType: "Emergency Stop",
-                        parametricName: "long_fwd_sensor"
-                    },
-                    {
-                        operation: "Reverse",
-                        ioName: "IO_LT_REV",
-                        errorType: "Limit Switch",
-                        parametricName: "long_rev_sensor"
+                    
+                    if (config.placeholder) {
+                        input.placeholder = config.placeholder;
                     }
-                ]
-            },
-            {
-                id: 2,
-                type: "cnc",
-                machineId: "CNC5633",
-                deviceId: "DEV002",
-                name: "CNC Router",
-                manufacturer: "XYZ Industries",
-                model: "Y-3000",
-                line: "Assembly Line 2",
-                spindleSpeed: 24000,
-                toolCount: 24,
-                axisCount: 3,
-                workAreaX: 1500,
-                workAreaY: 1000,
-                workAreaZ: 500,
-                toolChangeTime: 4.5,
-                maxToolWeight: 8.5
-            },
-            {
-                id: 3,
-                type: "boomlift",
-                machineId: "BL5634",
-                deviceId: "DEV003",
-                name: "Boomlift 1",
-                manufacturer: "Lift Co",
-                model: "B-4000",
-                line: "Warehouse",
-                platformHeight: 18.3,
-                horizontalReach: 8.5,
-                capacity: 227,
-                powerType: "diesel",
-                outriggerType: "extendable"
-            },
-            {
-                id: 4,
-                type: "scissor",
-                machineId: "SL5635",
-                deviceId: "DEV004",
-                name: "Scissor Lift A",
-                manufacturer: "Elevate Inc",
-                model: "S-5000",
-                line: "Construction Site",
-                liftHeight: 12.2,
-                platformSize: 2.5,
-                driveType: "electric",
-                maxSlope: 3,
-                platformCapacity: 340
+                    
+                    formGroup.appendChild(label);
+                    formGroup.appendChild(input);
+                    sectionGrid.appendChild(formGroup);
+                }
+                
+                sectionDiv.appendChild(sectionGrid);
+                formSections.appendChild(sectionDiv);
             }
-        ];
-
-        // Switch configuration data with I/O names
-        const switchConfig = {
-            operations: {
-                hoist: ["Up", "Down"],
-                crossTravel: ["Left", "Right"],
-                longTravel: ["Forward", "Reverse"]
-            },
-            errorTypes: ["Overload", "Limit Switch", "Emergency Stop", "Over Temperature", "Under Voltage"],
-            ioNames: [
-                "IO_001", "IO_002", "IO_003", "IO_004", "IO_005",
-                "IO_HOIST_UP", "IO_HOIST_DOWN",
-                "IO_CT_LEFT", "IO_CT_RIGHT",
-                "IO_LT_FWD", "IO_LT_REV"
-            ]
-        };
-
-        // DOM elements
-        const form = document.getElementById("machineForm");
-        const cancelBtn = document.getElementById("cancelBtn");
-        const accountLogoutBtn = document.getElementById("accountLogoutBtn");
-
-        // Check if we're editing an existing machine
-        const urlParams = new URLSearchParams(window.location.search);
-        const machineId = urlParams.get('id');
-
-        // Add a new switch row
-        function addSwitch(type) {
-            const tableId = `${type}SwitchTable`;
-            const tbody = document.querySelector(`#${tableId} tbody`);
-            
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>
-                    <select name="${type}Operation">
-                        ${switchConfig.operations[type].map(op => 
-                            `<option value="${op}">${op}</option>`
-                        ).join('')}
-                    </select>
-                </td>
-                <td>
-                    <select name="${type}IOName" required>
-                        <option value="">Select Device I/O</option>
-                        ${switchConfig.ioNames.map(io => 
-                            `<option value="${io}">${io}</option>`
-                        ).join('')}
-                        <option value="custom">Custom...</option>
-                    </select>
-                    <input type="text" name="${type}CustomIOName" class="custom-io-input" placeholder="Enter custom Device I/O">
-                </td>
-                <td>
-                    <select name="${type}ErrorType">
-                        ${switchConfig.errorTypes.map(error => 
-                            `<option value="${error}">${error}</option>`
-                        ).join('')}
-                    </select>
-                </td>
-                <td>
-                    <input type="text" name="${type}ParametricName" placeholder="Enter parametric name" required>
-                </td>
-                <td>
-                    <button type="button" class="remove-switch" onclick="removeSwitch(this)">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </td>
-            `;
-            
-            tbody.appendChild(row);
-            
-            // Add event listener for custom I/O name selection
-            const ioSelect = row.querySelector(`select[name="${type}IOName"]`);
-            const customInput = row.querySelector(`input[name="${type}CustomIOName"]`);
-            
-            ioSelect.addEventListener('change', function() {
-                if (this.value === 'custom') {
-                    customInput.style.display = 'block';
-                    customInput.required = true;
-                } else {
-                    customInput.style.display = 'none';
-                    customInput.required = false;
-                    customInput.value = '';
-                }
-            });
-        }
-
-        // Remove a switch row
-        window.removeSwitch = function(button) {
-            const row = button.closest('tr');
-            row.remove();
-        }
-
-        // Initialize form with data if editing
-        if (machineId) {
-            const machine = machines.find(m => m.id === parseInt(machineId));
-            if (machine) {
-                // Set machine type
-                document.querySelector(`.type-select-btn[data-type="${machine.type}"]`).click();
-                
-                // Populate basic fields
-                document.getElementById('machineId').value = machine.machineId;
-                document.getElementById('deviceId').value = machine.deviceId;
-                document.getElementById('machineName').value = machine.name;
-                document.getElementById('manufacturer').value = machine.manufacturer;
-                document.getElementById('model').value = machine.model;
-                document.getElementById('line').value = machine.line;
-                
-                // Populate type-specific fields
-                if (machine.type === 'crane') {
-                    document.getElementById('swl').value = machine.swl;
-                    document.getElementById('stage1Threshold').value = machine.stage1Threshold;
-                    document.getElementById('stage2Threshold').value = machine.stage2Threshold;
-                    document.getElementById('motorWarningTemp').value = machine.motorWarningTemp;
-                    document.getElementById('motorCriticalTemp').value = machine.motorCriticalTemp;
-                    document.getElementById('craneSpeed').value = machine.craneSpeed;
-                    
-                    // Populate hoist switches
-                    if (machine.hoistSwitches && machine.hoistSwitches.length > 0) {
-                        machine.hoistSwitches.forEach(switchData => {
-                            addSwitch('hoist');
-                            const rows = document.querySelectorAll('#hoistSwitchTable tbody tr');
-                            const lastRow = rows[rows.length - 1];
-                            
-                            lastRow.querySelector('select[name="hoistOperation"]').value = switchData.operation;
-                            
-                            // Check if I/O name exists in our predefined list
-                            const ioSelect = lastRow.querySelector('select[name="hoistIOName"]');
-                            const customInput = lastRow.querySelector('input[name="hoistCustomIOName"]');
-                            
-                            if (switchConfig.ioNames.includes(switchData.ioName)) {
-                                ioSelect.value = switchData.ioName;
-                            } else {
-                                ioSelect.value = 'custom';
-                                customInput.style.display = 'block';
-                                customInput.value = switchData.ioName;
-                            }
-                            
-                            lastRow.querySelector('select[name="hoistErrorType"]').value = switchData.errorType;
-                            lastRow.querySelector('input[name="hoistParametricName"]').value = switchData.parametricName || '';
-                        });
-                    }
-                    
-                    // Populate cross travel switches
-                    if (machine.crossTravelSwitches && machine.crossTravelSwitches.length > 0) {
-                        machine.crossTravelSwitches.forEach(switchData => {
-                            addSwitch('crossTravel');
-                            const rows = document.querySelectorAll('#crossTravelSwitchTable tbody tr');
-                            const lastRow = rows[rows.length - 1];
-                            
-                            lastRow.querySelector('select[name="crossTravelOperation"]').value = switchData.operation;
-                            
-                            const ioSelect = lastRow.querySelector('select[name="crossTravelIOName"]');
-                            const customInput = lastRow.querySelector('input[name="crossTravelCustomIOName"]');
-                            
-                            if (switchConfig.ioNames.includes(switchData.ioName)) {
-                                ioSelect.value = switchData.ioName;
-                            } else {
-                                ioSelect.value = 'custom';
-                                customInput.style.display = 'block';
-                                customInput.value = switchData.ioName;
-                            }
-                            
-                            lastRow.querySelector('select[name="crossTravelErrorType"]').value = switchData.errorType;
-                            lastRow.querySelector('input[name="crossTravelParametricName"]').value = switchData.parametricName || '';
-                        });
-                    }
-                    
-                    // Populate long travel switches
-                    if (machine.longTravelSwitches && machine.longTravelSwitches.length > 0) {
-                        machine.longTravelSwitches.forEach(switchData => {
-                            addSwitch('longTravel');
-                            const rows = document.querySelectorAll('#longTravelSwitchTable tbody tr');
-                            const lastRow = rows[rows.length - 1];
-                            
-                            lastRow.querySelector('select[name="longTravelOperation"]').value = switchData.operation;
-                            
-                            const ioSelect = lastRow.querySelector('select[name="longTravelIOName"]');
-                            const customInput = lastRow.querySelector('input[name="longTravelCustomIOName"]');
-                            
-                            if (switchConfig.ioNames.includes(switchData.ioName)) {
-                                ioSelect.value = switchData.ioName;
-                            } else {
-                                ioSelect.value = 'custom';
-                                customInput.style.display = 'block';
-                                customInput.value = switchData.ioName;
-                            }
-                            
-                            lastRow.querySelector('select[name="longTravelErrorType"]').value = switchData.errorType;
-                            lastRow.querySelector('input[name="longTravelParametricName"]').value = switchData.parametricName || '';
-                        });
-                    }
-                } 
-                else if (machine.type === 'cnc') {
-                    document.getElementById('spindleSpeed').value = machine.spindleSpeed;
-                    document.getElementById('toolCount').value = machine.toolCount;
-                    document.getElementById('axisCount').value = machine.axisCount;
-                    document.getElementById('workAreaX').value = machine.workAreaX;
-                    document.getElementById('workAreaY').value = machine.workAreaY;
-                    document.getElementById('workAreaZ').value = machine.workAreaZ;
-                    document.getElementById('toolChangeTime').value = machine.toolChangeTime;
-                    document.getElementById('maxToolWeight').value = machine.maxToolWeight;
-                }
-                else if (machine.type === 'boomlift') {
-                    document.getElementById('platformHeight').value = machine.platformHeight;
-                    document.getElementById('horizontalReach').value = machine.horizontalReach;
-                    document.getElementById('capacity').value = machine.capacity;
-                    document.getElementById('powerType').value = machine.powerType;
-                    document.getElementById('outriggerType').value = machine.outriggerType;
-                }
-                else if (machine.type === 'scissor') {
-                    document.getElementById('liftHeight').value = machine.liftHeight;
-                    document.getElementById('platformSize').value = machine.platformSize;
-                    document.getElementById('driveType').value = machine.driveType;
-                    document.getElementById('maxSlope').value = machine.maxSlope;
-                    document.getElementById('platformCapacity').value = machine.platformCapacity;
-                }
-            }
-        } else {
-            // Add one empty row for each switch type by default for cranes
-            addSwitch('hoist');
-            addSwitch('crossTravel');
-            addSwitch('longTravel');
-        }
-
-        // Collect switch data from a table
-        function collectSwitchData(type) {
-            const rows = document.querySelectorAll(`#${type}SwitchTable tbody tr`);
-            return Array.from(rows).map(row => {
-                const ioSelect = row.querySelector(`select[name="${type}IOName"]`);
-                const customInput = row.querySelector(`input[name="${type}CustomIOName"]`);
-                
-                const ioName = ioSelect.value === 'custom' 
-                    ? customInput.value 
-                    : ioSelect.value;
-                
-                return {
-                    operation: row.querySelector(`select[name="${type}Operation"]`).value,
-                    ioName: ioName,
-                    errorType: row.querySelector(`select[name="${type}ErrorType"]`).value,
-                    parametricName: row.querySelector(`input[name="${type}ParametricName"]`).value
-                };
-            });
         }
 
         // Form submission
-        form.addEventListener('submit', function(e) {
+        document.getElementById('machineForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const machineType = document.getElementById('machineType').value;
+            const machineTypeId = document.getElementById('machineTypeId').value;
+            const machineType = machineTypes.find(t => t.id == machineTypeId);
+            if (!machineType) return;
+            
+            // Collect all form data
             const formData = {
-                type: machineType,
-                machineId: document.getElementById('machineId').value,
-                deviceId: document.getElementById('deviceId').value,
-                name: document.getElementById('machineName').value,
-                manufacturer: document.getElementById('manufacturer').value,
-                model: document.getElementById('model').value,
-                line: document.getElementById('line').value
+                machineTypeId: machineTypeId,
+                machineTypeName: machineType.name,
+                configuration: {}
             };
             
-            // Add type-specific data
-            if (machineType === 'crane') {
-                formData.swl = document.getElementById('swl').value;
-                formData.stage1Threshold = document.getElementById('stage1Threshold').value;
-                formData.stage2Threshold = document.getElementById('stage2Threshold').value;
-                formData.motorWarningTemp = document.getElementById('motorWarningTemp').value;
-                formData.motorCriticalTemp = document.getElementById('motorCriticalTemp').value;
-                formData.craneSpeed = document.getElementById('craneSpeed').value;
-                formData.hoistSwitches = collectSwitchData('hoist');
-                formData.crossTravelSwitches = collectSwitchData('crossTravel');
-                formData.longTravelSwitches = collectSwitchData('longTravel');
-            } 
-            else if (machineType === 'cnc') {
-                formData.spindleSpeed = document.getElementById('spindleSpeed').value;
-                formData.toolCount = document.getElementById('toolCount').value;
-                formData.axisCount = document.getElementById('axisCount').value;
-                formData.workAreaX = document.getElementById('workAreaX').value;
-                formData.workAreaY = document.getElementById('workAreaY').value;
-                formData.workAreaZ = document.getElementById('workAreaZ').value;
-                formData.toolChangeTime = document.getElementById('toolChangeTime').value;
-                formData.maxToolWeight = document.getElementById('maxToolWeight').value;
-            }
-            else if (machineType === 'boomlift') {
-                formData.platformHeight = document.getElementById('platformHeight').value;
-                formData.horizontalReach = document.getElementById('horizontalReach').value;
-                formData.capacity = document.getElementById('capacity').value;
-                formData.powerType = document.getElementById('powerType').value;
-                formData.outriggerType = document.getElementById('outriggerType').value;
-            }
-            else if (machineType === 'scissor') {
-                formData.liftHeight = document.getElementById('liftHeight').value;
-                formData.platformSize = document.getElementById('platformSize').value;
-                formData.driveType = document.getElementById('driveType').value;
-                formData.maxSlope = document.getElementById('maxSlope').value;
-                formData.platformCapacity = document.getElementById('platformCapacity').value;
-            }
+            // Collect data from each section
+            const formSections = document.querySelectorAll('#dynamic-form-sections .form-section');
+            formSections.forEach(section => {
+                const sectionName = section.querySelector('.section-header').textContent;
+                formData.configuration[sectionName] = {};
+                
+                const inputs = section.querySelectorAll('input, select');
+                inputs.forEach(input => {
+                    const fieldName = input.name.split('_').pop();
+                    formData.configuration[sectionName][fieldName] = input.value;
+                });
+            });
             
-            console.log('Form data:', formData);
+            console.log('Form data to save:', formData);
+            
+            // In a real app, you would send this to your API
+            // For now, we'll just show a success message
             showNotification('Machine configuration saved successfully!', 'success');
+            
             setTimeout(() => {
                 window.location.href = 'machine.html';
             }, 1500);
         });
 
         // Cancel button
-        cancelBtn.addEventListener('click', () => {
+        document.getElementById('cancelBtn').addEventListener('click', () => {
             if (confirm('Are you sure you want to cancel? Any unsaved changes will be lost.')) {
                 window.location.href = 'machine.html';
             }
         });
 
         // Account logout button
-        accountLogoutBtn.addEventListener('click', () => {
+        document.getElementById('accountLogoutBtn').addEventListener('click', () => {
             if (confirm('Are you sure you want to logout?')) {
                 showNotification('Logged out successfully!', 'success');
                 setTimeout(() => {

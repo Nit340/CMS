@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Machine Management System</title>
+    <title>Machine Management | CraneIQ Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
@@ -51,32 +51,25 @@
             transition: width 0.3s ease, background-color 0.2s ease;
             overflow: hidden;
         }
-
+        
         .sidebar:hover {
             width: 250px;
         }
-
+        
         .sidebar:hover .nav-link span {
             display: inline;
             opacity: 1;
         }
-
+        
         .sidebar.expanded {
             width: 250px;
         }
-
+        
         .sidebar.expanded .nav-link span {
             display: inline;
             opacity: 1;
         }
-
-        .logo {
-            text-align: center;
-            padding: 0 20px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            display: none;
-        }
-
+        
         .nav-link {
             color: inherit;
             text-decoration: none;
@@ -85,15 +78,15 @@
             width: 100%;
             padding: 12px 15px;
         }
-
+        
         .nav-item.active .nav-link {
             color: white;
         }
-
+        
         .nav-item:hover .nav-link {
             color: white;
         }
-
+        
         .nav-menu {
             margin-top: 20px;
             display: flex;
@@ -101,29 +94,29 @@
             height: calc(100vh - 100px);
             justify-content: space-between;
         }
-
+        
         .nav-item {
             cursor: pointer;
             transition: all 0.3s;
             white-space: nowrap;
             overflow: hidden;
         }
-
+        
         .nav-item:hover {
             background-color: rgba(255,255,255,0.1);
         }
-
+        
         .nav-item.active {
             background-color: var(--primary-color);
         }
-
+        
         .nav-item i {
             width: 30px;
             text-align: center;
             font-size: 1.2rem;
             flex-shrink: 0;
         }
-
+        
         .nav-link span {
             display: none;
             opacity: 0;
@@ -163,7 +156,7 @@
         }
 
         .page-title {
-           margin-bottom: 20px;
+            margin-bottom: 20px;
         }
 
         .page-title h1 {
@@ -181,28 +174,6 @@
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .machine-type-filter {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .machine-type-btn {
-            padding: 8px 16px;
-            border-radius: 20px;
-            border: 1px solid #ddd;
-            background: white;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .machine-type-btn.active {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
         }
         
         .btn {
@@ -227,6 +198,15 @@
             background-color: var(--secondary-color);
         }
         
+        .btn-secondary {
+            background-color: var(--gray-color);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+
         /* Machine Table */
         .table-container {
             background-color: white;
@@ -294,26 +274,7 @@
         .delete-btn:hover {
             background-color: #c82333;
         }
-        
-        .logout-button {
-            margin-left: 15px;
-            padding: 6px 12px;
-            background-color: var(--danger-color);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: background-color 0.2s;
-        }
-        
-        .logout-button:hover {
-            background-color: #c0392b;
-        }
-        
+
         /* Dropdown menu styles */
         .dropdown-menu {
             display: none;
@@ -355,17 +316,6 @@
             transform: rotate(180deg);
         }
 
-        /* Close dropdowns when sidebar is collapsed */
-        .sidebar:not(:hover):not(.expanded) .dropdown-menu {
-            display: none !important;
-            max-height: 0 !important;
-            padding: 0 !important;
-        }
-
-        .sidebar:not(:hover):not(.expanded) .dropdown-toggle.show .dropdown-icon {
-            transform: rotate(0deg) !important;
-        }
-
         /* Account Dropdown */
         .user-info-wrapper {
             --primary-color: #4361ee;
@@ -398,28 +348,11 @@
             background-color: rgba(0, 0, 0, 0.05);
         }
 
-        .account-trigger:focus {
-            outline: 2px solid var(--primary-color);
-            outline-offset: 2px;
-        }
-
-        .account-trigger .fa-user-circle {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-        }
-
-        .account-trigger span {
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
-
-        .account-trigger .fa-caret-down {
-            font-size: 0.75rem;
-            transition: transform var(--transition-speed);
-        }
-
-        .account-trigger.active .fa-caret-down {
-            transform: rotate(180deg);
+        .customer-logo {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
         .account-menu {
@@ -507,13 +440,8 @@
         .plan-basic { color: var(--primary-color); }
         .plan-advanced { color: var(--success-color); }
         .plan-pro { color: gold; }
-        .customer-logo{
-            width:30px;
-            height: 30px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
 
+        /* Notification styles */
         .notification {
             position: fixed;
             top: 20px;
@@ -554,16 +482,12 @@
             .action-buttons {
                 flex-direction: column;
             }
-            
-            .machine-type-filter {
-                margin-bottom: 10px;
-            }
         }
     </style>
 </head>
 <body>
- <div class="container" id="mainContainer">
-        <!-- Sidebar Navigation -->
+    <div class="container" id="mainContainer">
+        <!-- Sidebar Navigation will be loaded here -->
         <div id="sidebar-container"></div>
         
         <!-- Main Content Area -->
@@ -574,45 +498,42 @@
                 </div>
                
                <div class="user-info-wrapper">
-    <div class="account-dropdown">
-        <div class="account-trigger" id="accountDropdownTrigger">
-           <img src="image/houzz.png" class="customer-logo">
-            <span>Hilton (Pro Plan)</span>
-            <i class="fas fa-caret-down"></i>
-        </div>
-        <div class="account-menu" id="accountDropdownMenu">
-            <div class="account-menu-item plan-info">
-                <i class="fas fa-crown" style="color: gold;"></i>
-                <span>Pro Plan</span>
-            </div>
-            <div class="account-menu-divider"></div>
-            <a href="#" class="account-menu-item">
-                <i class="fas fa-user"></i> Profile
-            </a>
-            <a href="#" class="account-menu-item">
-                <i class="fas fa-sync-alt"></i> Upgrade Plan
-            </a>
-            <div class="account-menu-divider"></div>
-            <button id="accountLogoutBtn" class="account-menu-item logout-account-btn">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </button>
-        </div>
-    </div>
-</div>
-            </div>
-             <div class="page-title">
-                      <h1>Machine Management</h1>
-                    <p>Manage all machine configurations and details</p>
+                    <div class="account-dropdown">
+                        <div class="account-trigger" id="accountDropdownTrigger">
+                           <img src="image/houzz.png" class="customer-logo">
+                            <span>Hilton (Pro Plan)</span>
+                            <i class="fas fa-caret-down"></i>
+                        </div>
+                        <div class="account-menu" id="accountDropdownMenu">
+                            <div class="account-menu-item plan-info">
+                                <i class="fas fa-crown" style="color: gold;"></i>
+                                <span>Pro Plan</span>
+                            </div>
+                            <div class="account-menu-divider"></div>
+                            <a href="#" class="account-menu-item">
+                                <i class="fas fa-user"></i> Profile
+                            </a>
+                            <a href="#" class="account-menu-item">
+                                <i class="fas fa-sync-alt"></i> Upgrade Plan
+                            </a>
+                            <div class="account-menu-divider"></div>
+                            <button id="accountLogoutBtn" class="account-menu-item logout-account-btn">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            
+            <div class="page-title">
+                <h1>Machine Management</h1>
+                <p>Manage all machine configurations and details</p>
+            </div>
             
             <div class="action-buttons">
-                <div class="machine-type-filter">
-                    <button class="machine-type-btn active" data-type="all">All Machines</button>
-                    <button class="machine-type-btn" data-type="crane">Cranes</button>
-                    <button class="machine-type-btn" data-type="cnc">CNC Machines</button>
-                    <button class="machine-type-btn" data-type="boomlift">Boomlifts</button>
-                    <button class="machine-type-btn" data-type="scissor">Scissor Lifts</button>
-                </div>
+                <a href="create-machine.html" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Create Machine Type
+                </a>
                 <a href="machine-form.html" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Add Machine
                 </a>
@@ -623,41 +544,68 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Type</th>
+                            <th>Machine Type</th>
                             <th>Machine ID</th>
-                            <th>Device ID</th>
-                            <th>Name</th>
                             <th>Manufacturer</th>
                             <th>Model</th>
-                            <th>Line</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Sample data rows will be added by JavaScript -->
+                        <!-- Data will be populated by JavaScript -->
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Load the sidebar
-        fetch('sidebar.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('sidebar-container').innerHTML = data;
-                initializeSidebar(); // Call this after loading
-            });
 
-        function initializeSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const sidebarToggle = document.getElementById('sidebarToggle');
-            
-            if (sidebar && sidebarToggle) {
-                sidebarToggle.addEventListener('click', function() {
-                    sidebar.classList.toggle('expanded');
-                    document.querySelector('.container').classList.toggle('sidebar-expanded');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load the sidebar from sidebar.html
+            fetch('sidebar.html')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to load sidebar');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('sidebar-container').innerHTML = data;
+                    initializeSidebar();
+                })
+                .catch(error => {
+                    console.error('Error loading sidebar:', error);
+                    // Fallback minimal sidebar
+                    document.getElementById('sidebar-container').innerHTML = `
+                        <div class="sidebar" id="sidebar">
+                            <div class="nav-menu">
+                                <div>
+                                    <div class="nav-item active">
+                                        <a href="machine.html" class="nav-link">
+                                            <i class="fas fa-cogs"></i>
+                                            <span>Machines</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    initializeSidebar();
+                });
+
+            function initializeSidebar() {
+                const sidebar = document.getElementById('sidebar');
+                if (!sidebar) return;
+
+                // Toggle sidebar on hover
+                sidebar.addEventListener('mouseenter', function() {
+                    this.classList.add('expanded');
+                    document.querySelector('.container').classList.add('sidebar-expanded');
+                });
+                
+                sidebar.addEventListener('mouseleave', function() {
+                    this.classList.remove('expanded');
+                    document.querySelector('.container').classList.remove('sidebar-expanded');
                 });
 
                 // Dropdown functionality
@@ -668,7 +616,9 @@
                         const menu = dropdown.querySelector('.dropdown-menu');
                         
                         // Close all other dropdowns
-                        closeAllDropdownsExcept(menu, this);
+                        document.querySelectorAll('.dropdown-menu').forEach(m => {
+                            if (m !== menu) m.classList.remove('show');
+                        });
                         
                         // Toggle current dropdown
                         menu.classList.toggle('show');
@@ -676,226 +626,156 @@
                     });
                 });
 
-                // Function to close all dropdowns
-                function closeAllDropdowns() {
-                    document.querySelectorAll('.dropdown-menu').forEach(m => {
-                        m.classList.remove('show');
-                    });
-                    document.querySelectorAll('.dropdown-toggle').forEach(t => {
-                        t.classList.remove('show');
-                    });
-                }
-
-                // Function to close all dropdowns except a specific one
-                function closeAllDropdownsExcept(exceptMenu = null, exceptToggle = null) {
-                    document.querySelectorAll('.dropdown-menu').forEach(m => {
-                        if (m !== exceptMenu) m.classList.remove('show');
-                    });
-                    document.querySelectorAll('.dropdown-toggle').forEach(t => {
-                        if (t !== exceptToggle) t.classList.remove('show');
-                    });
-                }
-
-                // Close dropdowns when sidebar is collapsed
-                sidebarToggle.addEventListener('click', function() {
-                    if (!sidebar.classList.contains('expanded')) {
-                        closeAllDropdowns();
-                    }
-                });
-
-                // Also close dropdowns when clicking outside
+                // Close dropdowns when clicking outside
                 document.addEventListener('click', function(e) {
                     if (!e.target.closest('.dropdown')) {
-                        closeAllDropdowns();
+                        document.querySelectorAll('.dropdown-menu').forEach(m => {
+                            m.classList.remove('show');
+                        });
+                        document.querySelectorAll('.dropdown-toggle').forEach(t => {
+                            t.classList.remove('show');
+                        });
                     }
                 });
             }
-        }
 
-        // Sample data with machine types
-        let machines = [
-            {
-                id: 1,
-                type: "crane",
-                machineId: "MAC5632",
-                deviceId: "DEV001",
-                name: "Crane A",
-                manufacturer: "ABC Manufacturing",
-                model: "X-2000",
-                line: "Production Line 1"
-            },
-            {
-                id: 2,
-                type: "cnc",
-                machineId: "CNC5633",
-                deviceId: "DEV002",
-                name: "CNC Router",
-                manufacturer: "XYZ Industries",
-                model: "Y-3000",
-                line: "Assembly Line 2"
-            },
-            {
-                id: 3,
-                type: "boomlift",
-                machineId: "BL5634",
-                deviceId: "DEV003",
-                name: "Boomlift 1",
-                manufacturer: "Lift Co",
-                model: "B-4000",
-                line: "Warehouse"
-            },
-            {
-                id: 4,
-                type: "scissor",
-                machineId: "SL5635",
-                deviceId: "DEV004",
-                name: "Scissor Lift A",
-                manufacturer: "Elevate Inc",
-                model: "S-5000",
-                line: "Construction Site"
+            // Account dropdown functionality
+            const accountDropdownTrigger = document.getElementById('accountDropdownTrigger');
+            const accountDropdownMenu = document.getElementById('accountDropdownMenu');
+
+            if (accountDropdownTrigger && accountDropdownMenu) {
+                accountDropdownTrigger.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    accountDropdownMenu.classList.toggle('show');
+                });
+                
+                // Close when clicking outside
+                document.addEventListener('click', function() {
+                    accountDropdownMenu.classList.remove('show');
+                });
             }
-        ];
 
-        // DOM elements
-        const tableBody = document.querySelector("#machineTable tbody");
-        const accountLogoutBtn = document.getElementById("accountLogoutBtn");
-        const accountDropdownTrigger = document.getElementById("accountDropdownTrigger");
-        const accountDropdownMenu = document.getElementById("accountDropdownMenu");
+            // Logout button functionality
+            const accountLogoutBtn = document.getElementById('accountLogoutBtn');
+            if (accountLogoutBtn) {
+                accountLogoutBtn.addEventListener('click', function() {
+                    if (confirm('Are you sure you want to logout?')) {
+                        // In a real app, you would redirect to logout
+                        showNotification('Logged out successfully!', 'success');
+                        setTimeout(() => {
+                            window.location.href = 'login.html';
+                        }, 1500);
+                    }
+                });
+            }
 
-        // Render table
-        function renderTable() {
-            tableBody.innerHTML = '';
-            machines.forEach((machine, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${getTypeDisplayName(machine.type)}</td>
-                    <td>${machine.machineId}</td>
-                    <td>${machine.deviceId}</td>
-                    <td>${machine.name}</td>
-                    <td>${machine.manufacturer}</td>
-                    <td>${machine.model}</td>
-                    <td>${machine.line}</td>
-                    <td class="action-btns">
-                        <a href="machine-form.html?id=${machine.id}" class="edit-btn">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <button class="delete-btn" data-id="${machine.id}">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
+            // Notification function
+            function showNotification(message, type) {
+                const notification = document.createElement('div');
+                notification.className = `notification notification-${type}`;
+                notification.innerHTML = `
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                    <span>${message}</span>
                 `;
-                tableBody.appendChild(row);
-            });
-
-            // Add event listeners to delete buttons
-            document.querySelectorAll('.delete-btn').forEach(btn => {
-                btn.addEventListener('click', deleteMachine);
-            });
-        }
-
-        // Get display name for machine type
-        function getTypeDisplayName(type) {
-            const typeNames = {
-                'crane': 'Crane',
-                'cnc': 'CNC Machine',
-                'boomlift': 'Boomlift',
-                'scissor': 'Scissor Lift'
-            };
-            return typeNames[type] || type;
-        }
-
-        // Delete machine
-        function deleteMachine(e) {
-            const machineId = parseInt(e.currentTarget.getAttribute('data-id'));
-            if (confirm('Are you sure you want to delete this machine?')) {
-                machines = machines.filter(m => m.id !== machineId);
-                renderTable();
-                showNotification('Machine deleted successfully!', 'success');
-            }
-        }
-
-        // Add machine type filtering functionality
-        document.querySelectorAll('.machine-type-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.machine-type-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
+                document.body.appendChild(notification);
                 
-                const type = this.getAttribute('data-type');
-                filterMachines(type);
-            });
-        });
-
-        function filterMachines(type) {
-            const rows = document.querySelectorAll('#machineTable tbody tr');
-            
-            if (type === 'all') {
-                rows.forEach(row => row.style.display = '');
-                return;
-            }
-            
-            rows.forEach(row => {
-                const machineId = row.querySelector('td:nth-child(3)').textContent;
-                const machine = machines.find(m => m.machineId === machineId);
+                notification.classList.add('show');
                 
-                if (machine && machine.type === type) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 300);
+                }, 3000);
+            }
+
+            // Load machine configurations from localStorage
+            function loadMachines() {
+                try {
+                    // Get all machine types
+                    const machineTypes = JSON.parse(localStorage.getItem('machineTypes') || '[]');
+                    
+                    // Get all machine configurations
+                    let machines = [];
+                    for (let i = 0; i < localStorage.length; i++) {
+                        const key = localStorage.key(i);
+                        if (key.startsWith('machine_config_')) {
+                            const machine = JSON.parse(localStorage.getItem(key));
+                            machines.push(machine);
+                        }
+                    }
+                    
+                    return machines;
+                } catch (error) {
+                    console.error('Error loading machines:', error);
+                    showNotification('Error loading machine data', 'error');
+                    return [];
                 }
-            });
-        }
-
-        // Account dropdown functionality
-        accountDropdownTrigger.addEventListener('click', function(e) {
-            e.stopPropagation();
-            accountDropdownMenu.classList.toggle('show');
-        });
-        
-        // Close account dropdown when clicking elsewhere
-        document.addEventListener('click', function() {
-            accountDropdownMenu.classList.remove('show');
-        });
-        
-        // Prevent account dropdown from closing when clicking inside it
-        accountDropdownMenu.addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
-
-        // Account logout button
-        accountLogoutBtn.addEventListener('click', () => {
-            if (confirm('Are you sure you want to logout?')) {
-                showNotification('Logged out successfully!', 'success');
-                setTimeout(() => {
-                    // In a real app, you would redirect to logout
-                    window.location.href = 'login.html';
-                }, 1500);
             }
+
+            // Render the table with machine data
+            function renderMachineTable() {
+                const machines = loadMachines();
+                const tableBody = document.querySelector("#machineTable tbody");
+                tableBody.innerHTML = '';
+                
+                if (machines.length === 0) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td colspan="6" style="text-align: center; padding: 20px;">
+                            No machines found. <a href="machine-form.html" style="color: var(--primary-color);">Add a machine</a> to get started.
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                    return;
+                }
+                
+                machines.forEach((machine, index) => {
+                    const row = document.createElement('tr');
+                    
+                    // Find the machine type name
+                    const machineTypes = JSON.parse(localStorage.getItem('machineTypes') || '[]');
+                    const machineType = machineTypes.find(t => t.id == machine.machineTypeId) || { name: 'Unknown' };
+                    
+                    // Get basic details from the configuration
+                    const basicDetails = machine.configuration['Basic Details'] || {};
+                    
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${machineType.name}</td>
+                        <td>${basicDetails.machineId || 'N/A'}</td>
+                        <td>${basicDetails.manufacturer || 'N/A'}</td>
+                        <td>${basicDetails.model || 'N/A'}</td>
+                        <td class="action-btns">
+                            <a href="machine-form.html?edit=${machine.machineTypeId}" class="btn edit-btn">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <button class="btn delete-btn" data-id="${machine.machineTypeId}">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+                
+                // Add event listeners to delete buttons
+                document.querySelectorAll('.delete-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const machineTypeId = this.getAttribute('data-id');
+                        if (confirm('Are you sure you want to delete this machine configuration?')) {
+                            // Delete the configuration from localStorage
+                            localStorage.removeItem(`machine_config_${machineTypeId}`);
+                            showNotification('Machine deleted successfully', 'success');
+                            // Re-render the table
+                            renderMachineTable();
+                        }
+                    });
+                });
+            }
+
+            // Initial render
+            renderMachineTable();
         });
-
-        // Notification function
-        function showNotification(message, type) {
-            const notification = document.createElement('div');
-            notification.className = `notification notification-${type}`;
-            notification.innerHTML = `
-                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
-                <span>${message}</span>
-            `;
-            document.body.appendChild(notification);
-            
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-                setTimeout(() => {
-                    notification.remove();
-                }, 300);
-            }, 3000);
-        }
-
-        // Initial render
-        renderTable();
-    });
     </script>
 </body>
 </html>
