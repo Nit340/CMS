@@ -70,6 +70,13 @@
             opacity: 1;
         }
         
+        .logo {
+            text-align: center;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: none;
+        }
+        
         .nav-link {
             color: inherit;
             text-decoration: none;
@@ -336,6 +343,58 @@
             gap: 10px;
         }
         
+        /* Dropdown menu styles */
+        .dropdown-menu {
+            display: none;
+            padding-left: 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+            max-height: 200px;
+        }
+
+        .dropdown-item {
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-item i {
+            margin-right: 10px;
+        }
+
+        .dropdown-toggle .dropdown-icon {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-toggle.show .dropdown-icon,
+        .sidebar:hover .dropdown-toggle.show .dropdown-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Close dropdowns when sidebar is collapsed */
+        .sidebar:not(:hover):not(.expanded) .dropdown-menu {
+            display: none !important;
+            max-height: 0 !important;
+            padding: 0 !important;
+        }
+
+        .sidebar:not(:hover):not(.expanded) .dropdown-toggle.show .dropdown-icon {
+            transform: rotate(0deg) !important;
+        }
+
         /* Account Dropdown */
         .user-info-wrapper {
             --primary-color: #4361ee;
@@ -345,12 +404,12 @@
             --transition-speed: 0.25s;
             font-family: 'Segoe UI', system-ui, sans-serif;
         }
-        
+
         .account-dropdown {
             position: relative;
             display: inline-block;
         }
-        
+
         .account-trigger {
             display: flex;
             align-items: center;
@@ -363,18 +422,35 @@
             border: none;
             color: var(--text-color);
         }
-        
+
         .account-trigger:hover {
             background-color: rgba(0, 0, 0, 0.05);
         }
-        
-        .customer-logo {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            object-fit: cover;
+
+        .account-trigger:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
         }
-        
+
+        .account-trigger .fa-user-circle {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .account-trigger span {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .account-trigger .fa-caret-down {
+            font-size: 0.75rem;
+            transition: transform var(--transition-speed);
+        }
+
+        .account-trigger.active .fa-caret-down {
+            transform: rotate(180deg);
+        }
+
         .account-menu {
             position: absolute;
             right: 0;
@@ -392,13 +468,81 @@
                 opacity var(--transition-speed) ease,
                 transform var(--transition-speed) ease;
         }
-        
+
         .account-menu.show {
             opacity: 1;
             transform: translateY(0);
             visibility: visible;
         }
-        
+
+        .account-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.625rem 1rem;
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: 
+                background-color var(--transition-speed),
+                color var(--transition-speed);
+        }
+
+        .account-menu-item:hover,
+        .account-menu-item:focus {
+            background-color: var(--hover-bg);
+            color: var(--primary-color);
+        }
+
+        .account-menu-item i {
+            width: 1.25rem;
+            text-align: center;
+            color: inherit;
+        }
+
+        .account-menu-divider {
+            height: 1px;
+            background-color: #e9ecef;
+            margin: 0.5rem 0;
+        }
+
+        .logout-account-btn {
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            font: inherit;
+            color: inherit;
+        }
+
+        .logout-account-btn:hover,
+        .logout-account-btn:focus {
+            color: var(--danger-color) !important;
+        }
+        .account-menu-item.plan-info {
+            background-color: #f8f9fa;
+            color: var(--dark-color);
+            font-weight: 600;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .account-menu-item.plan-info i {
+            margin-right: 8px;
+        }
+
+        /* Different colors for different plans */
+        .plan-basic { color: var(--primary-color); }
+        .plan-advanced { color: var(--success-color); }
+        .plan-pro { color: gold; }
+        .customer-logo{
+            width:30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
         /* Notification Modal Styles */
         .notification-modal {
             display: none;
@@ -578,10 +722,6 @@
                         <h3 class="section-title">Basic Details</h3>
                     </div>
                     <div class="form-group">
-                        <label for="machine-id">Machine ID</label>
-                        <input type="text" id="machine-id" placeholder="Enter machine ID">
-                    </div>
-                    <div class="form-group">
                         <label for="manufacturer">Manufacturer</label>
                         <input type="text" id="manufacturer" placeholder="Enter manufacturer">
                     </div>
@@ -686,6 +826,69 @@
                     showNotification('Error', 'Failed to load sidebar', 'error');
                 });
 
+            // Initialize sidebar functionality
+            function initializeSidebar() {
+                const sidebar = document.getElementById('sidebar');
+                const sidebarToggle = document.getElementById('sidebarToggle');
+                
+                if (sidebar && sidebarToggle) {
+                    sidebarToggle.addEventListener('click', function() {
+                        sidebar.classList.toggle('expanded');
+                        document.querySelector('.container').classList.toggle('sidebar-expanded');
+                    });
+
+                    // Dropdown functionality
+                    document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+                        toggle.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const dropdown = this.closest('.dropdown');
+                            const menu = dropdown.querySelector('.dropdown-menu');
+                            
+                            // Close all other dropdowns
+                            closeAllDropdownsExcept(menu, this);
+                            
+                            // Toggle current dropdown
+                            menu.classList.toggle('show');
+                            this.classList.toggle('show');
+                        });
+                    });
+
+                    // Function to close all dropdowns
+                    function closeAllDropdowns() {
+                        document.querySelectorAll('.dropdown-menu').forEach(m => {
+                            m.classList.remove('show');
+                        });
+                        document.querySelectorAll('.dropdown-toggle').forEach(t => {
+                            t.classList.remove('show');
+                        });
+                    }
+
+                    // Function to close all dropdowns except a specific one
+                    function closeAllDropdownsExcept(exceptMenu = null, exceptToggle = null) {
+                        document.querySelectorAll('.dropdown-menu').forEach(m => {
+                            if (m !== exceptMenu) m.classList.remove('show');
+                        });
+                        document.querySelectorAll('.dropdown-toggle').forEach(t => {
+                            if (t !== exceptToggle) t.classList.remove('show');
+                        });
+                    }
+
+                    // Close dropdowns when sidebar is collapsed
+                    sidebarToggle.addEventListener('click', function() {
+                        if (!sidebar.classList.contains('expanded')) {
+                            closeAllDropdowns();
+                        }
+                    });
+
+                    // Also close dropdowns when clicking outside
+                    document.addEventListener('click', function(e) {
+                        if (!e.target.closest('.dropdown')) {
+                            closeAllDropdowns();
+                        }
+                    });
+                }
+            }
+
             // Notification system
             const notificationModal = document.getElementById('notification-modal');
             const notificationTitle = document.getElementById('notification-title');
@@ -776,21 +979,6 @@
                 }
             });
 
-            function initializeSidebar() {
-                const sidebar = document.getElementById('sidebar');
-                if (sidebar) {
-                    sidebar.addEventListener('mouseenter', function() {
-                        this.classList.add('expanded');
-                        document.querySelector('.container').classList.add('sidebar-expanded');
-                    });
-                    
-                    sidebar.addEventListener('mouseleave', function() {
-                        this.classList.remove('expanded');
-                        document.querySelector('.container').classList.remove('sidebar-expanded');
-                    });
-                }
-            }
-
             // Initialize account dropdown
             const accountTrigger = document.getElementById('accountDropdownTrigger');
             const accountMenu = document.getElementById('accountDropdownMenu');
@@ -799,11 +987,15 @@
                 accountTrigger.addEventListener('click', function(e) {
                     e.stopPropagation();
                     accountMenu.classList.toggle('show');
+                    this.classList.toggle('active');
                 });
                 
                 // Close when clicking outside
-                document.addEventListener('click', function() {
-                    accountMenu.classList.remove('show');
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('.account-dropdown')) {
+                        accountMenu.classList.remove('show');
+                        accountTrigger.classList.remove('active');
+                    }
                 });
             }
 
@@ -937,49 +1129,48 @@
             }
             
             // Save form
-           document.getElementById('save-form-btn').addEventListener('click', function() {
-        const machineTypeName = document.getElementById('machine-type-name').value;
-        
-        if (!machineTypeName) {
-            showNotification('Error', 'Please enter a machine type name', 'error');
-            return;
-        }
-        
-        // Collect all form data
-        const formData = {
-            id: Date.now(), // Generate unique ID
-            name: machineTypeName,
-            fields: {
-                basicDetails: {
-                    machineId: { type: "text", required: true },
-                    manufacturer: { type: "text", required: true },
-                    model: { type: "text", required: true }
+            document.getElementById('save-form-btn').addEventListener('click', function() {
+                const machineTypeName = document.getElementById('machine-type-name').value;
+                
+                if (!machineTypeName) {
+                    showNotification('Error', 'Please enter a machine type name', 'error');
+                    return;
                 }
-            }
-        };
-        
-        // Get custom sections
-        document.querySelectorAll('#dynamic-sections .section').forEach(section => {
-            const sectionTitle = section.querySelector('.section-title').textContent;
-            formData.fields[sectionTitle] = {};
-            
-            section.querySelectorAll('.field-item').forEach(field => {
-                const label = field.querySelector('label').textContent;
-                formData.fields[sectionTitle][label] = { type: "text", required: true };
+                
+                // Collect all form data
+                const formData = {
+                    id: Date.now(), // Generate unique ID
+                    name: machineTypeName,
+                    fields: {
+                        basicDetails: {
+                            manufacturer: { type: "text", required: true },
+                            model: { type: "text", required: true }
+                        }
+                    }
+                };
+                
+                // Get custom sections
+                document.querySelectorAll('#dynamic-sections .section').forEach(section => {
+                    const sectionTitle = section.querySelector('.section-title').textContent;
+                    formData.fields[sectionTitle] = {};
+                    
+                    section.querySelectorAll('.field-item').forEach(field => {
+                        const label = field.querySelector('label').textContent;
+                        formData.fields[sectionTitle][label] = { type: "text", required: true };
+                    });
+                });
+                
+                // Save to localStorage (in a real app, you would send to server)
+                let machineTypes = JSON.parse(localStorage.getItem('machineTypes') || '[]');
+                machineTypes.push(formData);
+                localStorage.setItem('machineTypes', JSON.stringify(machineTypes));
+                
+                showNotification('Success', 'Machine type saved successfully!', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = 'machine.html';
+                }, 1500);
             });
-        });
-        
-        // Save to localStorage (in a real app, you would send to server)
-        let machineTypes = JSON.parse(localStorage.getItem('machineTypes') || '[]');
-        machineTypes.push(formData);
-        localStorage.setItem('machineTypes', JSON.stringify(machineTypes));
-        
-        showNotification('Success', 'Machine type saved successfully!', 'success');
-        
-        setTimeout(() => {
-            window.location.href = 'machine.html';
-        }, 1500);
-    });
             
             // Cancel button
             document.getElementById('cancel-btn').addEventListener('click', function() {
