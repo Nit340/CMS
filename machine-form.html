@@ -6,6 +6,7 @@
     <title>Machine Configuration | CraneIQ Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* Your existing CSS remains unchanged */
         :root {
             --primary-color: #3498db;
             --secondary-color: #2980b9;
@@ -790,6 +791,9 @@
                         fieldCheckbox.appendChild(fieldCheckboxInput);
                         fieldCheckbox.appendChild(fieldLabel);
                         formGroup.appendChild(fieldCheckbox);
+                        
+                        // Initially hide field checkboxes for custom sections
+                        fieldCheckbox.style.display = 'none';
                     }
                     
                     // Field input container
@@ -840,6 +844,7 @@
                     if (!isBasicSection) {
                         const fieldCheckboxInput = formGroup.querySelector('.field-checkbox input[type="checkbox"]');
                         fieldCheckboxInput.addEventListener('change', function() {
+                            // Show input only if field checkbox is checked
                             fieldInputContainer.style.display = this.checked ? 'block' : 'none';
                         });
                     }
@@ -849,10 +854,20 @@
                 if (!isBasicSection) {
                     const sectionCheckboxInput = sectionHeader.querySelector('.section-checkbox input[type="checkbox"]');
                     sectionCheckboxInput.addEventListener('change', function() {
-                        const sectionFields = sectionGrid.querySelectorAll('.field-checkbox input[type="checkbox"]');
+                        const sectionFields = sectionGrid.querySelectorAll('.field-checkbox');
                         sectionFields.forEach(field => {
-                            field.checked = this.checked;
-                            field.dispatchEvent(new Event('change'));
+                            // Show/hide field checkboxes based on section state
+                            field.style.display = this.checked ? 'flex' : 'none';
+                            
+                            // Also hide any input fields if section is unchecked
+                            const fieldInputContainer = field.closest('.field-item').querySelector('.field-input');
+                            if (!this.checked) {
+                                fieldInputContainer.style.display = 'none';
+                            } else {
+                                // If section is checked, show input only if field checkbox is checked
+                                const fieldCheckbox = field.querySelector('input[type="checkbox"]');
+                                fieldInputContainer.style.display = fieldCheckbox.checked ? 'block' : 'none';
+                            }
                         });
                     });
                 }
@@ -906,9 +921,10 @@
                     if (fieldItem.classList.contains('basic-field')) {
                         formData.configuration[sectionName][fieldName] = input.value;
                     } 
-                    // For custom fields, only include if checked
+                    // For custom fields, only include if checked and visible
                     else if (fieldItem.classList.contains('custom-field')) {
-                        if (fieldItem.querySelector('.field-checkbox input').checked) {
+                        const fieldCheckbox = fieldItem.querySelector('.field-checkbox input');
+                        if (fieldCheckbox.checked && input.closest('.field-input').style.display !== 'none') {
                             formData.configuration[sectionName][fieldName] = input.value;
                         }
                     }
