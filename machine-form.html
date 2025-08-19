@@ -163,7 +163,7 @@
         }
 
         .page-title {
-         margin-bottom: 20px;
+            margin-bottom: 20px;
         }
 
         .page-title h1 {
@@ -311,6 +311,65 @@
             border-bottom: 1px solid #eee;
             color: var(--dark-color);
             font-size: 1.2rem;
+        }
+        
+        /* Basic Details Section */
+        .basic-section {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .basic-section .section-header {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+        
+        /* Custom Sections */
+        .custom-section .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-checkbox input[type="checkbox"] {
+            width: auto;
+        }
+        
+        .field-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .basic-field {
+            /* No special styling needed - fields are always visible */
+        }
+        
+        .custom-field {
+            /* Custom fields have checkboxes */
+        }
+        
+        .field-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+        
+        .field-checkbox input[type="checkbox"] {
+            width: auto;
+        }
+        
+        .field-input {
+            margin-left: 25px;
         }
         
         /* Responsive adjustments */
@@ -486,9 +545,10 @@
     </style>
 </head>
 <body>
-      <div class="container" id="mainContainer">
+    <div class="container" id="mainContainer">
         <!-- Sidebar Navigation -->
-            <div id="sidebar-container"></div>
+        <div id="sidebar-container"></div>
+        
         <!-- Main Content Area -->
         <div class="main-content">
             <div class="header">
@@ -496,37 +556,38 @@
                     <div class="header-logo">CraneIQ</div>
                 </div>
              
-               <div class="user-info-wrapper">
-    <div class="account-dropdown">
-        <div class="account-trigger" id="accountDropdownTrigger">
-           <img src="image/houzz.png" class="customer-logo">
-            <span>Hilton (Pro Plan)</span>
-            <i class="fas fa-caret-down"></i>
-        </div>
-        <div class="account-menu" id="accountDropdownMenu">
-            <div class="account-menu-item plan-info">
-                <i class="fas fa-crown" style="color: gold;"></i>
-                <span>Pro Plan</span>
-            </div>
-            <div class="account-menu-divider"></div>
-            <a href="#" class="account-menu-item">
-                <i class="fas fa-user"></i> Profile
-            </a>
-            <a href="#" class="account-menu-item">
-                <i class="fas fa-sync-alt"></i> Upgrade Plan
-            </a>
-            <div class="account-menu-divider"></div>
-            <button id="accountLogoutBtn" class="account-menu-item logout-account-btn">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </button>
-        </div>
-    </div>
-</div>
-            </div>
-   <div class="page-title">
-                          <h1> Machine Configuration</h1>
-                    <p>Configure machine settings</p>
+                <div class="user-info-wrapper">
+                    <div class="account-dropdown">
+                        <div class="account-trigger" id="accountDropdownTrigger">
+                            <img src="image/houzz.png" class="customer-logo">
+                            <span>Hilton (Pro Plan)</span>
+                            <i class="fas fa-caret-down"></i>
+                        </div>
+                        <div class="account-menu" id="accountDropdownMenu">
+                            <div class="account-menu-item plan-info">
+                                <i class="fas fa-crown" style="color: gold;"></i>
+                                <span>Pro Plan</span>
+                            </div>
+                            <div class="account-menu-divider"></div>
+                            <a href="#" class="account-menu-item">
+                                <i class="fas fa-user"></i> Profile
+                            </a>
+                            <a href="#" class="account-menu-item">
+                                <i class="fas fa-sync-alt"></i> Upgrade Plan
+                            </a>
+                            <div class="account-menu-divider"></div>
+                            <button id="accountLogoutBtn" class="account-menu-item logout-account-btn">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            
+            <div class="page-title">
+                <h1>Machine Configuration</h1>
+                <p>Configure machine settings</p>
+            </div>
             
             <div class="form-container">
                 <form id="machineForm">
@@ -554,6 +615,7 @@
             </div>
         </div>
     </div>
+    
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Load the sidebar
@@ -661,9 +723,35 @@
                 const sectionDiv = document.createElement('div');
                 sectionDiv.className = 'form-section';
                 
-                const sectionHeader = document.createElement('h3');
+                const sectionHeader = document.createElement('div');
                 sectionHeader.className = 'section-header';
-                sectionHeader.textContent = sectionName;
+                
+                // Check if this is the basicDetails section
+                const isBasicSection = sectionName === 'basicDetails';
+                if (isBasicSection) {
+                    sectionDiv.classList.add('basic-section');
+                    sectionHeader.textContent = 'Basic Details';
+                } else {
+                    sectionDiv.classList.add('custom-section');
+                    
+                    // Add section checkbox for custom sections
+                    const sectionCheckbox = document.createElement('div');
+                    sectionCheckbox.className = 'section-checkbox';
+                    
+                    const sectionCheckboxInput = document.createElement('input');
+                    sectionCheckboxInput.type = 'checkbox';
+                    sectionCheckboxInput.id = `section_${sectionName}`;
+                    sectionCheckboxInput.dataset.section = sectionName;
+                    
+                    const sectionLabel = document.createElement('label');
+                    sectionLabel.htmlFor = `section_${sectionName}`;
+                    sectionLabel.textContent = sectionName;
+                    
+                    sectionCheckbox.appendChild(sectionCheckboxInput);
+                    sectionCheckbox.appendChild(sectionLabel);
+                    sectionHeader.appendChild(sectionCheckbox);
+                }
+                
                 sectionDiv.appendChild(sectionHeader);
                 
                 const sectionGrid = document.createElement('div');
@@ -672,12 +760,48 @@
                 // Create fields for this section
                 for (const [fieldName, config] of Object.entries(fields)) {
                     const formGroup = document.createElement('div');
-                    formGroup.className = 'form-group';
+                    formGroup.className = 'form-group field-item';
                     
-                    const label = document.createElement('label');
-                    label.htmlFor = `${sectionName}_${fieldName}`;
-                    label.textContent = fieldName;
+                    if (isBasicSection) {
+                        formGroup.classList.add('basic-field');
+                        
+                        // Basic fields have simple labels
+                        const fieldLabel = document.createElement('label');
+                        fieldLabel.htmlFor = `${sectionName}_${fieldName}`;
+                        fieldLabel.textContent = fieldName;
+                        formGroup.appendChild(fieldLabel);
+                    } else {
+                        formGroup.classList.add('custom-field');
+                        
+                        // Custom fields have checkboxes
+                        const fieldCheckbox = document.createElement('div');
+                        fieldCheckbox.className = 'field-checkbox';
+                        
+                        const fieldCheckboxInput = document.createElement('input');
+                        fieldCheckboxInput.type = 'checkbox';
+                        fieldCheckboxInput.id = `${sectionName}_${fieldName}_checkbox`;
+                        fieldCheckboxInput.dataset.section = sectionName;
+                        fieldCheckboxInput.dataset.field = fieldName;
+                        
+                        const fieldLabel = document.createElement('label');
+                        fieldLabel.htmlFor = `${sectionName}_${fieldName}_checkbox`;
+                        fieldLabel.textContent = fieldName;
+                        
+                        fieldCheckbox.appendChild(fieldCheckboxInput);
+                        fieldCheckbox.appendChild(fieldLabel);
+                        formGroup.appendChild(fieldCheckbox);
+                    }
                     
+                    // Field input container
+                    const fieldInputContainer = document.createElement('div');
+                    fieldInputContainer.className = 'field-input';
+                    
+                    // For custom fields, hide input initially
+                    if (!isBasicSection) {
+                        fieldInputContainer.style.display = 'none';
+                    }
+                    
+                    // Create the actual input element
                     let input;
                     if (config.type === 'select') {
                         input = document.createElement('select');
@@ -708,9 +832,29 @@
                         input.placeholder = config.placeholder;
                     }
                     
-                    formGroup.appendChild(label);
-                    formGroup.appendChild(input);
+                    fieldInputContainer.appendChild(input);
+                    formGroup.appendChild(fieldInputContainer);
                     sectionGrid.appendChild(formGroup);
+                    
+                    // Add change event for custom field checkboxes
+                    if (!isBasicSection) {
+                        const fieldCheckboxInput = formGroup.querySelector('.field-checkbox input[type="checkbox"]');
+                        fieldCheckboxInput.addEventListener('change', function() {
+                            fieldInputContainer.style.display = this.checked ? 'block' : 'none';
+                        });
+                    }
+                }
+                
+                // Add change event for section checkboxes (custom sections only)
+                if (!isBasicSection) {
+                    const sectionCheckboxInput = sectionHeader.querySelector('.section-checkbox input[type="checkbox"]');
+                    sectionCheckboxInput.addEventListener('change', function() {
+                        const sectionFields = sectionGrid.querySelectorAll('.field-checkbox input[type="checkbox"]');
+                        sectionFields.forEach(field => {
+                            field.checked = this.checked;
+                            field.dispatchEvent(new Event('change'));
+                        });
+                    });
                 }
                 
                 sectionDiv.appendChild(sectionGrid);
@@ -736,13 +880,38 @@
             // Collect data from each section
             const formSections = document.querySelectorAll('#dynamic-form-sections .form-section');
             formSections.forEach(section => {
-                const sectionName = section.querySelector('.section-header').textContent;
+                const sectionHeader = section.querySelector('.section-header');
+                const isBasicSection = section.classList.contains('basic-section');
+                let sectionName;
+                
+                if (isBasicSection) {
+                    sectionName = 'Basic Details';
+                } else {
+                    sectionName = sectionHeader.querySelector('.section-checkbox label').textContent;
+                    // Skip this section if not checked
+                    if (!sectionHeader.querySelector('.section-checkbox input').checked) {
+                        return;
+                    }
+                }
+                
                 formData.configuration[sectionName] = {};
                 
-                const inputs = section.querySelectorAll('input, select');
+                // Collect all fields in this section
+                const inputs = section.querySelectorAll('.field-input input, .field-input select');
                 inputs.forEach(input => {
+                    const fieldItem = input.closest('.field-item');
                     const fieldName = input.name.split('_').pop();
-                    formData.configuration[sectionName][fieldName] = input.value;
+                    
+                    // For basic fields, always include
+                    if (fieldItem.classList.contains('basic-field')) {
+                        formData.configuration[sectionName][fieldName] = input.value;
+                    } 
+                    // For custom fields, only include if checked
+                    else if (fieldItem.classList.contains('custom-field')) {
+                        if (fieldItem.querySelector('.field-checkbox input').checked) {
+                            formData.configuration[sectionName][fieldName] = input.value;
+                        }
+                    }
                 });
             });
             

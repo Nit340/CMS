@@ -220,52 +220,52 @@
         </div>
     </div>
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const remember = document.getElementById('remember').checked;
-            
-            // Simple validation (in real app, this would check against a database)
-            if (email === 'admin@craneiq.com' && password === 'Admin@123') {
-                // Store login state
-                if (remember) {
-                    localStorage.setItem('rememberMe', 'true');
-                    localStorage.setItem('email', email);
-                } else {
-                    localStorage.removeItem('rememberMe');
-                    localStorage.removeItem('email');
-                }
-                
-                sessionStorage.setItem('isLoggedIn', 'true');
-                
-                // Show success message
-                document.getElementById('message').textContent = 'Login successful! Redirecting...';
-                document.getElementById('message').className = 'message success';
-                
-                // Redirect to home page after 1 second
-                setTimeout(() => {
-                    window.location.href = 'dash.html';
-                }, 1000);
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const remember = document.getElementById('remember').checked;
+        
+        // Simple validation (in real app, this would check against a database)
+        if (email === 'admin@craneiq.com' && password === 'Admin@123') {
+            // Store login state - using localStorage consistently
+            if (remember) {
+                localStorage.setItem('rememberMe', 'true');
+                localStorage.setItem('email', email);
             } else {
-                // Show error message
-                document.getElementById('message').textContent = 'Invalid email or password. Please try again.';
-                document.getElementById('message').className = 'message error';
+                localStorage.removeItem('rememberMe');
+                localStorage.removeItem('email');
             }
-        });
-        
-        // Check if remember me was checked previously
-        if (localStorage.getItem('rememberMe') === 'true') {
-            document.getElementById('remember').checked = true;
-            document.getElementById('email').value = localStorage.getItem('email') || '';
+            
+            localStorage.setItem('isLoggedIn', 'true');  // Changed from sessionStorage to localStorage
+            
+            // Show success message
+            document.getElementById('message').textContent = 'Login successful! Redirecting...';
+            document.getElementById('message').className = 'message success';
+            
+            // Redirect to home page after 1 second
+            setTimeout(() => {
+                window.location.href = 'dash.html';
+            }, 1000);
+        } else {
+            // Show error message
+            document.getElementById('message').textContent = 'Invalid email or password. Please try again.';
+            document.getElementById('message').className = 'message error';
         }
-        
-        // Check if already logged in
-        if (sessionStorage.getItem('isLoggedIn') === 'true') {
-            window.location.href = 'dash.html';
-        }
-    </script>
+    });
+    
+    // Check if remember me was checked previously
+    if (localStorage.getItem('rememberMe') === 'true') {
+        document.getElementById('remember').checked = true;
+        document.getElementById('email').value = localStorage.getItem('email') || '';
+    }
+    
+    // Check if already logged in - now checking localStorage instead of sessionStorage
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+        window.location.href = 'dash.html';
+    }
+</script>
 </body>
 </html>
