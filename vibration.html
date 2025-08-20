@@ -1181,6 +1181,54 @@ canvas {
                     </div>
                 </div>
             </div>
+            <!-- Gearbox Panel -->
+<div class="motor-panel">
+    <div class="motor-header">
+        <div class="motor-name">
+            <i class="fas fa-cogs"></i>
+            <span>Gearbox</span>
+        </div>
+        <div class="motor-status status-normal">Normal</div>
+    </div>
+    
+    <div class="axis-controls">
+        <button class="axis-btn active" data-axis="all">
+            <i class="fas fa-layer-group"></i>
+            All Axes
+        </button>
+        <button class="axis-btn" data-axis="x">
+            <i class="fas fa-arrows-alt-h"></i>
+            X-Axis
+        </button>
+        <button class="axis-btn" data-axis="y">
+            <i class="fas fa-arrows-alt-v"></i>
+            Y-Axis
+        </button>
+        <button class="axis-btn" data-axis="z">
+            <i class="fas fa-arrow-right"></i>
+            Z-Axis
+        </button>
+    </div>
+    
+    <div class="combined-chart">
+        <canvas id="gearboxCombinedChart"></canvas>
+    </div>
+    
+    <div class="vibration-meters">
+        <div class="vibration-meter">
+            <canvas id="gearboxXMeter"></canvas>
+            <div class="meter-value" id="gearboxXValue">2.4</div>
+        </div>
+        <div class="vibration-meter">
+            <canvas id="gearboxYMeter"></canvas>
+            <div class="meter-value" id="gearboxYValue">2.9</div>
+        </div>
+        <div class="vibration-meter">
+            <canvas id="gearboxZMeter"></canvas>
+            <div class="meter-value" id="gearboxZValue">4.1</div>
+        </div>
+    </div>
+</div>
         </div>
     </div>
 
@@ -1319,563 +1367,582 @@ canvas {
                 });
             }
         }
-    });
-</script>
-<!-- Replace your current Chart.js and gauge plugin with these -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
-<script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-gauge@0.4.0/dist/chartjs-plugin-gauge.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-                const dropdownTrigger = document.getElementById('accountDropdownTrigger');
-    const dropdownMenu = document.getElementById('accountDropdownMenu');
-  const sidebar = document.getElementById('sidebar');
-    const sidebarToggle = document.getElementById('sidebarToggle');
-    const mainContainer = document.getElementById('mainContainer');
-        const statusGrid = document.querySelector('.status-grid');
-    const statusFilters = document.querySelectorAll('.status-filter');
-    const logoutBtn = document.getElementById('accountLogoutBtn');
-    const refreshBtn = document.querySelector('.stats-refresh');
 
+        const dropdownTrigger = document.getElementById('accountDropdownTrigger');
+        const dropdownMenu = document.getElementById('accountDropdownMenu');
+        const mainContainer = document.getElementById('mainContainer');
+        const logoutBtn = document.getElementById('accountLogoutBtn');
+        const refreshBtn = document.querySelector('.stats-refresh');
 
-    // Toggle dropdown when clicking the trigger
-    dropdownTrigger.addEventListener('click', function(e) {
-        e.stopPropagation();
-        dropdownMenu.classList.toggle('show');
-    });
+        // Toggle dropdown when clicking the trigger
+        dropdownTrigger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('show');
+        });
 
-    // Close dropdown when clicking anywhere else
-    document.addEventListener('click', function() {
-        dropdownMenu.classList.remove('show');
-    });
-    
-    // Prevent dropdown from closing when clicking inside it
-    dropdownMenu.addEventListener('click', function(e) {
-        e.stopPropagation();
-    });
-        const userPlan = 'pro'; // This would come from your auth system
-
-function displayUserPlan() {
-       // Option 1: For user dropdown
-    const planName = userPlan.charAt(0).toUpperCase() + userPlan.slice(1);
-    document.querySelector('.account-trigger span').textContent = `Hilton (${planName} Plan)`;
-    
-    // Update plan info in dropdown
-    const planItem = document.querySelector('.account-menu-item.plan-info');
-    planItem.innerHTML = `<i class="fas ${userPlan === 'pro' ? 'fa-crown' : userPlan === 'advanced' ? 'fa-star' : 'fa-user'}"></i>
-                         <span>${planName} Plan</span>`;
-    planItem.classList.add(`plan-${userPlan}`);
-}
-
-            // Set active nav item
-
-            document.querySelectorAll('.nav-link').forEach(link => {
-                if (link.getAttribute('href') === 'vibration.html') {
-                    link.parentElement.classList.add('active');
-                }
-            });
-            
-            // Sample vibration data for each motor and axis
-            const vibrationData = {
-                timestamps: ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'],
-                
-                hoist: {
-                    x: [1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1],
-                    y: [2.5, 2.7, 2.9, 3.1, 3.3, 3.5, 3.7, 3.9, 4.1, 4.3],
-                    z: [1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9]
-                },
-                
-                travel: {
-                    x: [1.8, 1.7, 1.8, 1.9, 2.0, 2.1, 2.0, 1.9, 1.8, 1.7],
-                    y: [1.2, 1.3, 1.2, 1.3, 1.4, 1.3, 1.2, 1.3, 1.4, 1.3],
-                    z: [1.5, 1.4, 1.5, 1.6, 1.5, 1.4, 1.5, 1.6, 1.5, 1.4]
-                },
-                
-                trolley: {
-                    x: [2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9],
-                    y: [2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0, 3.1],
-                    z: [5.8, 6.0, 6.2, 6.4, 6.6, 6.8, 7.0, 7.2, 7.4, 7.6]
-                },
-                
-                overview: {
-                    timestamps: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
-                    hoist: [2.1, 2.3, 2.8, 3.2, 3.5, 3.8],
-                    travel: [1.8, 1.9, 2.1, 2.3, 2.5, 2.7],
-                    trolley: [3.5, 4.0, 4.8, 5.2, 5.8, 6.4]
-                }
-            };
-            
-            // Chart instances
-            const charts = {
-                overview: null,
-                hoist: null,
-                travel: null,
-                trolley: null
-            };
-            
-            // Initialize all charts
-            function initCharts() {
-                // Create overview chart
-                createOverviewChart();
-                
-                // Create motor charts
-                charts.hoist = createCombinedChart('hoistCombinedChart', 'Hoist Motor', vibrationData.hoist);
-                charts.travel = createCombinedChart('travelCombinedChart', 'Travel Motor', vibrationData.travel);
-                charts.trolley = createCombinedChart('trolleyCombinedChart', 'Trolley Motor', vibrationData.trolley);
-                
-                // Create meters
-                createMeter('hoistXMeter', vibrationData.hoist.x[vibrationData.hoist.x.length - 1], 'hoistXValue');
-                createMeter('hoistYMeter', vibrationData.hoist.y[vibrationData.hoist.y.length - 1], 'hoistYValue');
-                createMeter('hoistZMeter', vibrationData.hoist.z[vibrationData.hoist.z.length - 1], 'hoistZValue');
-                
-                createMeter('travelXMeter', vibrationData.travel.x[vibrationData.travel.x.length - 1], 'travelXValue');
-                createMeter('travelYMeter', vibrationData.travel.y[vibrationData.travel.y.length - 1], 'travelYValue');
-                createMeter('travelZMeter', vibrationData.travel.z[vibrationData.travel.z.length - 1], 'travelZValue');
-                
-                createMeter('trolleyXMeter', vibrationData.trolley.x[vibrationData.trolley.x.length - 1], 'trolleyXValue');
-                createMeter('trolleyYMeter', vibrationData.trolley.y[vibrationData.trolley.y.length - 1], 'trolleyYValue');
-                createMeter('trolleyZMeter', vibrationData.trolley.z[vibrationData.trolley.z.length - 1], 'trolleyZValue');
-                displayUserPlan();
-            }
-            
-            // Create overview vibration chart
-            function createOverviewChart() {
-                const ctx = document.getElementById('overviewChart').getContext('2d');
-                charts.overview = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: vibrationData.overview.timestamps,
-                        datasets: [
-                            {
-                                label: 'Hoist Motor',
-                                data: vibrationData.overview.hoist,
-                                borderColor: '#3498db',
-                                backgroundColor: '#3498db20',
-                                tension: 0.3,
-                                fill: false,
-                                pointRadius: 4,
-                                pointHoverRadius: 6,
-                                borderWidth: 2
-                            },
-                            {
-                                label: 'Travel Motor',
-                                data: vibrationData.overview.travel,
-                                borderColor: '#2ecc71',
-                                backgroundColor: '#2ecc7120',
-                                tension: 0.3,
-                                fill: false,
-                                pointRadius: 4,
-                                pointHoverRadius: 6,
-                                borderWidth: 2
-                            },
-                            {
-                                label: 'Trolley Motor',
-                                data: vibrationData.overview.trolley,
-                                borderColor: '#e74c3c',
-                                backgroundColor: '#e74c3c20',
-                                tension: 0.3,
-                                fill: false,
-                                pointRadius: 4,
-                                pointHoverRadius: 6,
-                                borderWidth: 2
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: true,
-                                position: 'top',
-                                labels: {
-                                    boxWidth: 12,
-                                    padding: 20,
-                                    usePointStyle: true,
-                                    pointStyle: 'circle'
-                                }
-                            },
-                            tooltip: {
-                                mode: 'index',
-                                intersect: false,
-                                callbacks: {
-                                    label: function(context) {
-                                        return `${context.dataset.label}: ${context.parsed.y.toFixed(2)} mm/s`;
-                                    }
-                                }
-                            },
-                            title: {
-                                display: true,
-                                text: 'Combined Vibration Velocity Trend',
-                                font: {
-                                    size: 16
-                                }
-                            },
-                            annotation: {
-                                annotations: {
-                                    warningLine: {
-                                        type: 'line',
-                                        yMin: 4.5,
-                                        yMax: 4.5,
-                                        borderColor: '#f39c12',
-                                        borderWidth: 2,
-                                        borderDash: [6, 6],
-                                        label: {
-                                            content: 'Warning Threshold (4.5 mm/s)',
-                                            enabled: true,
-                                            position: 'left'
-                                        }
-                                    },
-                                    dangerLine: {
-                                        type: 'line',
-                                        yMin: 7.1,
-                                        yMax: 7.1,
-                                        borderColor: '#e74c3c',
-                                        borderWidth: 2,
-                                        borderDash: [6, 6],
-                                        label: {
-                                            content: 'Danger Threshold (7.1 mm/s)',
-                                            enabled: true,
-                                            position: 'left'
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Vibration Velocity (mm/s RMS)'
-                                },
-                                grid: {
-                                    color: 'rgba(0, 0, 0, 0.05)'
-                                }
-                            },
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: 'Time'
-                                },
-                                grid: {
-                                    color: 'rgba(0, 0, 0, 0.05)'
-                                }
-                            }
-                        },
-                        interaction: {
-                            mode: 'nearest',
-                            axis: 'x',
-                            intersect: false
-                        }
-                    }
-                });
-            }
-            
-            // Create combined chart with all axes
-            function createCombinedChart(canvasId, motorName, motorData) {
-                const ctx = document.getElementById(canvasId).getContext('2d');
-                return new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: vibrationData.timestamps,
-                        datasets: [
-                            {
-                                label: 'X-Axis (Longitudinal)',
-                                data: motorData.x,
-                                borderColor: '#3498db',
-                                backgroundColor: '#3498db20',
-                                tension: 0.3,
-                                fill: false,
-                                pointRadius: 3,
-                                pointHoverRadius: 5,
-                                borderWidth: 2
-                            },
-                            {
-                                label: 'Y-Axis (Vertical)',
-                                data: motorData.y,
-                                borderColor: '#2ecc71',
-                                backgroundColor: '#2ecc7120',
-                                tension: 0.3,
-                                fill: false,
-                                pointRadius: 3,
-                                pointHoverRadius: 5,
-                                borderWidth: 2
-                            },
-                            {
-                                label: 'Z-Axis (Lateral)',
-                                data: motorData.z,
-                                borderColor: '#e74c3c',
-                                backgroundColor: '#e74c3c20',
-                                tension: 0.3,
-                                fill: false,
-                                pointRadius: 3,
-                                pointHoverRadius: 5,
-                                borderWidth: 2
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: true,
-                                position: 'top',
-                                labels: {
-                                    boxWidth: 12,
-                                    padding: 20,
-                                    usePointStyle: true,
-                                    pointStyle: 'circle'
-                                }
-                            },
-                            tooltip: {
-                                mode: 'index',
-                                intersect: false,
-                                callbacks: {
-                                    label: function(context) {
-                                        return `${context.dataset.label}: ${context.parsed.y.toFixed(2)} mm/s`;
-                                    }
-                                }
-                            },
-                            title: {
-                                display: true,
-                                text: motorName + ' Vibration',
-                                font: {
-                                    size: 16
-                                }
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Vibration (mm/s)'
-                                },
-                                grid: {
-                                    color: 'rgba(0, 0, 0, 0.05)'
-                                }
-                            },
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: 'Time'
-                                },
-                                grid: {
-                                    color: 'rgba(0, 0, 0, 0.05)'
-                                }
-                            }
-                        },
-                        interaction: {
-                            mode: 'nearest',
-                            axis: 'x',
-                            intersect: false
-                        }
-                    }
-                });
-            }
-            
-            // Create vibration meter
-            function createMeter(canvasId, value, valueElementId) {
-                const ctx = document.getElementById(canvasId).getContext('2d');
-                const color = getVibrationColor(value);
-                
-                // Update the displayed value
-                document.getElementById(valueElementId).textContent = value.toFixed(1);
-                document.getElementById(valueElementId).style.color = color;
-                
-                new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        datasets: [{
-                            data: [value, 10 - value], // 10 is max for visualization
-                            backgroundColor: [
-                                color,
-                                '#f5f5f5'
-                            ],
-                            borderWidth: 0
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        rotation: -90,
-                        circumference: 180,
-                        cutout: '80%',
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: {
-                                enabled: false
-                            }
-                        },
-                        animation: {
-                            animateScale: true,
-                            animateRotate: true
-                        }
-                    }
-                });
-            }
-            
-            // Get color based on vibration level
-            function getVibrationColor(value) {
-                if (value >= 7.1) return '#e74c3c'; // Danger
-                if (value >= 4.5) return '#f39c12'; // Warning
-                return '#2ecc71'; // Normal
-            }
-            
-            // Toggle axis visibility
-            function setupAxisToggles() {
-                document.querySelectorAll('.axis-controls').forEach(controlGroup => {
-                    const buttons = controlGroup.querySelectorAll('.axis-btn');
-                    const motor = controlGroup.closest('.motor-panel').querySelector('.motor-name span').textContent.toLowerCase().replace(' motor', '');
-                    
-                    buttons.forEach(button => {
-                        button.addEventListener('click', function() {
-                            // Update button states
-                            buttons.forEach(btn => btn.classList.remove('active'));
-                            this.classList.add('active');
-                            
-                            // Get selected axis
-                            const axis = this.getAttribute('data-axis');
-                            
-                            // Update chart
-                            updateChartVisibility(charts[motor], axis);
-                        });
-                    });
-                });
-            }
-            
-            // Update chart visibility based on selected axis
-            function updateChartVisibility(chart, axis) {
-                chart.data.datasets.forEach(dataset => {
-                    if (axis === 'all') {
-                        dataset.hidden = false;
-                    } else {
-                        const datasetAxis = dataset.label.toLowerCase().charAt(0);
-                        dataset.hidden = datasetAxis !== axis;
-                    }
-                });
-                chart.update();
-            }
-            
-            // Settings panel functionality
-            const settingsPanel = document.getElementById('settingsPanel');
-            const settingsOverlay = document.getElementById('settingsOverlay');
-            const openSettingsBtn = document.getElementById('openSettings');
-            const closeSettingsBtn = document.getElementById('closeSettings');
-            const cancelSettingsBtn = document.getElementById('cancelSettings');
-            
-            function openSettings() {
-                settingsPanel.classList.add('show');
-                settingsOverlay.classList.add('show');
-                document.body.style.overflow = 'hidden';
-            }
-            
-            function closeSettings() {
-                settingsPanel.classList.remove('show');
-                settingsOverlay.classList.remove('show');
-                document.body.style.overflow = '';
-            }
-            
-            openSettingsBtn.addEventListener('click', openSettings);
-            closeSettingsBtn.addEventListener('click', closeSettings);
-            cancelSettingsBtn.addEventListener('click', closeSettings);
-            settingsOverlay.addEventListener('click', closeSettings);
-            
-            // Save settings functionality
-            document.getElementById('saveSettings').addEventListener('click', function() {
-                // Here you would save the settings to your backend or localStorage
-                alert('Settings saved successfully!');
-                closeSettings();
-            });
-            
-            // Filter functionality
-            document.getElementById('applyFilters').addEventListener('click', function() {
-                const craneFilter = document.getElementById('crane-filter').value;
-                const dateFilter = document.getElementById('date-filter').value;
-                
-                // In a real app, this would filter the data
-                console.log('Filters applied:', {
-                    crane: craneFilter,
-                    date: dateFilter
-                });
-                
-                // For demo, just show a loading effect
-                document.querySelectorAll('.overview-chart, .combined-chart, .vibration-meter').forEach(el => {
-                    el.style.opacity = '0.5';
-                });
-                
-                setTimeout(() => {
-                    document.querySelectorAll('.overview-chart, .combined-chart, .vibration-meter').forEach(el => {
-                        el.style.opacity = '1';
-                    });
-                }, 800);
-            });
-            
-    
-
-
-            // Initialize all charts and controls
-            initCharts();
-            setupAxisToggles();
-
-            // Simulate real-time updates (demo only)
-            setInterval(function() {
-                // Update overview chart with new data point
-                const now = new Date();
-                const hours = now.getHours().toString().padStart(2, '0');
-                const minutes = now.getMinutes().toString().padStart(2, '0');
-                const currentTime = `${hours}:${minutes}`;
-                
-                // Add new data point every minute
-                if (minutes % 5 === 0 && !vibrationData.timestamps.includes(currentTime)) {
-                    // Update hoist motor data
-                    const lastHoistY = vibrationData.hoist.y[vibrationData.hoist.y.length - 1];
-                    vibrationData.hoist.y.push(Math.min(lastHoistY + (Math.random() * 0.4 - 0.2), 5.0));
-                    
-                    // Update travel motor data
-                    const lastTravelX = vibrationData.travel.x[vibrationData.travel.x.length - 1];
-                    vibrationData.travel.x.push(Math.max(1.0, lastTravelX + (Math.random() * 0.2 - 0.1)));
-                    
-                    // Update trolley motor data
-                    const lastTrolleyZ = vibrationData.trolley.z[vibrationData.trolley.z.length - 1];
-                    vibrationData.trolley.z.push(Math.min(lastTrolleyZ + (Math.random() * 0.3 - 0.1), 8.0));
-                    
-                    // Update timestamps
-                    vibrationData.timestamps.push(currentTime);
-                    
-                    // Keep only last 10 data points
-                    if (vibrationData.timestamps.length > 10) {
-                        vibrationData.timestamps.shift();
-                        vibrationData.hoist.y.shift();
-                        vibrationData.travel.x.shift();
-                        vibrationData.trolley.z.shift();
-                    }
-                    
-                    // Update charts
-                    charts.hoist.update();
-                    charts.travel.update();
-                    charts.trolley.update();
-                    
-                    // Update meters
-                    createMeter('hoistYMeter', vibrationData.hoist.y[vibrationData.hoist.y.length - 1], 'hoistYValue');
-                    createMeter('travelXMeter', vibrationData.travel.x[vibrationData.travel.x.length - 1], 'travelXValue');
-                    createMeter('trolleyZMeter', vibrationData.trolley.z[vibrationData.trolley.z.length - 1], 'trolleyZValue');
-                    
-                    // Update status indicators based on new values
-                    updateStatusIndicators();
-                }
-            }, 60000); // Update every minute
+        // Close dropdown when clicking anywhere else
+        document.addEventListener('click', function() {
+            dropdownMenu.classList.remove('show');
         });
         
-        function updateStatusIndicators() {
-            // In a real implementation, this would check actual thresholds
-            // For demo purposes, we'll just maintain the initial states
+        // Prevent dropdown from closing when clicking inside it
+        dropdownMenu.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+        
+        const userPlan = 'pro'; // This would come from your auth system
+
+        function displayUserPlan() {
+            // Option 1: For user dropdown
+            const planName = userPlan.charAt(0).toUpperCase() + userPlan.slice(1);
+            document.querySelector('.account-trigger span').textContent = `Hilton (${planName} Plan)`;
+            
+            // Update plan info in dropdown
+            const planItem = document.querySelector('.account-menu-item.plan-info');
+            planItem.innerHTML = `<i class="fas ${userPlan === 'pro' ? 'fa-crown' : userPlan === 'advanced' ? 'fa-star' : 'fa-user'}"></i>
+                                <span>${planName} Plan</span>`;
+            planItem.classList.add(`plan-${userPlan}`);
         }
-        console.log(Chart.version);
-    </script>
+
+        displayUserPlan();
+        
+        // Set active nav item
+        document.querySelectorAll('.nav-link').forEach(link => {
+            if (link.getAttribute('href') === 'vibration.html') {
+                link.parentElement.classList.add('active');
+            }
+        });
+        
+        // Sample vibration data for each motor and axis
+        const vibrationData = {
+            timestamps: ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'],
+            
+            hoist: {
+                x: [1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1],
+                y: [2.5, 2.7, 2.9, 3.1, 3.3, 3.5, 3.7, 3.9, 4.1, 4.3],
+                z: [1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9]
+            },
+            
+            travel: {
+                x: [1.8, 1.7, 1.8, 1.9, 2.0, 2.1, 2.0, 1.9, 1.8, 1.7],
+                y: [1.2, 1.3, 1.2, 1.3, 1.4, 1.3, 1.2, 1.3, 1.4, 1.3],
+                z: [1.5, 1.4, 1.5, 1.6, 1.5, 1.4, 1.5, 1.6, 1.5, 1.4]
+            },
+            
+            trolley: {
+                x: [2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9],
+                y: [2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0, 3.1],
+                z: [5.8, 6.0, 6.2, 6.4, 6.6, 6.8, 7.0, 7.2, 7.4, 7.6]
+            },
+            
+            // Added gearbox data
+            gearbox: {
+                x: [1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4],
+                y: [2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9],
+                z: [3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 4.0, 4.1]
+            },
+            
+            overview: {
+                timestamps: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
+                hoist: [2.1, 2.3, 2.8, 3.2, 3.5, 3.8],
+                travel: [1.8, 1.9, 2.1, 2.3, 2.5, 2.7],
+                trolley: [3.5, 4.0, 4.8, 5.2, 5.8, 6.4],
+                gearbox: [2.5, 2.7, 3.0, 3.3, 3.6, 3.9] // Added gearbox overview data
+            }
+        };
+        
+        // Chart instances
+        const charts = {
+            overview: null,
+            hoist: null,
+            travel: null,
+            trolley: null,
+            gearbox: null // Added gearbox chart instance
+        };
+        
+        // Initialize all charts
+        function initCharts() {
+            // Create overview chart
+            createOverviewChart();
+            
+            // Create motor charts
+            charts.hoist = createCombinedChart('hoistCombinedChart', 'Hoist Motor', vibrationData.hoist);
+            charts.travel = createCombinedChart('travelCombinedChart', 'Travel Motor', vibrationData.travel);
+            charts.trolley = createCombinedChart('trolleyCombinedChart', 'Trolley Motor', vibrationData.trolley);
+            charts.gearbox = createCombinedChart('gearboxCombinedChart', 'Gearbox', vibrationData.gearbox); // Added gearbox chart
+            
+            // Create meters
+            createMeter('hoistXMeter', vibrationData.hoist.x[vibrationData.hoist.x.length - 1], 'hoistXValue');
+            createMeter('hoistYMeter', vibrationData.hoist.y[vibrationData.hoist.y.length - 1], 'hoistYValue');
+            createMeter('hoistZMeter', vibrationData.hoist.z[vibrationData.hoist.z.length - 1], 'hoistZValue');
+            
+            createMeter('travelXMeter', vibrationData.travel.x[vibrationData.travel.x.length - 1], 'travelXValue');
+            createMeter('travelYMeter', vibrationData.travel.y[vibrationData.travel.y.length - 1], 'travelYValue');
+            createMeter('travelZMeter', vibrationData.travel.z[vibrationData.travel.z.length - 1], 'travelZValue');
+            
+            createMeter('trolleyXMeter', vibrationData.trolley.x[vibrationData.trolley.x.length - 1], 'trolleyXValue');
+            createMeter('trolleyYMeter', vibrationData.trolley.y[vibrationData.trolley.y.length - 1], 'trolleyYValue');
+            createMeter('trolleyZMeter', vibrationData.trolley.z[vibrationData.trolley.z.length - 1], 'trolleyZValue');
+            
+            // Added gearbox meters
+            createMeter('gearboxXMeter', vibrationData.gearbox.x[vibrationData.gearbox.x.length - 1], 'gearboxXValue');
+            createMeter('gearboxYMeter', vibrationData.gearbox.y[vibrationData.gearbox.y.length - 1], 'gearboxYValue');
+            createMeter('gearboxZMeter', vibrationData.gearbox.z[vibrationData.gearbox.z.length - 1], 'gearboxZValue');
+        }
+        
+        // Create overview vibration chart
+        function createOverviewChart() {
+            const ctx = document.getElementById('overviewChart').getContext('2d');
+            charts.overview = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: vibrationData.overview.timestamps,
+                    datasets: [
+                        {
+                            label: 'Hoist Motor',
+                            data: vibrationData.overview.hoist,
+                            borderColor: '#3498db',
+                            backgroundColor: '#3498db20',
+                            tension: 0.3,
+                            fill: false,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Travel Motor',
+                            data: vibrationData.overview.travel,
+                            borderColor: '#2ecc71',
+                            backgroundColor: '#2ecc7120',
+                            tension: 0.3,
+                            fill: false,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Trolley Motor',
+                            data: vibrationData.overview.trolley,
+                            borderColor: '#e74c3c',
+                            backgroundColor: '#e74c3c20',
+                            tension: 0.3,
+                            fill: false,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Gearbox', // Added gearbox to overview
+                            data: vibrationData.overview.gearbox,
+                            borderColor: '#9b59b6',
+                            backgroundColor: '#9b59b620',
+                            tension: 0.3,
+                            fill: false,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                boxWidth: 12,
+                                padding: 20,
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.parsed.y.toFixed(2)} mm/s`;
+                                }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Combined Vibration Velocity Trend',
+                            font: {
+                                size: 16
+                            }
+                        },
+                        annotation: {
+                            annotations: {
+                                warningLine: {
+                                    type: 'line',
+                                    yMin: 4.5,
+                                    yMax: 4.5,
+                                    borderColor: '#f39c12',
+                                    borderWidth: 2,
+                                    borderDash: [6, 6],
+                                    label: {
+                                        content: 'Warning Threshold (4.5 mm/s)',
+                                        enabled: true,
+                                        position: 'left'
+                                    }
+                                },
+                                dangerLine: {
+                                    type: 'line',
+                                    yMin: 7.1,
+                                    yMax: 7.1,
+                                    borderColor: '#e74c3c',
+                                    borderWidth: 2,
+                                    borderDash: [6, 6],
+                                    label: {
+                                        content: 'Danger Threshold (7.1 mm/s)',
+                                        enabled: true,
+                                        position: 'left'
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Vibration Velocity (mm/s RMS)'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Time'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        }
+                    },
+                    interaction: {
+                        mode: 'nearest',
+                        axis: 'x',
+                        intersect: false
+                    }
+                }
+            });
+        }
+        
+        // Create combined chart with all axes
+        function createCombinedChart(canvasId, motorName, motorData) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            return new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: vibrationData.timestamps,
+                    datasets: [
+                        {
+                            label: 'X-Axis (Longitudinal)',
+                            data: motorData.x,
+                            borderColor: '#3498db',
+                            backgroundColor: '#3498db20',
+                            tension: 0.3,
+                            fill: false,
+                            pointRadius: 3,
+                            pointHoverRadius: 5,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Y-Axis (Vertical)',
+                            data: motorData.y,
+                            borderColor: '#2ecc71',
+                            backgroundColor: '#2ecc7120',
+                            tension: 0.3,
+                            fill: false,
+                            pointRadius: 3,
+                            pointHoverRadius: 5,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Z-Axis (Lateral)',
+                            data: motorData.z,
+                            borderColor: '#e74c3c',
+                            backgroundColor: '#e74c3c20',
+                            tension: 0.3,
+                            fill: false,
+                            pointRadius: 3,
+                            pointHoverRadius: 5,
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                boxWidth: 12,
+                                padding: 20,
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.parsed.y.toFixed(2)} mm/s`;
+                                }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: motorName + ' Vibration',
+                            font: {
+                                size: 16
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Vibration (mm/s)'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Time'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        }
+                    },
+                    interaction: {
+                        mode: 'nearest',
+                        axis: 'x',
+                        intersect: false
+                    }
+                }
+            });
+        }
+        
+        // Create vibration meter
+        function createMeter(canvasId, value, valueElementId) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            const color = getVibrationColor(value);
+            
+            // Update the displayed value
+            document.getElementById(valueElementId).textContent = value.toFixed(1);
+            document.getElementById(valueElementId).style.color = color;
+            
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [value, 10 - value], // 10 is max for visualization
+                        backgroundColor: [
+                            color,
+                            '#f5f5f5'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    rotation: -90,
+                    circumference: 180,
+                    cutout: '80%',
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: false
+                        }
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+        }
+        
+        // Get color based on vibration level
+        function getVibrationColor(value) {
+            if (value >= 7.1) return '#e74c3c'; // Danger
+            if (value >= 4.5) return '#f39c12'; // Warning
+            return '#2ecc71'; // Normal
+        }
+        
+        // Toggle axis visibility
+        function setupAxisToggles() {
+            document.querySelectorAll('.axis-controls').forEach(controlGroup => {
+                const buttons = controlGroup.querySelectorAll('.axis-btn');
+                const motor = controlGroup.closest('.motor-panel').querySelector('.motor-name span').textContent.toLowerCase().replace(' motor', '');
+                
+                buttons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        // Update button states
+                        buttons.forEach(btn => btn.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // Get selected axis
+                        const axis = this.getAttribute('data-axis');
+                        
+                        // Update chart
+                        updateChartVisibility(charts[motor], axis);
+                    });
+                });
+            });
+        }
+        
+        // Update chart visibility based on selected axis
+        function updateChartVisibility(chart, axis) {
+            chart.data.datasets.forEach(dataset => {
+                if (axis === 'all') {
+                    dataset.hidden = false;
+                } else {
+                    const datasetAxis = dataset.label.toLowerCase().charAt(0);
+                    dataset.hidden = datasetAxis !== axis;
+                }
+            });
+            chart.update();
+        }
+        
+        // Settings panel functionality
+        const settingsPanel = document.getElementById('settingsPanel');
+        const settingsOverlay = document.getElementById('settingsOverlay');
+        const openSettingsBtn = document.getElementById('openSettings');
+        const closeSettingsBtn = document.getElementById('closeSettings');
+        const cancelSettingsBtn = document.getElementById('cancelSettings');
+        
+        function openSettings() {
+            settingsPanel.classList.add('show');
+            settingsOverlay.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeSettings() {
+            settingsPanel.classList.remove('show');
+            settingsOverlay.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+        
+        openSettingsBtn.addEventListener('click', openSettings);
+        closeSettingsBtn.addEventListener('click', closeSettings);
+        cancelSettingsBtn.addEventListener('click', closeSettings);
+        settingsOverlay.addEventListener('click', closeSettings);
+        
+        // Save settings functionality
+        document.getElementById('saveSettings').addEventListener('click', function() {
+            // Here you would save the settings to your backend or localStorage
+            alert('Settings saved successfully!');
+            closeSettings();
+        });
+        
+        // Filter functionality
+        document.getElementById('applyFilters').addEventListener('click', function() {
+            const craneFilter = document.getElementById('crane-filter').value;
+            const dateFilter = document.getElementById('date-filter').value;
+            
+            // In a real app, this would filter the data
+            console.log('Filters applied:', {
+                crane: craneFilter,
+                date: dateFilter
+            });
+            
+            // For demo, just show a loading effect
+            document.querySelectorAll('.overview-chart, .combined-chart, .vibration-meter').forEach(el => {
+                el.style.opacity = '0.5';
+            });
+            
+            setTimeout(() => {
+                document.querySelectorAll('.overview-chart, .combined-chart, .vibration-meter').forEach(el => {
+                    el.style.opacity = '1';
+                });
+            }, 800);
+        });
+        
+        // Initialize all charts and controls
+        initCharts();
+        setupAxisToggles();
+
+        // Simulate real-time updates (demo only)
+        setInterval(function() {
+            // Update overview chart with new data point
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const currentTime = `${hours}:${minutes}`;
+            
+            // Add new data point every minute
+            if (minutes % 5 === 0 && !vibrationData.timestamps.includes(currentTime)) {
+                // Update hoist motor data
+                const lastHoistY = vibrationData.hoist.y[vibrationData.hoist.y.length - 1];
+                vibrationData.hoist.y.push(Math.min(lastHoistY + (Math.random() * 0.4 - 0.2), 5.0));
+                
+                // Update travel motor data
+                const lastTravelX = vibrationData.travel.x[vibrationData.travel.x.length - 1];
+                vibrationData.travel.x.push(Math.max(1.0, lastTravelX + (Math.random() * 0.2 - 0.1)));
+                
+                // Update trolley motor data
+                const lastTrolleyZ = vibrationData.trolley.z[vibrationData.trolley.z.length - 1];
+                vibrationData.trolley.z.push(Math.min(lastTrolleyZ + (Math.random() * 0.3 - 0.1), 8.0));
+                
+                // Update gearbox data
+                const lastGearboxY = vibrationData.gearbox.y[vibrationData.gearbox.y.length - 1];
+                vibrationData.gearbox.y.push(Math.min(lastGearboxY + (Math.random() * 0.3 - 0.15), 5.5));
+                
+                // Update timestamps
+                vibrationData.timestamps.push(currentTime);
+                
+                // Keep only last 10 data points
+                if (vibrationData.timestamps.length > 10) {
+                    vibrationData.timestamps.shift();
+                    vibrationData.hoist.y.shift();
+                    vibrationData.travel.x.shift();
+                    vibrationData.trolley.z.shift();
+                    vibrationData.gearbox.y.shift();
+                }
+                
+                // Update charts
+                charts.hoist.update();
+                charts.travel.update();
+                charts.trolley.update();
+                charts.gearbox.update();
+                
+                // Update meters
+                createMeter('hoistYMeter', vibrationData.hoist.y[vibrationData.hoist.y.length - 1], 'hoistYValue');
+                createMeter('travelXMeter', vibrationData.travel.x[vibrationData.travel.x.length - 1], 'travelXValue');
+                createMeter('trolleyZMeter', vibrationData.trolley.z[vibrationData.trolley.z.length - 1], 'trolleyZValue');
+                createMeter('gearboxYMeter', vibrationData.gearbox.y[vibrationData.gearbox.y.length - 1], 'gearboxYValue');
+                
+                // Update status indicators based on new values
+                updateStatusIndicators();
+            }
+        }, 60000); // Update every minute
+    });
+    
+    function updateStatusIndicators() {
+        // In a real implementation, this would check actual thresholds
+        // For demo purposes, we'll just maintain the initial states
+    }
+    console.log(Chart.version);
+</script>
 </body>
 </html>

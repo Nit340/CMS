@@ -716,6 +716,7 @@ body {
                         <option value="hoist">Hoist Motor</option>
                         <option value="travel">CT Motor</option>
                         <option value="gearbox">LT Motor</option>
+                        <option value="gearbox">Gearbox</option> <!-- Added Gearbox option -->
                     </select>
                 </div>
                 
@@ -761,6 +762,13 @@ body {
                     <div class="chart-title">LT Motor Temperature Trend</div>
                     <div class="chart-wrapper">
                         <canvas id="gearboxTempChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-title">Gearbox Temperature Trend</div> <!-- Added Gearbox chart -->
+                    <div class="chart-wrapper">
+                        <canvas id="gearbox2TempChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -857,298 +865,313 @@ body {
                 });
             }
         }
-    });
-</script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-                const dropdownTrigger = document.getElementById('accountDropdownTrigger');
-    const dropdownMenu = document.getElementById('accountDropdownMenu');
 
-    const mainContainer = document.getElementById('mainContainer');
-  
-    const logoutBtn = document.getElementById('accountLogoutBtn');
-    const refreshBtn = document.querySelector('.stats-refresh');
+        const dropdownTrigger = document.getElementById('accountDropdownTrigger');
+        const dropdownMenu = document.getElementById('accountDropdownMenu');
+        const mainContainer = document.getElementById('mainContainer');
+        const logoutBtn = document.getElementById('accountLogoutBtn');
+        const refreshBtn = document.querySelector('.stats-refresh');
 
+        // Toggle dropdown when clicking the trigger
+        dropdownTrigger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('show');
+        });
 
-
-    // Toggle dropdown when clicking the trigger
-    dropdownTrigger.addEventListener('click', function(e) {
-        e.stopPropagation();
-        dropdownMenu.classList.toggle('show');
-    });
-
-    // Close dropdown when clicking anywhere else
-    document.addEventListener('click', function() {
-        dropdownMenu.classList.remove('show');
-    });
-    
-    // Prevent dropdown from closing when clicking inside it
-    dropdownMenu.addEventListener('click', function(e) {
-        e.stopPropagation();
-    });
+        // Close dropdown when clicking anywhere else
+        document.addEventListener('click', function() {
+            dropdownMenu.classList.remove('show');
+        });
+        
+        // Prevent dropdown from closing when clicking inside it
+        dropdownMenu.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+        
         const userPlan = 'pro'; // This would come from your auth system
 
-function displayUserPlan() {
-       // Option 1: For user dropdown
-    const planName = userPlan.charAt(0).toUpperCase() + userPlan.slice(1);
-    document.querySelector('.account-trigger span').textContent = `Hilton (${planName} Plan)`;
-    
-    // Update plan info in dropdown
-    const planItem = document.querySelector('.account-menu-item.plan-info');
-    planItem.innerHTML = `<i class="fas ${userPlan === 'pro' ? 'fa-crown' : userPlan === 'advanced' ? 'fa-star' : 'fa-user'}"></i>
-                         <span>${planName} Plan</span>`;
-    planItem.classList.add(`plan-${userPlan}`);
-}
+        function displayUserPlan() {
+            // Option 1: For user dropdown
+            const planName = userPlan.charAt(0).toUpperCase() + userPlan.slice(1);
+            document.querySelector('.account-trigger span').textContent = `Hilton (${planName} Plan)`;
+            
+            // Update plan info in dropdown
+            const planItem = document.querySelector('.account-menu-item.plan-info');
+            planItem.innerHTML = `<i class="fas ${userPlan === 'pro' ? 'fa-crown' : userPlan === 'advanced' ? 'fa-star' : 'fa-user'}"></i>
+                                <span>${planName} Plan</span>`;
+            planItem.classList.add(`plan-${userPlan}`);
+        }
 
-            displayUserPlan();
-            // Set active nav item
-            document.querySelectorAll('.nav-link').forEach(link => {
-                if (link.getAttribute('href') === 'temperature.html') {
-                    link.parentElement.classList.add('active');
-                }
-            });
-            
-            // Sample temperature data
-            const tempData = {
-                timestamps: [
-                    '08:00', '09:00', '10:00', '11:00', '12:00', 
-                    '13:00', '14:00', '15:00', '16:00', '17:00'
-                ],
-                hoist: [65, 68, 72, 75, 78, 82, 85, 88, 85, 82],
-                travel: [55, 58, 62, 65, 68, 72, 75, 78, 75, 72],
-                gearbox: [60, 63, 67, 70, 73, 77, 80, 83, 80, 77]
-            };
-            
-            // Table data
-            const tableData = [
-                { timestamp: '2023-06-15 08:23:45', crane: 'CRN-001', component: 'Hoist Motor', temp: 65, warn: 80, critical: 90, status: 'normal' },
-                { timestamp: '2023-06-15 08:45:12', crane: 'CRN-002', component: 'CT Motor', temp: 58, warn: 75, critical: 85, status: 'normal' },
-                { timestamp: '2023-06-15 09:12:33', crane: 'CRN-001', component: 'LT Motor', temp: 67, warn: 85, critical: 95, status: 'normal' },
-                { timestamp: '2023-06-15 10:05:27', crane: 'CRN-004', component: 'Hoist Motor', temp: 82, warn: 80, critical: 90, status: 'warning' },
-                { timestamp: '2023-06-15 10:45:52', crane: 'CRN-002', component: 'CT Motor', temp: 63, warn: 70, critical: 80, status: 'normal' },
-                { timestamp: '2023-06-15 11:15:06', crane: 'CRN-005', component: 'Hoist Motor', temp: 92, warn: 80, critical: 90, status: 'danger' },
-                { timestamp: '2023-06-15 11:52:41', crane: 'CRN-001', component: 'CT Motor', temp: 78, warn: 75, critical: 85, status: 'warning' },
-                { timestamp: '2023-06-15 12:30:15', crane: 'CRN-003', component: 'LT Motor', temp: 77, warn: 85, critical: 95, status: 'normal' },
-                { timestamp: '2023-06-15 13:18:37', crane: 'CRN-004', component: 'CT Motor', temp: 73, warn: 70, critical: 80, status: 'warning' },
-                { timestamp: '2023-06-15 14:05:22', crane: 'CRN-002', component: 'Hoist Motor', temp: 88, warn: 80, critical: 90, status: 'warning' }
-            ];
-            
-            // Initialize charts
-            const hoistCtx = document.getElementById('hoistTempChart').getContext('2d');
-            const travelCtx = document.getElementById('travelTempChart').getContext('2d');
-            const gearboxCtx = document.getElementById('gearboxTempChart').getContext('2d');
-            let hoistChart, travelChart, gearboxChart;
-            
-            // Helper function for chart options
-            function getChartOptions(warningThreshold, criticalThreshold) {
-                return {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false,
-                        },
-                        annotation: {
-                            annotations: {
-                                warningLine: {
-                                    type: 'line',
-                                    yMin: warningThreshold,
-                                    yMax: warningThreshold,
-                                    borderColor: '#f39c12',
-                                    borderWidth: 2,
-                                    borderDash: [6, 6],
-                                    label: {
-                                        content: `Warning (${warningThreshold}°C)`,
-                                        enabled: true,
-                                        position: 'left'
-                                    }
-                                },
-                                criticalLine: {
-                                    type: 'line',
-                                    yMin: criticalThreshold,
-                                    yMax: criticalThreshold,
-                                    borderColor: '#e74c3c',
-                                    borderWidth: 2,
-                                    borderDash: [6, 6],
-                                    label: {
-                                        content: `Critical (${criticalThreshold}°C)`,
-                                        enabled: true,
-                                        position: 'left'
-                                    }
+        displayUserPlan();
+        
+        // Set active nav item
+        document.querySelectorAll('.nav-link').forEach(link => {
+            if (link.getAttribute('href') === 'temperature.html') {
+                link.parentElement.classList.add('active');
+            }
+        });
+        
+        // Sample temperature data
+        const tempData = {
+            timestamps: [
+                '08:00', '09:00', '10:00', '11:00', '12:00', 
+                '13:00', '14:00', '15:00', '16:00', '17:00'
+            ],
+            hoist: [65, 68, 72, 75, 78, 82, 85, 88, 85, 82],
+            travel: [55, 58, 62, 65, 68, 72, 75, 78, 75, 72],
+            gearbox: [60, 63, 67, 70, 73, 77, 80, 83, 80, 77],
+            gearbox2: [62, 65, 69, 72, 75, 79, 82, 85, 82, 79] // Added gearbox data
+        };
+        
+        // Table data
+        const tableData = [
+            { timestamp: '2023-06-15 08:23:45', crane: 'CRN-001', component: 'Hoist Motor', temp: 65, warn: 80, critical: 90, status: 'normal' },
+            { timestamp: '2023-06-15 08:45:12', crane: 'CRN-002', component: 'CT Motor', temp: 58, warn: 75, critical: 85, status: 'normal' },
+            { timestamp: '2023-06-15 09:12:33', crane: 'CRN-001', component: 'LT Motor', temp: 67, warn: 85, critical: 95, status: 'normal' },
+            { timestamp: '2023-06-15 10:05:27', crane: 'CRN-004', component: 'Hoist Motor', temp: 82, warn: 80, critical: 90, status: 'warning' },
+            { timestamp: '2023-06-15 10:45:52', crane: 'CRN-002', component: 'CT Motor', temp: 63, warn: 70, critical: 80, status: 'normal' },
+            { timestamp: '2023-06-15 11:15:06', crane: 'CRN-005', component: 'Hoist Motor', temp: 92, warn: 80, critical: 90, status: 'danger' },
+            { timestamp: '2023-06-15 11:52:41', crane: 'CRN-001', component: 'CT Motor', temp: 78, warn: 75, critical: 85, status: 'warning' },
+            { timestamp: '2023-06-15 12:30:15', crane: 'CRN-003', component: 'LT Motor', temp: 77, warn: 85, critical: 95, status: 'normal' },
+            { timestamp: '2023-06-15 13:18:37', crane: 'CRN-004', component: 'CT Motor', temp: 73, warn: 70, critical: 80, status: 'warning' },
+            { timestamp: '2023-06-15 14:05:22', crane: 'CRN-002', component: 'Hoist Motor', temp: 88, warn: 80, critical: 90, status: 'warning' },
+            { timestamp: '2023-06-15 14:35:18', crane: 'CRN-003', component: 'Gearbox', temp: 72, warn: 85, critical: 95, status: 'normal' }, // Added gearbox data
+            { timestamp: '2023-06-15 15:22:47', crane: 'CRN-001', component: 'Gearbox', temp: 89, warn: 85, critical: 95, status: 'warning' }  // Added gearbox data
+        ];
+        
+        // Initialize charts
+        const hoistCtx = document.getElementById('hoistTempChart').getContext('2d');
+        const travelCtx = document.getElementById('travelTempChart').getContext('2d');
+        const gearboxCtx = document.getElementById('gearboxTempChart').getContext('2d');
+        const gearbox2Ctx = document.getElementById('gearbox2TempChart').getContext('2d'); // Added gearbox chart context
+        let hoistChart, travelChart, gearboxChart, gearbox2Chart;
+        
+        // Helper function for chart options
+        function getChartOptions(warningThreshold, criticalThreshold) {
+            return {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    annotation: {
+                        annotations: {
+                            warningLine: {
+                                type: 'line',
+                                yMin: warningThreshold,
+                                yMax: warningThreshold,
+                                borderColor: '#f39c12',
+                                borderWidth: 2,
+                                borderDash: [6, 6],
+                                label: {
+                                    content: `Warning (${warningThreshold}°C)`,
+                                    enabled: true,
+                                    position: 'left'
+                                }
+                            },
+                            criticalLine: {
+                                type: 'line',
+                                yMin: criticalThreshold,
+                                yMax: criticalThreshold,
+                                borderColor: '#e74c3c',
+                                borderWidth: 2,
+                                borderDash: [6, 6],
+                                label: {
+                                    content: `Critical (${criticalThreshold}°C)`,
+                                    enabled: true,
+                                    position: 'left'
                                 }
                             }
                         }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 40,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: 'Temperature (°C)'
+                        }
                     },
-                    scales: {
-                        y: {
-                            beginAtZero: false,
-                            min: 40,
-                            max: 100,
-                            title: {
-                                display: true,
-                                text: 'Temperature (°C)'
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Time of Day'
-                            }
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Time of Day'
                         }
                     }
-                };
-            }
-            
-            function initCharts() {
-                // Hoist Motor Temperature Chart
-                hoistChart = new Chart(hoistCtx, {
-                    type: 'line',
-                    data: {
-                        labels: tempData.timestamps,
-                        datasets: [{
-                            label: 'Temperature (°C)',
-                            data: tempData.hoist,
-                            borderColor: '#e74c3c',
-                            backgroundColor: 'rgba(231, 76, 60, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        }]
-                    },
-                    options: getChartOptions(80, 90)
-                });
-                
-                // CT Motor Temperature Chart
-                travelChart = new Chart(travelCtx, {
-                    type: 'line',
-                    data: {
-                        labels: tempData.timestamps,
-                        datasets: [{
-                            label: 'Temperature (°C)',
-                            data: tempData.travel,
-                            borderColor: '#3498db',
-                            backgroundColor: 'rgba(52, 152, 219, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        }]
-                    },
-                    options: getChartOptions(75, 85)
-                });
-                
-                // LT Motor Temperature Chart
-                gearboxChart = new Chart(gearboxCtx, {
-                    type: 'line',
-                    data: {
-                        labels: tempData.timestamps,
-                        datasets: [{
-                            label: 'Temperature (°C)',
-                            data: tempData.gearbox,
-                            borderColor: '#2ecc71',
-                            backgroundColor: 'rgba(46, 204, 113, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        }]
-                    },
-                    options: getChartOptions(85, 95)
-                });
-            }
-            
-            // Populate table
-            function populateTable() {
-                const tableBody = document.getElementById('tempTableBody');
-                tableBody.innerHTML = '';
-                
-                tableData.forEach(item => {
-                    const row = document.createElement('tr');
-                    
-                    let statusClass = '';
-                    let statusText = '';
-                    if (item.temp >= item.critical) {
-                        statusClass = 'status-danger';
-                        statusText = 'Critical';
-                    } else if (item.temp >= item.warn) {
-                        statusClass = 'status-warning';
-                        statusText = 'Warning';
-                    } else {
-                        statusClass = 'status-normal';
-                        statusText = 'Normal';
-                    }
-                    
-                    row.innerHTML = `
-                        <td>${item.timestamp}</td>
-                        <td>${item.crane}</td>
-                        <td>${item.component}</td>
-                        <td>${item.temp}</td>
-                        <td>${item.warn}</td>
-                        <td>${item.critical}</td>
-                        <td><span class="temp-status ${statusClass}">${statusText}</span></td>
-                    `;
-                    
-                    tableBody.appendChild(row);
-                });
-            }
-            
-            // Filter functionality
-            document.getElementById('applyFilters').addEventListener('click', function() {
-                const craneFilter = document.getElementById('crane-filter').value;
-                const componentFilter = document.getElementById('component-filter').value;
-                const dateFilter = document.getElementById('date-filter').value;
-                
-                // In a real app, this would filter the data
-                console.log('Filters:', {
-                    crane: craneFilter,
-                    component: componentFilter,
-                    date: dateFilter
-                });
-                
-                // For demo, just show a loading effect
-                if (hoistChart) hoistChart.destroy();
-                if (travelChart) travelChart.destroy();
-                if (gearboxChart) gearboxChart.destroy();
-                
-                // Simulate loading delay
-                setTimeout(() => {
-                    initCharts();
-                    populateTable();
-                }, 500);
+                }
+            };
+        }
+        
+        function initCharts() {
+            // Hoist Motor Temperature Chart
+            hoistChart = new Chart(hoistCtx, {
+                type: 'line',
+                data: {
+                    labels: tempData.timestamps,
+                    datasets: [{
+                        label: 'Temperature (°C)',
+                        data: tempData.hoist,
+                        borderColor: '#e74c3c',
+                        backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: getChartOptions(80, 90)
             });
             
-            document.getElementById('resetFilters').addEventListener('click', function() {
-                document.getElementById('crane-filter').value = 'all';
-                document.getElementById('component-filter').value = 'all';
-                document.getElementById('date-filter').value = 'today';
+            // CT Motor Temperature Chart
+            travelChart = new Chart(travelCtx, {
+                type: 'line',
+                data: {
+                    labels: tempData.timestamps,
+                    datasets: [{
+                        label: 'Temperature (°C)',
+                        data: tempData.travel,
+                        borderColor: '#3498db',
+                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: getChartOptions(75, 85)
+            });
+            
+            // LT Motor Temperature Chart
+            gearboxChart = new Chart(gearboxCtx, {
+                type: 'line',
+                data: {
+                    labels: tempData.timestamps,
+                    datasets: [{
+                        label: 'Temperature (°C)',
+                        data: tempData.gearbox,
+                        borderColor: '#2ecc71',
+                        backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: getChartOptions(85, 95)
+            });
+            
+            // Gearbox Temperature Chart
+            gearbox2Chart = new Chart(gearbox2Ctx, {
+                type: 'line',
+                data: {
+                    labels: tempData.timestamps,
+                    datasets: [{
+                        label: 'Temperature (°C)',
+                        data: tempData.gearbox2,
+                        borderColor: '#9b59b6',
+                        backgroundColor: 'rgba(155, 89, 182, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: getChartOptions(85, 95)
+            });
+        }
+        
+        // Populate table
+        function populateTable() {
+            const tableBody = document.getElementById('tempTableBody');
+            tableBody.innerHTML = '';
+            
+            tableData.forEach(item => {
+                const row = document.createElement('tr');
                 
-                if (hoistChart) hoistChart.destroy();
-                if (travelChart) travelChart.destroy();
-                if (gearboxChart) gearboxChart.destroy();
+                let statusClass = '';
+                let statusText = '';
+                if (item.temp >= item.critical) {
+                    statusClass = 'status-danger';
+                    statusText = 'Critical';
+                } else if (item.temp >= item.warn) {
+                    statusClass = 'status-warning';
+                    statusText = 'Warning';
+                } else {
+                    statusClass = 'status-normal';
+                    statusText = 'Normal';
+                }
                 
+                row.innerHTML = `
+                    <td>${item.timestamp}</td>
+                    <td>${item.crane}</td>
+                    <td>${item.component}</td>
+                    <td>${item.temp}</td>
+                    <td>${item.warn}</td>
+                    <td>${item.critical}</td>
+                    <td><span class="temp-status ${statusClass}">${statusText}</span></td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Filter functionality
+        document.getElementById('applyFilters').addEventListener('click', function() {
+            const craneFilter = document.getElementById('crane-filter').value;
+            const componentFilter = document.getElementById('component-filter').value;
+            const dateFilter = document.getElementById('date-filter').value;
+            
+            // In a real app, this would filter the data
+            console.log('Filters:', {
+                crane: craneFilter,
+                component: componentFilter,
+                date: dateFilter
+            });
+            
+            // For demo, just show a loading effect
+            if (hoistChart) hoistChart.destroy();
+            if (travelChart) travelChart.destroy();
+            if (gearboxChart) gearboxChart.destroy();
+            if (gearbox2Chart) gearbox2Chart.destroy();
+            
+            // Simulate loading delay
+            setTimeout(() => {
                 initCharts();
                 populateTable();
-            });
-            
+            }, 500);
+        });
         
-
-            // Handle logout
-            accountLogoutBtn.addEventListener('click', function() {
-                localStorage.removeItem('isLoggedIn');
-                window.location.href = 'index.html';
-            });
+        document.getElementById('resetFilters').addEventListener('click', function() {
+            document.getElementById('crane-filter').value = 'all';
+            document.getElementById('component-filter').value = 'all';
+            document.getElementById('date-filter').value = 'today';
             
-       
-            // Optional: Check if user is logged in when page loads
-            window.addEventListener('DOMContentLoaded', function() {
-                if (!localStorage.getItem('isLoggedIn')) {
-                    window.location.href = 'index.html';
-                }
-            });
+            if (hoistChart) hoistChart.destroy();
+            if (travelChart) travelChart.destroy();
+            if (gearboxChart) gearboxChart.destroy();
+            if (gearbox2Chart) gearbox2Chart.destroy();
             
-            // Initialize page
             initCharts();
             populateTable();
         });
-    </script>
+        
+        // Handle logout
+        logoutBtn.addEventListener('click', function() {
+            localStorage.removeItem('isLoggedIn');
+            window.location.href = 'index.html';
+        });
+        
+        // Optional: Check if user is logged in when page loads
+        window.addEventListener('DOMContentLoaded', function() {
+            if (!localStorage.getItem('isLoggedIn')) {
+                window.location.href = 'index.html';
+            }
+        });
+        
+        // Initialize page
+        initCharts();
+        populateTable();
+    });
+</script>
 </body>
 </html>
