@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,26 +17,26 @@
             --dark-color: #2c3e50;
             --gray-color: #95a5a6;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
             background-color: #f5f7fa;
             color: #333;
         }
-        
+
         .container {
             display: grid;
             grid-template-columns: 60px 1fr;
             min-height: 100vh;
             transition: grid-template-columns 0.3s ease;
         }
-        
+
         .container.sidebar-expanded {
             grid-template-columns: 250px 1fr;
         }
@@ -51,32 +52,32 @@
             transition: width 0.3s ease, background-color 0.2s ease;
             overflow: hidden;
         }
-        
+
         .sidebar:hover {
             width: 250px;
         }
-        
+
         .sidebar:hover .nav-link span {
             display: inline;
             opacity: 1;
         }
-        
+
         .sidebar.expanded {
             width: 250px;
         }
-        
+
         .sidebar.expanded .nav-link span {
             display: inline;
             opacity: 1;
         }
-        
+
         .logo {
             text-align: center;
             padding: 0 20px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             display: none;
         }
-        
+
         .nav-link {
             color: inherit;
             text-decoration: none;
@@ -85,15 +86,15 @@
             width: 100%;
             padding: 12px 15px;
         }
-        
+
         .nav-item.active .nav-link {
             color: white;
         }
-        
+
         .nav-item:hover .nav-link {
             color: white;
         }
-        
+
         .nav-menu {
             margin-top: 20px;
             display: flex;
@@ -101,41 +102,41 @@
             height: calc(100vh - 100px);
             justify-content: space-between;
         }
-        
+
         .nav-item {
             cursor: pointer;
             transition: all 0.3s;
             white-space: nowrap;
             overflow: hidden;
         }
-        
+
         .nav-item:hover {
-            background-color: rgba(255,255,255,0.1);
+            background-color: rgba(255, 255, 255, 0.1);
         }
-        
+
         .nav-item.active {
             background-color: var(--primary-color);
         }
-        
+
         .nav-item i {
             width: 30px;
             text-align: center;
             font-size: 1.2rem;
             flex-shrink: 0;
         }
-        
+
         .nav-link span {
             display: none;
             opacity: 0;
             transition: opacity 0.3s ease;
             margin-left: 10px;
         }
-        
+
         /* Main Content */
         .main-content {
             padding: 20px;
         }
-        
+
         .header {
             display: flex;
             justify-content: space-between;
@@ -144,45 +145,45 @@
             background-color: white;
             padding: 15px 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             position: sticky;
             top: 0;
             z-index: 5;
         }
-        
+
         .header-left {
             display: flex;
             align-items: center;
             gap: 20px;
         }
-        
+
         .header-logo {
             font-size: 1.5rem;
             font-weight: bold;
             color: var(--primary-color);
         }
-        
+
         .page-title {
             margin-bottom: 20px;
         }
-        
+
         .page-title h1 {
             font-size: 1.8rem;
             color: var(--dark-color);
         }
-        
+
         .page-title p {
             font-size: 0.9rem;
             color: var(--gray-color);
         }
-        
+
         /* Action Buttons */
         .action-buttons {
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
         }
-        
+
         .btn {
             padding: 8px 16px;
             border-radius: 4px;
@@ -195,43 +196,43 @@
             gap: 5px;
             transition: all 0.2s;
         }
-        
+
         .btn-primary {
             background-color: var(--primary-color);
             color: white;
         }
-        
+
         .btn-primary:hover {
             background-color: var(--secondary-color);
         }
-        
+
         .btn-secondary {
             background-color: var(--gray-color);
             color: white;
         }
-        
+
         .btn-secondary:hover {
             background-color: #7f8c8d;
         }
-        
+
         /* Form Container */
         .table-container {
             background-color: white;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             padding: 15px;
             overflow-x: auto;
         }
-        
+
         /* Section Styles */
         .section {
             margin-bottom: 20px;
             background-color: white;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             padding: 15px;
         }
-        
+
         .section-header {
             display: flex;
             justify-content: space-between;
@@ -240,29 +241,29 @@
             padding-bottom: 10px;
             border-bottom: 1px solid #eee;
         }
-        
+
         .section-title {
             font-size: 1.2rem;
             color: var(--dark-color);
             font-weight: 600;
         }
-        
+
         .section-actions {
             display: flex;
             gap: 10px;
         }
-        
+
         .form-group {
             margin-bottom: 15px;
         }
-        
+
         .form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
             color: var(--dark-color);
         }
-        
+
         .form-group input[type="text"] {
             width: 100%;
             padding: 10px;
@@ -270,7 +271,7 @@
             border-radius: 4px;
             font-size: 14px;
         }
-        
+
         /* Machine Type Header */
         .machine-type-header {
             background-color: var(--light-color);
@@ -279,16 +280,16 @@
             margin-bottom: 20px;
             border-left: 4px solid var(--primary-color);
         }
-        
+
         .machine-type-header h2 {
             color: var(--dark-color);
             margin-bottom: 10px;
         }
-        
+
         .machine-type-header .form-group {
             max-width: 500px;
         }
-        
+
         /* Modal Styles */
         .modal {
             display: none;
@@ -297,34 +298,34 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0, 0, 0, 0.5);
             z-index: 1000;
             justify-content: center;
             align-items: center;
         }
-        
+
         .modal-content {
             background-color: white;
             padding: 20px;
             border-radius: 8px;
             width: 400px;
             max-width: 90%;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        
+
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
         }
-        
+
         .modal-title {
             font-size: 1.2rem;
             font-weight: 600;
             color: var(--dark-color);
         }
-        
+
         .close-modal {
             background: none;
             border: none;
@@ -332,17 +333,17 @@
             cursor: pointer;
             color: var(--gray-color);
         }
-        
+
         .modal-body {
             margin-bottom: 20px;
         }
-        
+
         .modal-footer {
             display: flex;
             justify-content: flex-end;
             gap: 10px;
         }
-        
+
         /* Dropdown menu styles */
         .dropdown-menu {
             display: none;
@@ -464,7 +465,7 @@
             opacity: 0;
             transform: translateY(-10px);
             visibility: hidden;
-            transition: 
+            transition:
                 opacity var(--transition-speed) ease,
                 transform var(--transition-speed) ease;
         }
@@ -483,7 +484,7 @@
             color: var(--text-color);
             text-decoration: none;
             font-size: 0.875rem;
-            transition: 
+            transition:
                 background-color var(--transition-speed),
                 color var(--transition-speed);
         }
@@ -520,6 +521,7 @@
         .logout-account-btn:focus {
             color: var(--danger-color) !important;
         }
+
         .account-menu-item.plan-info {
             background-color: #f8f9fa;
             color: var(--dark-color);
@@ -533,11 +535,20 @@
         }
 
         /* Different colors for different plans */
-        .plan-basic { color: var(--primary-color); }
-        .plan-advanced { color: var(--success-color); }
-        .plan-pro { color: gold; }
-        .customer-logo{
-            width:30px;
+        .plan-basic {
+            color: var(--primary-color);
+        }
+
+        .plan-advanced {
+            color: var(--success-color);
+        }
+
+        .plan-pro {
+            color: gold;
+        }
+
+        .customer-logo {
+            width: 30px;
             height: 30px;
             border-radius: 50%;
             object-fit: cover;
@@ -551,57 +562,57 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0, 0, 0, 0.5);
             z-index: 2000;
             justify-content: center;
             align-items: center;
         }
-        
+
         .notification-content {
             background-color: white;
             padding: 25px;
             border-radius: 8px;
             width: 400px;
             max-width: 90%;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
             text-align: center;
         }
-        
+
         .notification-icon {
             font-size: 3rem;
             margin-bottom: 15px;
         }
-        
+
         .notification-icon.success {
             color: var(--success-color);
         }
-        
+
         .notification-icon.warning {
             color: var(--warning-color);
         }
-        
+
         .notification-icon.error {
             color: var(--danger-color);
         }
-        
+
         .notification-title {
             font-size: 1.3rem;
             font-weight: 600;
             margin-bottom: 10px;
             color: var(--dark-color);
         }
-        
+
         .notification-message {
             margin-bottom: 20px;
             color: var(--dark-color);
         }
-        
+
         .notification-actions {
             display: flex;
             justify-content: center;
             gap: 10px;
         }
-        
+
         /* Confirmation Modal Styles */
         .confirmation-modal {
             display: none;
@@ -610,63 +621,153 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0, 0, 0, 0.5);
             z-index: 2000;
             justify-content: center;
             align-items: center;
         }
-        
+
         .confirmation-content {
             background-color: white;
             padding: 25px;
             border-radius: 8px;
             width: 400px;
             max-width: 90%;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
         }
-        
+
         .confirmation-title {
             font-size: 1.3rem;
             font-weight: 600;
             margin-bottom: 15px;
             color: var(--dark-color);
         }
-        
+
         .confirmation-message {
             margin-bottom: 20px;
             color: var(--dark-color);
         }
-        
+
         .confirmation-actions {
             display: flex;
             justify-content: flex-end;
             gap: 10px;
         }
-        
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .container {
                 grid-template-columns: 1fr;
             }
-            
+
             .sidebar {
                 display: none;
             }
         }
+/* Shifts Section Styling */
+#shifts-section {
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 15px;
+}
+
+#shifts-section .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+#shifts-section .section-title {
+    font-size: 1.2rem;
+    color: var(--dark-color);
+    font-weight: 600;
+}
+
+#shifts-section .form-group {
+    margin-bottom: 15px;
+}
+
+#shifts-section .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+#shifts-section .form-group input[type="text"],
+#shifts-section .form-group input[type="time"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Time input specific styling */
+#shifts-section .form-group input[type="time"] {
+    /* For better cross-browser compatibility */
+    padding: 9px;
+}
+
+/* NEW: Flex layout for shift inputs */
+#shifts-section .shift-inputs-container {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+#shifts-section .shift-name-container {
+    flex: 2; /* Takes more space than time inputs */
+    min-width: 200px;
+}
+
+#shifts-section .time-inputs-container {
+    display: flex;
+    gap: 15px;
+    flex: 3; /* Takes more space than individual inputs */
+}
+
+#shifts-section .time-input {
+    flex: 1;
+    min-width: 120px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #shifts-section .shift-inputs-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    #shifts-section .time-inputs-container {
+        flex-direction: column;
+    }
+    
+    #shifts-section .shift-name-container,
+    #shifts-section .time-input {
+        min-width: 100%;
+    }
+}
     </style>
 </head>
+
 <body>
     <div class="container" id="mainContainer">
         <!-- Sidebar Navigation -->
         <div id="sidebar-container"></div>
-        
+
         <!-- Main Content Area -->
         <div class="main-content">
             <div class="header">
                 <div class="header-left">
                     <div class="header-logo">CraneIQ</div>
                 </div>
-               
+
                 <div class="user-info-wrapper">
                     <div class="account-dropdown">
                         <div class="account-trigger" id="accountDropdownTrigger">
@@ -694,12 +795,12 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="page-title">
                 <h1>Create New Machine Type</h1>
                 <p>Define a new machine type and its properties</p>
             </div>
-            
+
             <!-- Machine Type Name Section (separate from Basic Details) -->
             <div class="machine-type-header">
                 <h2>Machine Type Identification</h2>
@@ -708,13 +809,13 @@
                     <input type="text" id="machine-type-name" placeholder="e.g., Crane, Excavator, Forklift">
                 </div>
             </div>
-            
+
             <div class="action-buttons">
                 <button id="add-section-btn" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Add Section
                 </button>
             </div>
-            
+
             <div class="table-container">
                 <!-- Basic Details Section (without machine type name) -->
                 <div class="section" id="basic-details">
@@ -730,11 +831,35 @@
                         <input type="text" id="model" placeholder="Enter model">
                     </div>
                 </div>
-                
-                <!-- Dynamic Sections Container -->
+
+<div class="section" id="shifts-section">
+    <div class="section-header">
+        <h3 class="section-title">Shifts</h3>
+    </div>
+    
+    <div class="shift-inputs-container">
+        <!-- Shift Name -->
+        <div class="form-group shift-name-container">
+            <label for="shift-name">Shift Name</label>
+            <input type="text" id="shift-name" placeholder="Enter Shift Name">
+        </div>
+        
+        <!-- Time Inputs -->
+        <div class="time-inputs-container">
+            <div class="form-group time-input">
+                <label for="shift-from">From</label>
+                <input type="time" id="shift-from">
+            </div>
+            <div class="form-group time-input">
+                <label for="shift-to">To</label>
+                <input type="time" id="shift-to">
+            </div>
+        </div>
+    </div>
+</div>     <!-- Dynamic Sections Container -->
                 <div id="dynamic-sections"></div>
             </div>
-            
+
             <div class="action-buttons" style="margin-top: 20px;">
                 <button id="save-form-btn" class="btn btn-primary">
                     <i class="fas fa-save"></i> Save Machine Type
@@ -799,7 +924,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Confirmation Modal -->
     <div class="confirmation-modal" id="confirmation-modal">
         <div class="confirmation-content">
@@ -813,7 +938,7 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Load the sidebar
             fetch('sidebar.html')
                 .then(response => response.text())
@@ -830,23 +955,23 @@
             function initializeSidebar() {
                 const sidebar = document.getElementById('sidebar');
                 const sidebarToggle = document.getElementById('sidebarToggle');
-                
+
                 if (sidebar && sidebarToggle) {
-                    sidebarToggle.addEventListener('click', function() {
+                    sidebarToggle.addEventListener('click', function () {
                         sidebar.classList.toggle('expanded');
                         document.querySelector('.container').classList.toggle('sidebar-expanded');
                     });
 
                     // Dropdown functionality
                     document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
-                        toggle.addEventListener('click', function(e) {
+                        toggle.addEventListener('click', function (e) {
                             e.preventDefault();
                             const dropdown = this.closest('.dropdown');
                             const menu = dropdown.querySelector('.dropdown-menu');
-                            
+
                             // Close all other dropdowns
                             closeAllDropdownsExcept(menu, this);
-                            
+
                             // Toggle current dropdown
                             menu.classList.toggle('show');
                             this.classList.toggle('show');
@@ -874,14 +999,14 @@
                     }
 
                     // Close dropdowns when sidebar is collapsed
-                    sidebarToggle.addEventListener('click', function() {
+                    sidebarToggle.addEventListener('click', function () {
                         if (!sidebar.classList.contains('expanded')) {
                             closeAllDropdowns();
                         }
                     });
 
                     // Also close dropdowns when clicking outside
-                    document.addEventListener('click', function(e) {
+                    document.addEventListener('click', function (e) {
                         if (!e.target.closest('.dropdown')) {
                             closeAllDropdowns();
                         }
@@ -895,29 +1020,29 @@
             const notificationMessage = document.getElementById('notification-message');
             const notificationIcon = document.getElementById('notification-icon');
             const notificationOkBtn = document.getElementById('notification-ok-btn');
-            
+
             // Confirmation system
             const confirmationModal = document.getElementById('confirmation-modal');
             const confirmationTitle = document.getElementById('confirmation-title');
             const confirmationMessage = document.getElementById('confirmation-message');
             const confirmationCancelBtn = document.getElementById('confirmation-cancel-btn');
             const confirmationOkBtn = document.getElementById('confirmation-ok-btn');
-            
+
             // Store confirmation callback
             let confirmationCallback = null;
-            
+
             // Show notification function
             function showNotification(title, message, type = 'success') {
                 notificationTitle.textContent = title;
                 notificationMessage.textContent = message;
-                
+
                 // Clear previous icon classes
                 notificationIcon.className = 'notification-icon';
                 notificationIcon.innerHTML = '';
-                
+
                 // Set icon based on type
                 let iconClass, icon;
-                switch(type) {
+                switch (type) {
                     case 'success':
                         iconClass = 'fas fa-check-circle success';
                         break;
@@ -930,14 +1055,14 @@
                     default:
                         iconClass = 'fas fa-info-circle';
                 }
-                
+
                 const iconElement = document.createElement('i');
                 iconElement.className = iconClass;
                 notificationIcon.appendChild(iconElement);
-                
+
                 notificationModal.style.display = 'flex';
             }
-            
+
             // Show confirmation dialog
             function showConfirmation(title, message, callback) {
                 confirmationTitle.textContent = title;
@@ -945,29 +1070,29 @@
                 confirmationCallback = callback;
                 confirmationModal.style.display = 'flex';
             }
-            
+
             // Close notification
-            notificationOkBtn.addEventListener('click', function() {
+            notificationOkBtn.addEventListener('click', function () {
                 notificationModal.style.display = 'none';
             });
-            
+
             // Handle confirmation
-            confirmationOkBtn.addEventListener('click', function() {
+            confirmationOkBtn.addEventListener('click', function () {
                 confirmationModal.style.display = 'none';
                 if (confirmationCallback) {
                     confirmationCallback(true);
                 }
             });
-            
-            confirmationCancelBtn.addEventListener('click', function() {
+
+            confirmationCancelBtn.addEventListener('click', function () {
                 confirmationModal.style.display = 'none';
                 if (confirmationCallback) {
                     confirmationCallback(false);
                 }
             });
-            
+
             // Close modals when clicking outside
-            window.addEventListener('click', function(event) {
+            window.addEventListener('click', function (event) {
                 if (event.target === notificationModal) {
                     notificationModal.style.display = 'none';
                 }
@@ -982,16 +1107,16 @@
             // Initialize account dropdown
             const accountTrigger = document.getElementById('accountDropdownTrigger');
             const accountMenu = document.getElementById('accountDropdownMenu');
-            
+
             if (accountTrigger && accountMenu) {
-                accountTrigger.addEventListener('click', function(e) {
+                accountTrigger.addEventListener('click', function (e) {
                     e.stopPropagation();
                     accountMenu.classList.toggle('show');
                     this.classList.toggle('active');
                 });
-                
+
                 // Close when clicking outside
-                document.addEventListener('click', function(e) {
+                document.addEventListener('click', function (e) {
                     if (!e.target.closest('.account-dropdown')) {
                         accountMenu.classList.remove('show');
                         accountTrigger.classList.remove('active');
@@ -1002,8 +1127,8 @@
             // Initialize logout button
             const logoutBtn = document.getElementById('accountLogoutBtn');
             if (logoutBtn) {
-                logoutBtn.addEventListener('click', function() {
-                    showConfirmation('Confirm Logout', 'Are you sure you want to logout?', function(confirmed) {
+                logoutBtn.addEventListener('click', function () {
+                    showConfirmation('Confirm Logout', 'Are you sure you want to logout?', function (confirmed) {
                         if (confirmed) {
                             showNotification('Logged Out', 'You have been logged out successfully', 'success');
                             setTimeout(() => {
@@ -1018,25 +1143,25 @@
             const sectionCounter = { count: 0 };
             const dynamicSections = document.getElementById('dynamic-sections');
             let currentSectionId = null;
-            
+
             // Modal elements
             const sectionModal = document.getElementById('section-modal');
             const fieldModal = document.getElementById('field-modal');
             const closeModalButtons = document.querySelectorAll('.close-modal, .btn-secondary');
-            
+
             // Open section modal
-            document.getElementById('add-section-btn').addEventListener('click', function() {
+            document.getElementById('add-section-btn').addEventListener('click', function () {
                 document.getElementById('section-name').value = '';
                 sectionModal.style.display = 'flex';
             });
-            
+
             // Confirm section creation
-            document.getElementById('confirm-section').addEventListener('click', function() {
+            document.getElementById('confirm-section').addEventListener('click', function () {
                 const sectionName = document.getElementById('section-name').value.trim();
                 if (sectionName) {
                     sectionCounter.count++;
                     const sectionId = `custom-section-${sectionCounter.count}`;
-                    
+
                     const sectionHtml = `
                         <div class="section" id="${sectionId}">
                             <div class="section-header">
@@ -1053,31 +1178,31 @@
                             <div class="section-fields"></div>
                         </div>
                     `;
-                    
+
                     dynamicSections.insertAdjacentHTML('beforeend', sectionHtml);
-                    
+
                     // Add event listeners to new buttons
                     document.querySelector(`#${sectionId} .remove-section`).addEventListener('click', removeSection);
-                    document.querySelector(`#${sectionId} .add-field`).addEventListener('click', function() {
+                    document.querySelector(`#${sectionId} .add-field`).addEventListener('click', function () {
                         currentSectionId = this.dataset.section;
                         document.getElementById('field-name').value = '';
                         fieldModal.style.display = 'flex';
                     });
-                    
+
                     sectionModal.style.display = 'none';
                     showNotification('Section Added', `"${sectionName}" section has been added`, 'success');
                 } else {
                     showNotification('Error', 'Please enter a section name', 'error');
                 }
             });
-            
+
             // Confirm field creation
-            document.getElementById('confirm-field').addEventListener('click', function() {
+            document.getElementById('confirm-field').addEventListener('click', function () {
                 const fieldName = document.getElementById('field-name').value.trim();
                 if (fieldName && currentSectionId) {
                     const section = document.getElementById(currentSectionId);
                     const fieldsContainer = section.querySelector('.section-fields');
-                    
+
                     const fieldHtml = `
                         <div class="form-group field-item">
                             <label>${fieldName}</label>
@@ -1087,11 +1212,11 @@
                             </button>
                         </div>
                     `;
-                    
+
                     fieldsContainer.insertAdjacentHTML('beforeend', fieldHtml);
-                    
+
                     // Add event listener to remove button
-                    fieldsContainer.lastElementChild.querySelector('.remove-field').addEventListener('click', function() {
+                    fieldsContainer.lastElementChild.querySelector('.remove-field').addEventListener('click', function () {
                         showConfirmation('Remove Field', 'Are you sure you want to remove this field?', (confirmed) => {
                             if (confirmed) {
                                 this.closest('.field-item').remove();
@@ -1099,27 +1224,27 @@
                             }
                         });
                     });
-                    
+
                     fieldModal.style.display = 'none';
                     showNotification('Field Added', `"${fieldName}" field has been added`, 'success');
                 } else {
                     showNotification('Error', 'Please enter a field name', 'error');
                 }
             });
-            
+
             // Close modals
             closeModalButtons.forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     sectionModal.style.display = 'none';
                     fieldModal.style.display = 'none';
                 });
             });
-            
+
             // Remove section
             function removeSection(e) {
                 const sectionId = e.currentTarget.dataset.section;
                 const sectionName = document.querySelector(`#${sectionId} .section-title`).textContent;
-                
+
                 showConfirmation('Remove Section', `Are you sure you want to remove the "${sectionName}" section?`, (confirmed) => {
                     if (confirmed) {
                         document.getElementById(sectionId).remove();
@@ -1127,53 +1252,82 @@
                     }
                 });
             }
-            
-            // Save form
-            document.getElementById('save-form-btn').addEventListener('click', function() {
-                const machineTypeName = document.getElementById('machine-type-name').value;
-                
-                if (!machineTypeName) {
-                    showNotification('Error', 'Please enter a machine type name', 'error');
-                    return;
+// Save form
+document.getElementById('save-form-btn').addEventListener('click', function () {
+    const machineTypeName = document.getElementById('machine-type-name').value;
+
+    if (!machineTypeName) {
+        showNotification('Error', 'Please enter a machine type name', 'error');
+        return;
+    }
+
+    // Collect all form data
+    const formData = {
+        id: Date.now(), // Generate unique ID
+        name: machineTypeName,
+        fields: {
+            basicDetails: {
+                manufacturer: { 
+                    type: "text", 
+                    required: true,
+                    value: document.getElementById('manufacturer').value
+                },
+                model: { 
+                    type: "text", 
+                    required: true,
+                    value: document.getElementById('model').value
                 }
-                
-                // Collect all form data
-                const formData = {
-                    id: Date.now(), // Generate unique ID
-                    name: machineTypeName,
-                    fields: {
-                        basicDetails: {
-                            manufacturer: { type: "text", required: true },
-                            model: { type: "text", required: true }
-                        }
-                    }
-                };
-                
-                // Get custom sections
-                document.querySelectorAll('#dynamic-sections .section').forEach(section => {
-                    const sectionTitle = section.querySelector('.section-title').textContent;
-                    formData.fields[sectionTitle] = {};
-                    
-                    section.querySelectorAll('.field-item').forEach(field => {
-                        const label = field.querySelector('label').textContent;
-                        formData.fields[sectionTitle][label] = { type: "text", required: true };
-                    });
-                });
-                
-                // Save to localStorage (in a real app, you would send to server)
-                let machineTypes = JSON.parse(localStorage.getItem('machineTypes') || '[]');
-                machineTypes.push(formData);
-                localStorage.setItem('machineTypes', JSON.stringify(machineTypes));
-                
-                showNotification('Success', 'Machine type saved successfully!', 'success');
-                
-                setTimeout(() => {
-                    window.location.href = 'machine.html';
-                }, 1500);
-            });
-            
+            },
+            shifts: {
+                shiftName: { 
+                    type: "text", 
+                    required: true,
+                    value: document.getElementById('shift-name').value
+                },
+                shiftFrom: { 
+                    type: "time", 
+                    required: true,
+                    value: document.getElementById('shift-from').value
+                },
+                shiftTo: { 
+                    type: "time", 
+                    required: true,
+                    value: document.getElementById('shift-to').value
+                }
+            }
+        }
+    };
+
+    // Get custom sections
+    document.querySelectorAll('#dynamic-sections .section').forEach(section => {
+        const sectionTitle = section.querySelector('.section-title').textContent;
+        formData.fields[sectionTitle] = {};
+
+        section.querySelectorAll('.field-item').forEach(field => {
+            const label = field.querySelector('label').textContent;
+            const value = field.querySelector('input').value;
+            formData.fields[sectionTitle][label] = { 
+                type: "text", 
+                required: true,
+                value: value
+            };
+        });
+    });
+
+    // Save to localStorage (in a real app, you would send to server)
+    let machineTypes = JSON.parse(localStorage.getItem('machineTypes') || '[]');
+    machineTypes.push(formData);
+    localStorage.setItem('machineTypes', JSON.stringify(machineTypes));
+
+    showNotification('Success', 'Machine type saved successfully!', 'success');
+
+    setTimeout(() => {
+        window.location.href = 'machine.html';
+    }, 1500);
+});
+
             // Cancel button
-            document.getElementById('cancel-btn').addEventListener('click', function() {
+            document.getElementById('cancel-btn').addEventListener('click', function () {
                 showConfirmation('Cancel Changes', 'Are you sure you want to cancel? All unsaved changes will be lost.', (confirmed) => {
                     if (confirmed) {
                         window.location.href = 'machine.html';
@@ -1183,4 +1337,5 @@
         });
     </script>
 </body>
+
 </html>

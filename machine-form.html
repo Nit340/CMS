@@ -15,8 +15,9 @@
             --light-color: #ecf0f1;
             --dark-color: #2c3e50;
             --gray-color: #95a5a6;
-        }
-
+        } 
+.form-section {
+    margin-bottom: 30px;}
         * {
             margin: 0;
             padding: 0;
@@ -679,6 +680,202 @@
         .notification-error {
             background-color: var(--danger-color);
         }
+        /* Shift Section Styling */
+.shift-section {
+    background: linear-gradient(135deg, #fff9e6 0%, #fff3d1 100%);
+    padding: 20px;
+    border-radius: 12px;
+    border-left: 5px solid #ffb300;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.shift-section:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+}
+
+.shift-section .section-header {
+    color: #e65100;
+    border-bottom: 2px solid #ffd54f;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    font-weight: 600;
+}
+
+.add-shift-btn {
+    background: linear-gradient(135deg, #ffb300 0%, #f57c00 100%);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 3px 6px rgba(245, 124, 0, 0.3);
+    transition: all 0.2s ease;
+}
+
+.add-shift-btn:hover {
+    background: linear-gradient(135deg, #f57c00 0%, #e65100 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 8px rgba(245, 124, 0, 0.4);
+}
+
+.add-shift-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(245, 124, 0, 0.3);
+}
+
+.shift-inputs-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    padding: 18px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.shift-inputs-container:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.shift-inputs-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, #ffd54f, #ffb300);
+    border-radius: 4px 0 0 4px;
+}
+
+.shift-name-container {
+    flex: 2;
+    min-width: 220px;
+}
+
+.time-inputs-container {
+    display: flex;
+    gap: 20px;
+    flex: 3;
+}
+
+.time-input {
+    flex: 1;
+    min-width: 140px;
+    position: relative;
+}
+
+.time-input label, .shift-name-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #5d4037;
+    font-size: 0.85rem;
+}
+
+.time-input input, .shift-name-container input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #ffe082;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    background-color: #fffef7;
+}
+
+.time-input input:focus, .shift-name-container input:focus {
+    border-color: #ffb300;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 179, 0, 0.2);
+    background-color: white;
+}
+
+.clock-icon {
+    position: absolute;
+    right: 12px;
+    top: 38px;
+    color: #ffb300;
+    pointer-events: none;
+}
+
+.shift-actions {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    padding-bottom: 5px;
+}
+
+.remove-shift-btn {
+    background: linear-gradient(135deg, #ff5252 0%, #d32f2f 100%);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 3px 6px rgba(211, 47, 47, 0.3);
+    transition: all 0.2s ease;
+    height: fit-content;
+}
+
+.remove-shift-btn:hover {
+    background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 8px rgba(211, 47, 47, 0.4);
+}
+
+.remove-shift-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(211, 47, 47, 0.3);
+}
+
+/* Responsive adjustments for shift section */
+@media (max-width: 900px) {
+    .shift-inputs-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .time-inputs-container {
+        flex-direction: column;
+    }
+    
+    .shift-name-container,
+    .time-input {
+        min-width: 100%;
+    }
+    
+    .shift-actions {
+        align-self: flex-end;
+        margin-top: 10px;
+    }
+}
+
+/* Animation for adding/removing shifts */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.shift-inputs-container {
+    animation: fadeIn 0.3s ease-out;
+}
     </style>
 </head>
 <body>
@@ -726,42 +923,41 @@
                 <p>Configure machine settings</p>
             </div>
             
-            <div class="form-container">
-                <form id="machineForm">
-                    <div class="machine-type-selector">
-                        <label for="machineTypeDropdown">Machine Type:</label>
-                        <select id="machineTypeDropdown" class="form-control" required>
-                            <option value="">Select Machine Type</option>
-                            <!-- Options will be populated by JavaScript -->
-                        </select>
-                        <input type="hidden" id="machineTypeId" name="machineTypeId">
+                         <div class="form-container">
+            <form id="machineForm">
+                <div class="machine-type-selector">
+                    <label for="machineTypeDropdown">Machine Type:</label>
+                    <select id="machineTypeDropdown" class="form-control" required>
+                        <option value="">Select Machine Type</option>
+                        <!-- Options will be populated by JavaScript -->
+                    </select>
+                    <input type="hidden" id="machineTypeId" name="machineTypeId">
+                </div>
+                
+                <!-- Checkbox menu for selecting custom fields -->
+                <div class="checkbox-menu" id="customFieldsMenu" style="display: none;">
+                    <div class="checkbox-menu-trigger" id="checkboxMenuTrigger">
+                        <i class="fas fa-cog"></i>
+                        <span>Select </span>
+                        <i class="fas fa-chevron-down"></i>
                     </div>
-                    
-                    <!-- Checkbox menu for selecting custom fields -->
-                    <div class="checkbox-menu" id="customFieldsMenu" style="display: none;">
-                        <div class="checkbox-menu-trigger" id="checkboxMenuTrigger">
-                            <i class="fas fa-cog"></i>
-                            <span>Select </span>
-                            <i class="fas fa-chevron-down"></i>
-                        </div>
-                        <div class="checkbox-menu-dropdown" id="checkboxMenuDropdown">
-                            <!-- Content will be populated by JavaScript -->
-                        </div>
+                    <div class="checkbox-menu-dropdown" id="checkboxMenuDropdown">
+                        <!-- Content will be populated by JavaScript -->
                     </div>
-                    
-                    <!-- Dynamic form sections will be inserted here -->
-                    <div id="dynamic-form-sections"></div>
-                    
-                    <div class="form-actions">
-                        <button type="button" id="cancelBtn" class="btn btn-secondary">
-                            <i class="fas fa-times"></i> Cancel
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i> Save Configuration
-                        </button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                
+                <!-- Dynamic form sections will be inserted here -->
+                <div id="dynamic-form-sections"></div>
+                
+                <div class="form-actions">
+                    <button type="button" id="cancelBtn" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Configuration
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
     
@@ -976,16 +1172,16 @@ if (checkboxMenuTrigger) {
     });
 }
 // Function to populate the checkbox menu
-function populateCheckboxMenu(machineType) {
-    const checkboxMenuDropdown = document.getElementById('checkboxMenuDropdown');
-    checkboxMenuDropdown.innerHTML = '';
-    
-    if (!machineType.fields) return;
-    
-    // Create sections for the checkbox menu
-    for (const [sectionName, fields] of Object.entries(machineType.fields)) {
-        // Skip basicDetails section (always shown)
-        if (sectionName === 'basicDetails') continue;
+     function populateCheckboxMenu(machineType) {
+            const checkboxMenuDropdown = document.getElementById('checkboxMenuDropdown');
+            checkboxMenuDropdown.innerHTML = '';
+            
+            if (!machineType.fields) return;
+            
+            // Create sections for the checkbox menu
+            for (const [sectionName, fields] of Object.entries(machineType.fields)) {
+                // Skip basicDetails and shifts sections
+                if (sectionName === 'basicDetails' || sectionName === 'shifts') continue;
         
         // Convert section name to first letter capital
         const formattedSectionName = sectionName
@@ -998,13 +1194,7 @@ function populateCheckboxMenu(machineType) {
         
         const sectionHeader = document.createElement('div');
         sectionHeader.className = 'checkbox-menu-section-header';
-        sectionHeader.dataset.section = sectionName;
-        
-        // REMOVED the expand icon creation here
-        // const expandIcon = document.createElement('i');
-        // expandIcon.className = 'fas fa-chevron-right';
-        // sectionHeader.appendChild(expandIcon);
-        
+        sectionHeader.dataset.section = sectionName;        
         const sectionCheckbox = document.createElement('input');
         sectionCheckbox.type = 'checkbox';
         sectionCheckbox.id = `menu_section_${sectionName}`;
@@ -1094,7 +1284,6 @@ function populateCheckboxMenu(machineType) {
         });
     }
 }
-// Function to generate form from machine type definition
 function generateFormFromTypeDefinition(machineType) {
     const formSections = document.getElementById('dynamic-form-sections');
     formSections.innerHTML = '';
@@ -1111,9 +1300,29 @@ function generateFormFromTypeDefinition(machineType) {
         
         // Check if this is the basicDetails section
         const isBasicSection = sectionName === 'basicDetails';
+        const isShiftsSection = sectionName === 'shifts';
+        
         if (isBasicSection) {
             sectionDiv.classList.add('basic-section');
             sectionHeader.textContent = 'Basic Details';
+        } else if (isShiftsSection) {
+            sectionDiv.classList.add('shift-section');
+            
+            // Create shifts section header with add button
+            const shiftsTitle = document.createElement('h3');
+            shiftsTitle.textContent = 'Shifts';
+            shiftsTitle.style.margin = '0';
+            
+            const addButton = document.createElement('button');
+            addButton.className = 'add-shift-btn';
+            addButton.innerHTML = '<i class="fas fa-plus"></i> Add Shift';
+            addButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                addShiftField(sectionDiv);
+            });
+            
+            sectionHeader.appendChild(shiftsTitle);
+            sectionHeader.appendChild(addButton);
         } else {
             sectionDiv.classList.add('custom-section');
             sectionDiv.dataset.section = sectionName;
@@ -1126,13 +1335,13 @@ function generateFormFromTypeDefinition(machineType) {
             sectionHeader.textContent = formattedSectionName;
             
             // Add styling to custom sections
-          sectionDiv.style.backgroundColor = '#f8f9fa';
-sectionDiv.style.padding = '15px';
-sectionDiv.style.borderRadius = '8px';
-sectionDiv.style.borderLeft = '4px solid var(--secondary-color)';
-sectionDiv.style.marginBottom = '20px';
-sectionDiv.style.marginTop = '25px'; // Add this line
-sectionDiv.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
+            sectionDiv.style.backgroundColor = '#f8f9fa';
+            sectionDiv.style.padding = '15px';
+            sectionDiv.style.borderRadius = '8px';
+            sectionDiv.style.borderLeft = '4px solid var(--secondary-color)';
+            sectionDiv.style.marginBottom = '20px';
+            sectionDiv.style.marginTop = '25px';
+            sectionDiv.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
             
             // Initially hide custom sections
             sectionDiv.style.display = 'none';
@@ -1140,96 +1349,215 @@ sectionDiv.style.boxShadow = '0 2px 4px rgba(0,0,0,0.05)';
         
         sectionDiv.appendChild(sectionHeader);
         
-        const sectionGrid = document.createElement('div');
-        sectionGrid.className = 'form-grid';
-        
-        // Create fields for this section
-        for (const [fieldName, config] of Object.entries(fields)) {
-            const formGroup = document.createElement('div');
-            formGroup.className = 'form-group field-item';
+        if (isShiftsSection) {
+            // Create initial shift field
+            addShiftField(sectionDiv);
+        } else {
+            const sectionGrid = document.createElement('div');
+            sectionGrid.className = 'form-grid';
             
-            if (isBasicSection) {
-                formGroup.classList.add('basic-field');
+            // Create fields for the section
+            for (const [fieldName, config] of Object.entries(fields)) {
+                const formGroup = document.createElement('div');
+                formGroup.className = 'form-group field-item';
                 
-                // Basic fields have simple labels
-                const fieldLabel = document.createElement('label');
-                fieldLabel.htmlFor = `${sectionName}_${fieldName}`;
-                
-                // Convert field name to first letter capital
-                const formattedFieldName = fieldName
-                    .replace(/([A-Z])/g, ' $1')
-                    .replace(/^./, str => str.toUpperCase())
-                    .trim();
-                fieldLabel.textContent = formattedFieldName;
-                
-                formGroup.appendChild(fieldLabel);
-            } else {
-                // Initially hide custom fields
-                formGroup.style.display = 'none';
-                
-                // Custom fields have labels but no checkboxes
-                const fieldLabel = document.createElement('label');
-                fieldLabel.htmlFor = `${sectionName}_${fieldName}`;
-                
-                // Convert field name to first letter capital
-                const formattedFieldName = fieldName
-                    .replace(/([A-Z])/g, ' $1')
-                    .replace(/^./, str => str.toUpperCase())
-                    .trim();
-                fieldLabel.textContent = formattedFieldName;
-                
-                formGroup.appendChild(fieldLabel);
-            }
-            
-            // Field input container
-            const fieldInputContainer = document.createElement('div');
-            fieldInputContainer.className = 'field-input';
-            
-            // Create the actual input element
-            let input;
-            if (config.type === 'select') {
-                input = document.createElement('select');
-                input.id = `${sectionName}_${fieldName}`;
-                input.name = `${sectionName}_${fieldName}`;
-                
-                // Add options if they exist
-                if (config.options && Array.isArray(config.options)) {
-                    config.options.forEach(option => {
-                        const optionElement = document.createElement('option');
-                        optionElement.value = option.value;
-                        optionElement.textContent = option.label;
-                        input.appendChild(optionElement);
-                    });
+                if (isBasicSection) {
+                    formGroup.classList.add('basic-field');
+                    
+                    // Basic fields have simple labels
+                    const fieldLabel = document.createElement('label');
+                    fieldLabel.htmlFor = `${sectionName}_${fieldName}`;
+                    
+                    // Convert field name to first letter capital
+                    const formattedFieldName = fieldName
+                        .replace(/([A-Z])/g, ' $1')
+                        .replace(/^./, str => str.toUpperCase())
+                        .trim();
+                    fieldLabel.textContent = formattedFieldName;
+                    
+                    formGroup.appendChild(fieldLabel);
+                } else {
+                    // Initially hide custom fields
+                    formGroup.style.display = 'none';
+                    
+                    // Custom fields have labels but no checkboxes
+                    const fieldLabel = document.createElement('label');
+                    fieldLabel.htmlFor = `${sectionName}_${fieldName}`;
+                    
+                    // Convert field name to first letter capital
+                    const formattedFieldName = fieldName
+                        .replace(/([A-Z])/g, ' $1')
+                        .replace(/^./, str => str.toUpperCase())
+                        .trim();
+                    fieldLabel.textContent = formattedFieldName;
+                    
+                    formGroup.appendChild(fieldLabel);
                 }
-            } else {
-                input = document.createElement('input');
-                input.type = config.type || 'text';
-                input.id = `${sectionName}_${fieldName}`;
-                input.name = `${sectionName}_${fieldName}`;
+                
+                // Field input container
+                const fieldInputContainer = document.createElement('div');
+                fieldInputContainer.className = 'field-input';
+                
+                // Create the actual input element
+                let input;
+                if (config.type === 'select') {
+                    input = document.createElement('select');
+                    input.id = `${sectionName}_${fieldName}`;
+                    input.name = `${sectionName}_${fieldName}`;
+                    
+                    // Add options if they exist
+                    if (config.options && Array.isArray(config.options)) {
+                        config.options.forEach(option => {
+                            const optionElement = document.createElement('option');
+                            optionElement.value = option.value;
+                            optionElement.textContent = option.label;
+                            input.appendChild(optionElement);
+                        });
+                    }
+                } else {
+                    input = document.createElement('input');
+                    input.type = config.type || 'text';
+                    input.id = `${sectionName}_${fieldName}`;
+                    input.name = `${sectionName}_${fieldName}`;
+                }
+                
+                if (config.required) {
+                    input.required = true;
+                }
+                
+                if (config.placeholder) {
+                    input.placeholder = config.placeholder;
+                }
+                
+                // Add styling to inputs
+                input.style.backgroundColor = 'white';
+                input.style.border = '1px solid #ddd';
+                input.style.borderRadius = '4px';
+                input.style.padding = '8px 12px';
+                input.style.width = '100%';
+                
+                fieldInputContainer.appendChild(input);
+                formGroup.appendChild(fieldInputContainer);
+                sectionGrid.appendChild(formGroup);
             }
             
-            if (config.required) {
-                input.required = true;
-            }
-            
-            if (config.placeholder) {
-                input.placeholder = config.placeholder;
-            }
-            
-            // Add styling to inputs
-            input.style.backgroundColor = 'white';
-            input.style.border = '1px solid #ddd';
-            input.style.borderRadius = '4px';
-            input.style.padding = '8px 12px';
-            input.style.width = '100%';
-            
-            fieldInputContainer.appendChild(input);
-            formGroup.appendChild(fieldInputContainer);
-            sectionGrid.appendChild(formGroup);
+            sectionDiv.appendChild(sectionGrid);
         }
         
-        sectionDiv.appendChild(sectionGrid);
         formSections.appendChild(sectionDiv);
+    }
+}
+
+// Function to add a new shift field
+function addShiftField(shiftSection) {
+    const shiftContainer = document.createElement('div');
+    shiftContainer.className = 'shift-inputs-container';
+    
+    // Create shift name field
+    const shiftNameContainer = document.createElement('div');
+    shiftNameContainer.className = 'form-group shift-name-container';
+    
+    const shiftNameLabel = document.createElement('label');
+    shiftNameLabel.textContent = 'Shift Name';
+    shiftNameLabel.htmlFor = `shift_name_${Date.now()}`;
+    
+    const shiftNameInput = document.createElement('input');
+    shiftNameInput.type = 'text';
+    shiftNameInput.id = `shift_name_${Date.now()}`;
+    shiftNameInput.name = 'shiftNames[]';
+    shiftNameInput.placeholder = 'Enter shift name';
+    shiftNameInput.required = true;
+    
+    shiftNameContainer.appendChild(shiftNameLabel);
+    shiftNameContainer.appendChild(shiftNameInput);
+    shiftContainer.appendChild(shiftNameContainer);
+    
+    // Create time inputs container
+    const timeContainer = document.createElement('div');
+    timeContainer.className = 'time-inputs-container';
+    
+    // From time field
+    const fromTimeContainer = document.createElement('div');
+    fromTimeContainer.className = 'form-group time-input';
+    
+    const fromTimeLabel = document.createElement('label');
+    fromTimeLabel.textContent = 'From';
+    fromTimeLabel.htmlFor = `shift_from_${Date.now()}`;
+    
+    const fromTimeInput = document.createElement('input');
+    fromTimeInput.type = 'time';
+    fromTimeInput.id = `shift_from_${Date.now()}`;
+    fromTimeInput.name = 'shiftFromTimes[]';
+    fromTimeInput.required = true;
+    
+    fromTimeContainer.appendChild(fromTimeLabel);
+    fromTimeContainer.appendChild(fromTimeInput);
+    timeContainer.appendChild(fromTimeContainer);
+    
+    // To time field
+    const toTimeContainer = document.createElement('div');
+    toTimeContainer.className = 'form-group time-input';
+    
+    const toTimeLabel = document.createElement('label');
+    toTimeLabel.textContent = 'To';
+    toTimeLabel.htmlFor = `shift_to_${Date.now()}`;
+    
+    const toTimeInput = document.createElement('input');
+    toTimeInput.type = 'time';
+    toTimeInput.id = `shift_to_${Date.now()}`;
+    toTimeInput.name = 'shiftToTimes[]';
+    toTimeInput.required = true;
+    
+    toTimeContainer.appendChild(toTimeLabel);
+    toTimeContainer.appendChild(toTimeInput);
+    timeContainer.appendChild(toTimeContainer);
+    
+    shiftContainer.appendChild(timeContainer);
+    
+    // Add remove button if there's more than one shift
+    const existingShifts = shiftSection.querySelectorAll('.shift-inputs-container');
+    const shiftIndex = existingShifts.length;
+    
+    // Always add remove button except for the first shift
+    if (shiftIndex > 0) {
+        const removeButton = document.createElement('button');
+        removeButton.className = 'remove-shift-btn';
+        removeButton.innerHTML = '<i class="fas fa-trash"></i> Remove';
+        removeButton.type = 'button';
+        removeButton.addEventListener('click', function() {
+            shiftContainer.remove();
+            // Update remove buttons visibility after removal
+            updateShiftRemoveButtons(shiftSection);
+        });
+        
+        const actionsContainer = document.createElement('div');
+        actionsContainer.className = 'shift-actions';
+        actionsContainer.appendChild(removeButton);
+        shiftContainer.appendChild(actionsContainer);
+    }
+    
+    shiftSection.appendChild(shiftContainer);
+    
+    // Update remove buttons visibility
+    updateShiftRemoveButtons(shiftSection);
+}
+
+// Function to update remove buttons visibility
+function updateShiftRemoveButtons(shiftSection) {
+    const shifts = shiftSection.querySelectorAll('.shift-inputs-container');
+    const removeButtons = shiftSection.querySelectorAll('.remove-shift-btn');
+    
+    // Show remove buttons only if there are multiple shifts
+    removeButtons.forEach(button => {
+        button.style.display = shifts.length > 1 ? 'block' : 'none';
+    });
+    
+    // If only one shift remains, ensure it has no remove button
+    if (shifts.length === 1) {
+        const removeButton = shifts[0].querySelector('.remove-shift-btn');
+        if (removeButton) {
+            removeButton.remove();
+        }
     }
 }
         // Notification function

@@ -17,6 +17,9 @@
     --light-color: #ecf0f1;
     --dark-color: #2c3e50;
     --gray-color: #95a5a6;
+    --pulley-color: #9b59b6;
+    --wheels-color: #f1c40f;
+    --hook-color: #1abc9c;
 }
 
 * {
@@ -326,8 +329,8 @@ body {
     margin-top: 5px;
 }
 
-/* Motor vibration panels */
-.motor-panel {
+/* Component vibration panels */
+.component-panel {
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -336,7 +339,7 @@ body {
     width: 100%;
 }
 
-.motor-header {
+.component-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -345,7 +348,7 @@ body {
     border-bottom: 1px solid #eee;
 }
 
-.motor-name {
+.component-name {
     font-size: 1.2rem;
     font-weight: 600;
     color: var(--dark-color);
@@ -354,7 +357,7 @@ body {
     gap: 10px;
 }
 
-.motor-status {
+.component-status {
     padding: 5px 10px;
     border-radius: 4px;
     font-size: 0.8rem;
@@ -827,6 +830,17 @@ body {
     display: none;
 }
 
+/* Component grid layout */
+.components-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 20px;
+}
+
+.component-panel {
+    min-width: 0; /* Allows panels to shrink below min-content */
+}
+
 /* Responsive adjustments */
 @media (max-width: 1024px) {
     .parameter-cards {
@@ -835,6 +849,10 @@ body {
     
     .vibration-meters {
         grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .components-grid {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -888,6 +906,10 @@ body {
         order: -1;
         width: 100%;
     }
+    
+    .components-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* Ensure content resizes with sidebar */
@@ -901,7 +923,7 @@ body {
     }
     
     .overview-panel,
-    .motor-panel {
+    .component-panel {
         max-width: 100%;
     }
 }
@@ -1004,7 +1026,7 @@ canvas {
                         <i class="fas fa-chart-bar"></i>
                         <span>Vibration Overview</span>
                     </div>
-                    <div class="motor-status status-monitoring">Monitoring</div>
+                    <div class="component-status status-monitoring">Monitoring</div>
                 </div>
                 
                 <div class="overview-chart">
@@ -1035,200 +1057,351 @@ canvas {
                 </div>
             </div>
             
-            <!-- Hoist Motor Panel -->
-            <div class="motor-panel">
-                <div class="motor-header">
-                    <div class="motor-name">
-                        <i class="fas fa-arrow-up"></i>
-                        <span>Hoist Motor</span>
+            <!-- Components Grid -->
+            <div class="components-grid">
+                <!-- Hoist Motor Panel -->
+                <div class="component-panel">
+                    <div class="component-header">
+                        <div class="component-name">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>Hoist Motor</span>
+                        </div>
+                        <div class="component-status status-warning">Warning</div>
                     </div>
-                    <div class="motor-status status-warning">Warning</div>
+                    
+                    <div class="axis-controls">
+                        <button class="axis-btn active" data-axis="all">
+                            <i class="fas fa-layer-group"></i>
+                            All Axes
+                        </button>
+                        <button class="axis-btn" data-axis="x">
+                            <i class="fas fa-arrows-alt-h"></i>
+                            X-Axis
+                        </button>
+                        <button class="axis-btn" data-axis="y">
+                            <i class="fas fa-arrows-alt-v"></i>
+                            Y-Axis
+                        </button>
+                        <button class="axis-btn" data-axis="z">
+                            <i class="fas fa-arrow-right"></i>
+                            Z-Axis
+                        </button>
+                    </div>
+                    
+                    <div class="combined-chart">
+                        <canvas id="hoistCombinedChart"></canvas>
+                    </div>
+                    
+                    <div class="vibration-meters">
+                        <div class="vibration-meter">
+                            <canvas id="hoistXMeter"></canvas>
+                            <div class="meter-value" id="hoistXValue">2.1</div>
+                        </div>
+                        <div class="vibration-meter">
+                            <canvas id="hoistYMeter"></canvas>
+                            <div class="meter-value" id="hoistYValue">3.8</div>
+                        </div>
+                        <div class="vibration-meter">
+                            <canvas id="hoistZMeter"></canvas>
+                            <div class="meter-value" id="hoistZValue">1.9</div>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="axis-controls">
-                    <button class="axis-btn active" data-axis="all">
-                        <i class="fas fa-layer-group"></i>
-                        All Axes
-                    </button>
-                    <button class="axis-btn" data-axis="x">
-                        <i class="fas fa-arrows-alt-h"></i>
-                        X-Axis
-                    </button>
-                    <button class="axis-btn" data-axis="y">
-                        <i class="fas fa-arrows-alt-v"></i>
-                        Y-Axis
-                    </button>
-                    <button class="axis-btn" data-axis="z">
-                        <i class="fas fa-arrow-right"></i>
-                        Z-Axis
-                    </button>
+                <!-- Travel Motor Panel -->
+                <div class="component-panel">
+                    <div class="component-header">
+                        <div class="component-name">
+                            <i class="fas fa-arrows-alt-h"></i>
+                            <span>Travel Motor</span>
+                        </div>
+                        <div class="component-status status-normal">Normal</div>
+                    </div>
+                    
+                    <div class="axis-controls">
+                        <button class="axis-btn active" data-axis="all">
+                            <i class="fas fa-layer-group"></i>
+                            All Axes
+                        </button>
+                        <button class="axis-btn" data-axis="x">
+                            <i class="fas fa-arrows-alt-h"></i>
+                            X-Axis
+                        </button>
+                        <button class="axis-btn" data-axis="y">
+                            <i class="fas fa-arrows-alt-v"></i>
+                            Y-Axis
+                        </button>
+                        <button class="axis-btn" data-axis="z">
+                            <i class="fas fa-arrow-right"></i>
+                            Z-Axis
+                        </button>
+                    </div>
+                    
+                    <div class="combined-chart">
+                        <canvas id="travelCombinedChart"></canvas>
+                    </div>
+                    
+                    <div class="vibration-meters">
+                        <div class="vibration-meter">
+                            <canvas id="travelXMeter"></canvas>
+                            <div class="meter-value" id="travelXValue">1.7</div>
+                        </div>
+                        <div class="vibration-meter">
+                            <canvas id="travelYMeter"></canvas>
+                            <div class="meter-value" id="travelYValue">1.3</div>
+                        </div>
+                        <div class="vibration-meter">
+                            <canvas id="travelZMeter"></canvas>
+                            <div class="meter-value" id="travelZValue">1.4</div>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="combined-chart">
-                    <canvas id="hoistCombinedChart"></canvas>
+                <!-- Trolley Motor Panel -->
+                <div class="component-panel">
+                    <div class="component-header">
+                        <div class="component-name">
+                            <i class="fas fa-arrows-alt"></i>
+                            <span>Trolley Motor</span>
+                        </div>
+                        <div class="component-status status-danger">Critical</div>
+                    </div>
+                    
+                    <div class="axis-controls">
+                        <button class="axis-btn active" data-axis="all">
+                            <i class="fas fa-layer-group"></i>
+                            All Axes
+                        </button>
+                        <button class="axis-btn" data-axis="x">
+                            <i class="fas fa-arrows-alt-h"></i>
+                            X-Axis
+                        </button>
+                        <button class="axis-btn" data-axis="y">
+                            <i class="fas fa-arrows-alt-v"></i>
+                            Y-Axis
+                        </button>
+                        <button class="axis-btn" data-axis="z">
+                            <i class="fas fa-arrow-right"></i>
+                            Z-Axis
+                        </button>
+                    </div>
+                    
+                    <div class="combined-chart">
+                        <canvas id="trolleyCombinedChart"></canvas>
+                    </div>
+                    
+                    <div class="vibration-meters">
+                        <div class="vibration-meter">
+                            <canvas id="trolleyXMeter"></canvas>
+                            <div class="meter-value" id="trolleyXValue">2.9</div>
+                        </div>
+                        <div class="vibration-meter">
+                            <canvas id="trolleyYMeter"></canvas>
+                            <div class="meter-value" id="trolleyYValue">3.1</div>
+                        </div>
+                        <div class="vibration-meter">
+                            <canvas id="trolleyZMeter"></canvas>
+                            <div class="meter-value" id="trolleyZValue">7.6</div>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="vibration-meters">
-                    <div class="vibration-meter">
-                        <canvas id="hoistXMeter"></canvas>
-                        <div class="meter-value" id="hoistXValue">2.1</div>
+                <!-- Gearbox Panel -->
+                <div class="component-panel">
+                    <div class="component-header">
+                        <div class="component-name">
+                            <i class="fas fa-cogs"></i>
+                            <span>Gearbox</span>
+                        </div>
+                        <div class="component-status status-normal">Normal</div>
                     </div>
-                    <div class="vibration-meter">
-                        <canvas id="hoistYMeter"></canvas>
-                        <div class="meter-value" id="hoistYValue">3.8</div>
+                    
+                    <div class="axis-controls">
+                        <button class="axis-btn active" data-axis="all">
+                            <i class="fas fa-layer-group"></i>
+                            All Axes
+                        </button>
+                        <button class="axis-btn" data-axis="x">
+                            <i class="fas fa-arrows-alt-h"></i>
+                            X-Axis
+                        </button>
+                        <button class="axis-btn" data-axis="y">
+                            <i class="fas fa-arrows-alt-v"></i>
+                            Y-Axis
+                        </button>
+                        <button class="axis-btn" data-axis="z">
+                            <i class="fas fa-arrow-right"></i>
+                            Z-Axis
+                        </button>
                     </div>
-                    <div class="vibration-meter">
-                        <canvas id="hoistZMeter"></canvas>
-                        <div class="meter-value" id="hoistZValue">1.9</div>
+                    
+                    <div class="combined-chart">
+                        <canvas id="gearboxCombinedChart"></canvas>
+                    </div>
+                    
+                    <div class="vibration-meters">
+                        <div class="vibration-meter">
+                            <canvas id="gearboxXMeter"></canvas>
+                            <div class="meter-value" id="gearboxXValue">2.4</div>
+                        </div>
+                        <div class="vibration-meter">
+                            <canvas id="gearboxYMeter"></canvas>
+                            <div class="meter-value" id="gearboxYValue">2.9</div>
+                        </div>
+                        <div class="vibration-meter">
+                            <canvas id="gearboxZMeter"></canvas>
+                            <div class="meter-value" id="gearboxZValue">4.1</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pulley Panel -->
+                <div class="component-panel">
+                    <div class="component-header">
+                        <div class="component-name">
+                            <i class="fas fa-circle-notch"></i>
+                            <span>Pulley</span>
+                        </div>
+                        <div class="component-status status-warning">Warning</div>
+                    </div>
+                    
+                    <div class="axis-controls">
+                        <button class="axis-btn active" data-axis="all">
+                            <i class="fas fa-layer-group"></i>
+                            All Axes
+                        </button>
+                        <button class="axis-btn" data-axis="x">
+                            <i class="fas fa-arrows-alt-h"></i>
+                            X-Axis
+                        </button>
+                        <button class="axis-btn" data-axis="y">
+                            <i class="fas fa-arrows-alt-v"></i>
+                            Y-Axis
+                        </button>
+                        <button class="axis-btn" data-axis="z">
+                            <i class="fas fa-arrow-right"></i>
+                            Z-Axis
+                        </button>
+                    </div>
+                    
+                    <div class="combined-chart">
+                        <canvas id="pulleyCombinedChart"></canvas>
+                    </div>
+                    
+                    <div class="vibration-meters">
+                        <div class="vibration-meter">
+                            <canvas id="pulleyXMeter"></canvas>
+                            <div class="meter-value" id="pulleyXValue">3.2</div>
+                        </div>
+                        <div class="vibration-meter">
+                            <canvas id="pulleyYMeter"></canvas>
+                            <div class="meter-value" id="pulleyYValue">4.5</div>
+                        </div>
+                        <div class="vibration-meter">
+                            <canvas id="pulleyZMeter"></canvas>
+                            <div class="meter-value" id="pulleyZValue">2.8</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Wheels Panel -->
+                <div class="component-panel">
+                    <div class="component-header">
+                        <div class="component-name">
+                            <i class="fas fa-cog"></i>
+                            <span>Wheels</span>
+                        </div>
+                        <div class="component-status status-normal">Normal</div>
+                    </div>
+                    
+                    <div class="axis-controls">
+                        <button class="axis-btn active" data-axis="all">
+                            <i class="fas fa-layer-group"></i>
+                            All Axes
+                        </button>
+                        <button class="axis-btn" data-axis="x">
+                            <i class="fas fa-arrows-alt-h"></i>
+                            X-Axis
+                        </button>
+                        <button class="axis-btn" data-axis="y">
+                            <i class="fas fa-arrows-alt-v"></i>
+                            Y-Axis
+                        </button>
+                        <button class="axis-btn" data-axis="z">
+                            <i class="fas fa-arrow-right"></i>
+                            Z-Axis
+                        </button>
+                    </div>
+                    
+                    <div class="combined-chart">
+                        <canvas id="wheelsCombinedChart"></canvas>
+                    </div>
+                    
+                    <div class="vibration-meters">
+                        <div class="vibration-meter">
+                            <canvas id="wheelsXMeter"></canvas>
+                            <div class="meter-value" id="wheelsXValue">1.9</div>
+                        </div>
+                        <div class="vibration-meter">
+                            <canvas id="wheelsYMeter"></canvas>
+                            <div class="meter-value" id="wheelsYValue">2.3</div>
+                        </div>
+                        <div class="vibration-meter">
+                            <canvas id="wheelsZMeter"></canvas>
+                            <div class="meter-value" id="wheelsZValue">1.7</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Hook Panel -->
+                <div class="component-panel">
+                    <div class="component-header">
+                        <div class="component-name">
+                            <i class="fas fa-link"></i>
+                            <span>Hook</span>
+                        </div>
+                        <div class="component-status status-normal">Normal</div>
+                    </div>
+                    
+                    <div class="axis-controls">
+                        <button class="axis-btn active" data-axis="all">
+                            <i class="fas fa-layer-group"></i>
+                            All Axes
+                        </button>
+                        <button class="axis-btn" data-axis="x">
+                            <i class="fas fa-arrows-alt-h"></i>
+                            X-Axis
+                        </button>
+                        <button class="axis-btn" data-axis="y">
+                            <i class="fas fa-arrows-alt-v"></i>
+                            Y-Axis
+                        </button>
+                        <button class="axis-btn" data-axis="z">
+                            <i class="fas fa-arrow-right"></i>
+                            Z-Axis
+                        </button>
+                    </div>
+                    
+                    <div class="combined-chart">
+                        <canvas id="hookCombinedChart"></canvas>
+                    </div>
+                    
+                    <div class="vibration-meters">
+                        <div class="vibration-meter">
+                            <canvas id="hookXMeter"></canvas>
+                            <div class="meter-value" id="hookXValue">1.2</div>
+                        </div>
+                        <div class="vibration-meter">
+                            <canvas id="hookYMeter"></canvas>
+                            <div class="meter-value" id="hookYValue">1.5</div>
+                        </div>
+                        <div class="vibration-meter">
+                            <canvas id="hookZMeter"></canvas>
+                            <div class="meter-value" id="hookZValue">0.9</div>
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Travel Motor Panel -->
-            <div class="motor-panel">
-                <div class="motor-header">
-                    <div class="motor-name">
-                        <i class="fas fa-arrows-alt-h"></i>
-                        <span>Travel Motor</span>
-                    </div>
-                    <div class="motor-status status-normal">Normal</div>
-                </div>
-                
-                <div class="axis-controls">
-                    <button class="axis-btn active" data-axis="all">
-                        <i class="fas fa-layer-group"></i>
-                        All Axes
-                    </button>
-                    <button class="axis-btn" data-axis="x">
-                        <i class="fas fa-arrows-alt-h"></i>
-                        X-Axis
-                    </button>
-                    <button class="axis-btn" data-axis="y">
-                        <i class="fas fa-arrows-alt-v"></i>
-                        Y-Axis
-                    </button>
-                    <button class="axis-btn" data-axis="z">
-                        <i class="fas fa-arrow-right"></i>
-                        Z-Axis
-                    </button>
-                </div>
-                
-                <div class="combined-chart">
-                    <canvas id="travelCombinedChart"></canvas>
-                </div>
-                
-                <div class="vibration-meters">
-                    <div class="vibration-meter">
-                        <canvas id="travelXMeter"></canvas>
-                        <div class="meter-value" id="travelXValue">1.7</div>
-                    </div>
-                    <div class="vibration-meter">
-                        <canvas id="travelYMeter"></canvas>
-                        <div class="meter-value" id="travelYValue">1.3</div>
-                    </div>
-                    <div class="vibration-meter">
-                        <canvas id="travelZMeter"></canvas>
-                        <div class="meter-value" id="travelZValue">1.4</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Trolley Motor Panel -->
-            <div class="motor-panel">
-                <div class="motor-header">
-                    <div class="motor-name">
-                        <i class="fas fa-arrows-alt"></i>
-                        <span>Trolley Motor</span>
-                    </div>
-                    <div class="motor-status status-danger">Critical</div>
-                </div>
-                
-                <div class="axis-controls">
-                    <button class="axis-btn active" data-axis="all">
-                        <i class="fas fa-layer-group"></i>
-                        All Axes
-                    </button>
-                    <button class="axis-btn" data-axis="x">
-                        <i class="fas fa-arrows-alt-h"></i>
-                        X-Axis
-                    </button>
-                    <button class="axis-btn" data-axis="y">
-                        <i class="fas fa-arrows-alt-v"></i>
-                        Y-Axis
-                    </button>
-                    <button class="axis-btn" data-axis="z">
-                        <i class="fas fa-arrow-right"></i>
-                        Z-Axis
-                    </button>
-                </div>
-                
-                <div class="combined-chart">
-                    <canvas id="trolleyCombinedChart"></canvas>
-                </div>
-                
-                <div class="vibration-meters">
-                    <div class="vibration-meter">
-                        <canvas id="trolleyXMeter"></canvas>
-                        <div class="meter-value" id="trolleyXValue">2.9</div>
-                    </div>
-                    <div class="vibration-meter">
-                        <canvas id="trolleyYMeter"></canvas>
-                        <div class="meter-value" id="trolleyYValue">3.1</div>
-                    </div>
-                    <div class="vibration-meter">
-                        <canvas id="trolleyZMeter"></canvas>
-                        <div class="meter-value" id="trolleyZValue">7.6</div>
-                    </div>
-                </div>
-            </div>
-            <!-- Gearbox Panel -->
-<div class="motor-panel">
-    <div class="motor-header">
-        <div class="motor-name">
-            <i class="fas fa-cogs"></i>
-            <span>Gearbox</span>
-        </div>
-        <div class="motor-status status-normal">Normal</div>
-    </div>
-    
-    <div class="axis-controls">
-        <button class="axis-btn active" data-axis="all">
-            <i class="fas fa-layer-group"></i>
-            All Axes
-        </button>
-        <button class="axis-btn" data-axis="x">
-            <i class="fas fa-arrows-alt-h"></i>
-            X-Axis
-        </button>
-        <button class="axis-btn" data-axis="y">
-            <i class="fas fa-arrows-alt-v"></i>
-            Y-Axis
-        </button>
-        <button class="axis-btn" data-axis="z">
-            <i class="fas fa-arrow-right"></i>
-            Z-Axis
-        </button>
-    </div>
-    
-    <div class="combined-chart">
-        <canvas id="gearboxCombinedChart"></canvas>
-    </div>
-    
-    <div class="vibration-meters">
-        <div class="vibration-meter">
-            <canvas id="gearboxXMeter"></canvas>
-            <div class="meter-value" id="gearboxXValue">2.4</div>
-        </div>
-        <div class="vibration-meter">
-            <canvas id="gearboxYMeter"></canvas>
-            <div class="meter-value" id="gearboxYValue">2.9</div>
-        </div>
-        <div class="vibration-meter">
-            <canvas id="gearboxZMeter"></canvas>
-            <div class="meter-value" id="gearboxZValue">4.1</div>
-        </div>
-    </div>
-</div>
         </div>
     </div>
 
@@ -1413,7 +1586,7 @@ canvas {
             }
         });
         
-        // Sample vibration data for each motor and axis
+        // Sample vibration data for each component and axis
         const vibrationData = {
             timestamps: ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'],
             
@@ -1435,11 +1608,28 @@ canvas {
                 z: [5.8, 6.0, 6.2, 6.4, 6.6, 6.8, 7.0, 7.2, 7.4, 7.6]
             },
             
-            // Added gearbox data
             gearbox: {
                 x: [1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4],
                 y: [2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9],
                 z: [3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 4.0, 4.1]
+            },
+            
+            pulley: {
+                x: [2.5, 2.6, 2.7, 2.8, 2.9, 3.0, 3.1, 3.2, 3.3, 3.4],
+                y: [3.8, 3.9, 4.0, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7],
+                z: [2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9]
+            },
+            
+            wheels: {
+                x: [1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 1.9, 1.8, 1.9, 1.8],
+                y: [2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.4, 2.3, 2.2, 2.1],
+                z: [1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.6, 1.5, 1.4, 1.3]
+            },
+            
+            hook: {
+                x: [0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.2, 1.1, 1.2, 1.1],
+                y: [1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.6, 1.5, 1.4, 1.3],
+                z: [0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.0, 0.9, 0.8, 0.7]
             },
             
             overview: {
@@ -1447,7 +1637,10 @@ canvas {
                 hoist: [2.1, 2.3, 2.8, 3.2, 3.5, 3.8],
                 travel: [1.8, 1.9, 2.1, 2.3, 2.5, 2.7],
                 trolley: [3.5, 4.0, 4.8, 5.2, 5.8, 6.4],
-                gearbox: [2.5, 2.7, 3.0, 3.3, 3.6, 3.9] // Added gearbox overview data
+                gearbox: [2.5, 2.7, 3.0, 3.3, 3.6, 3.9],
+                pulley: [3.2, 3.4, 3.8, 4.2, 4.5, 4.8],
+                wheels: [1.8, 1.9, 2.1, 2.3, 2.5, 2.7],
+                hook: [1.0, 1.1, 1.3, 1.5, 1.7, 1.9]
             }
         };
         
@@ -1457,7 +1650,10 @@ canvas {
             hoist: null,
             travel: null,
             trolley: null,
-            gearbox: null // Added gearbox chart instance
+            gearbox: null,
+            pulley: null,
+            wheels: null,
+            hook: null
         };
         
         // Initialize all charts
@@ -1465,13 +1661,16 @@ canvas {
             // Create overview chart
             createOverviewChart();
             
-            // Create motor charts
+            // Create component charts
             charts.hoist = createCombinedChart('hoistCombinedChart', 'Hoist Motor', vibrationData.hoist);
             charts.travel = createCombinedChart('travelCombinedChart', 'Travel Motor', vibrationData.travel);
             charts.trolley = createCombinedChart('trolleyCombinedChart', 'Trolley Motor', vibrationData.trolley);
-            charts.gearbox = createCombinedChart('gearboxCombinedChart', 'Gearbox', vibrationData.gearbox); // Added gearbox chart
+            charts.gearbox = createCombinedChart('gearboxCombinedChart', 'Gearbox', vibrationData.gearbox);
+            charts.pulley = createCombinedChart('pulleyCombinedChart', 'Pulley', vibrationData.pulley);
+            charts.wheels = createCombinedChart('wheelsCombinedChart', 'Wheels', vibrationData.wheels);
+            charts.hook = createCombinedChart('hookCombinedChart', 'Hook', vibrationData.hook);
             
-            // Create meters
+            // Create meters for all components
             createMeter('hoistXMeter', vibrationData.hoist.x[vibrationData.hoist.x.length - 1], 'hoistXValue');
             createMeter('hoistYMeter', vibrationData.hoist.y[vibrationData.hoist.y.length - 1], 'hoistYValue');
             createMeter('hoistZMeter', vibrationData.hoist.z[vibrationData.hoist.z.length - 1], 'hoistZValue');
@@ -1484,10 +1683,21 @@ canvas {
             createMeter('trolleyYMeter', vibrationData.trolley.y[vibrationData.trolley.y.length - 1], 'trolleyYValue');
             createMeter('trolleyZMeter', vibrationData.trolley.z[vibrationData.trolley.z.length - 1], 'trolleyZValue');
             
-            // Added gearbox meters
             createMeter('gearboxXMeter', vibrationData.gearbox.x[vibrationData.gearbox.x.length - 1], 'gearboxXValue');
             createMeter('gearboxYMeter', vibrationData.gearbox.y[vibrationData.gearbox.y.length - 1], 'gearboxYValue');
             createMeter('gearboxZMeter', vibrationData.gearbox.z[vibrationData.gearbox.z.length - 1], 'gearboxZValue');
+            
+            createMeter('pulleyXMeter', vibrationData.pulley.x[vibrationData.pulley.x.length - 1], 'pulleyXValue');
+            createMeter('pulleyYMeter', vibrationData.pulley.y[vibrationData.pulley.y.length - 1], 'pulleyYValue');
+            createMeter('pulleyZMeter', vibrationData.pulley.z[vibrationData.pulley.z.length - 1], 'pulleyZValue');
+            
+            createMeter('wheelsXMeter', vibrationData.wheels.x[vibrationData.wheels.x.length - 1], 'wheelsXValue');
+            createMeter('wheelsYMeter', vibrationData.wheels.y[vibrationData.wheels.y.length - 1], 'wheelsYValue');
+            createMeter('wheelsZMeter', vibrationData.wheels.z[vibrationData.wheels.z.length - 1], 'wheelsZValue');
+            
+            createMeter('hookXMeter', vibrationData.hook.x[vibrationData.hook.x.length - 1], 'hookXValue');
+            createMeter('hookYMeter', vibrationData.hook.y[vibrationData.hook.y.length - 1], 'hookYValue');
+            createMeter('hookZMeter', vibrationData.hook.z[vibrationData.hook.z.length - 1], 'hookZValue');
         }
         
         // Create overview vibration chart
@@ -1532,10 +1742,43 @@ canvas {
                             borderWidth: 2
                         },
                         {
-                            label: 'Gearbox', // Added gearbox to overview
+                            label: 'Gearbox',
                             data: vibrationData.overview.gearbox,
                             borderColor: '#9b59b6',
                             backgroundColor: '#9b59b620',
+                            tension: 0.3,
+                            fill: false,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Pulley',
+                            data: vibrationData.overview.pulley,
+                            borderColor: '#f39c12',
+                            backgroundColor: '#f39c1220',
+                            tension: 0.3,
+                            fill: false,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Wheels',
+                            data: vibrationData.overview.wheels,
+                            borderColor: '#f1c40f',
+                            backgroundColor: '#f1c40f20',
+                            tension: 0.3,
+                            fill: false,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Hook',
+                            data: vibrationData.overview.hook,
+                            borderColor: '#1abc9c',
+                            backgroundColor: '#1abc9c20',
                             tension: 0.3,
                             fill: false,
                             pointRadius: 4,
@@ -1636,7 +1879,7 @@ canvas {
         }
         
         // Create combined chart with all axes
-        function createCombinedChart(canvasId, motorName, motorData) {
+        function createCombinedChart(canvasId, componentName, componentData) {
             const ctx = document.getElementById(canvasId).getContext('2d');
             return new Chart(ctx, {
                 type: 'line',
@@ -1645,7 +1888,7 @@ canvas {
                     datasets: [
                         {
                             label: 'X-Axis (Longitudinal)',
-                            data: motorData.x,
+                            data: componentData.x,
                             borderColor: '#3498db',
                             backgroundColor: '#3498db20',
                             tension: 0.3,
@@ -1656,7 +1899,7 @@ canvas {
                         },
                         {
                             label: 'Y-Axis (Vertical)',
-                            data: motorData.y,
+                            data: componentData.y,
                             borderColor: '#2ecc71',
                             backgroundColor: '#2ecc7120',
                             tension: 0.3,
@@ -1667,7 +1910,7 @@ canvas {
                         },
                         {
                             label: 'Z-Axis (Lateral)',
-                            data: motorData.z,
+                            data: componentData.z,
                             borderColor: '#e74c3c',
                             backgroundColor: '#e74c3c20',
                             tension: 0.3,
@@ -1703,7 +1946,7 @@ canvas {
                         },
                         title: {
                             display: true,
-                            text: motorName + ' Vibration',
+                            text: componentName + ' Vibration',
                             font: {
                                 size: 16
                             }
@@ -1793,7 +2036,7 @@ canvas {
         function setupAxisToggles() {
             document.querySelectorAll('.axis-controls').forEach(controlGroup => {
                 const buttons = controlGroup.querySelectorAll('.axis-btn');
-                const motor = controlGroup.closest('.motor-panel').querySelector('.motor-name span').textContent.toLowerCase().replace(' motor', '');
+                const component = controlGroup.closest('.component-panel').querySelector('.component-name span').textContent.toLowerCase();
                 
                 buttons.forEach(button => {
                     button.addEventListener('click', function() {
@@ -1805,7 +2048,7 @@ canvas {
                         const axis = this.getAttribute('data-axis');
                         
                         // Update chart
-                        updateChartVisibility(charts[motor], axis);
+                        updateChartVisibility(charts[component], axis);
                     });
                 });
             });
@@ -1908,6 +2151,18 @@ canvas {
                 const lastGearboxY = vibrationData.gearbox.y[vibrationData.gearbox.y.length - 1];
                 vibrationData.gearbox.y.push(Math.min(lastGearboxY + (Math.random() * 0.3 - 0.15), 5.5));
                 
+                // Update pulley data
+                const lastPulleyY = vibrationData.pulley.y[vibrationData.pulley.y.length - 1];
+                vibrationData.pulley.y.push(Math.min(lastPulleyY + (Math.random() * 0.3 - 0.1), 5.2));
+                
+                // Update wheels data
+                const lastWheelsX = vibrationData.wheels.x[vibrationData.wheels.x.length - 1];
+                vibrationData.wheels.x.push(Math.max(1.0, lastWheelsX + (Math.random() * 0.2 - 0.1)));
+                
+                // Update hook data
+                const lastHookY = vibrationData.hook.y[vibrationData.hook.y.length - 1];
+                vibrationData.hook.y.push(Math.min(lastHookY + (Math.random() * 0.2 - 0.1), 2.0));
+                
                 // Update timestamps
                 vibrationData.timestamps.push(currentTime);
                 
@@ -1918,6 +2173,9 @@ canvas {
                     vibrationData.travel.x.shift();
                     vibrationData.trolley.z.shift();
                     vibrationData.gearbox.y.shift();
+                    vibrationData.pulley.y.shift();
+                    vibrationData.wheels.x.shift();
+                    vibrationData.hook.y.shift();
                 }
                 
                 // Update charts
@@ -1925,12 +2183,18 @@ canvas {
                 charts.travel.update();
                 charts.trolley.update();
                 charts.gearbox.update();
+                charts.pulley.update();
+                charts.wheels.update();
+                charts.hook.update();
                 
                 // Update meters
                 createMeter('hoistYMeter', vibrationData.hoist.y[vibrationData.hoist.y.length - 1], 'hoistYValue');
                 createMeter('travelXMeter', vibrationData.travel.x[vibrationData.travel.x.length - 1], 'travelXValue');
                 createMeter('trolleyZMeter', vibrationData.trolley.z[vibrationData.trolley.z.length - 1], 'trolleyZValue');
                 createMeter('gearboxYMeter', vibrationData.gearbox.y[vibrationData.gearbox.y.length - 1], 'gearboxYValue');
+                createMeter('pulleyYMeter', vibrationData.pulley.y[vibrationData.pulley.y.length - 1], 'pulleyYValue');
+                createMeter('wheelsXMeter', vibrationData.wheels.x[vibrationData.wheels.x.length - 1], 'wheelsXValue');
+                createMeter('hookYMeter', vibrationData.hook.y[vibrationData.hook.y.length - 1], 'hookYValue');
                 
                 // Update status indicators based on new values
                 updateStatusIndicators();
