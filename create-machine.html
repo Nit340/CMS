@@ -215,6 +215,15 @@
             background-color: #7f8c8d;
         }
 
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
         /* Form Container */
         .table-container {
             background-color: white;
@@ -264,12 +273,25 @@
             color: var(--dark-color);
         }
 
-        .form-group input[type="text"] {
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group select,
+        .form-group textarea {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
             font-size: 14px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-col {
+            flex: 1;
         }
 
         /* Machine Type Header */
@@ -279,6 +301,7 @@
             border-radius: 8px;
             margin-bottom: 20px;
             border-left: 4px solid var(--primary-color);
+            position: relative;
         }
 
         .machine-type-header h2 {
@@ -288,6 +311,11 @@
 
         .machine-type-header .form-group {
             max-width: 500px;
+        }
+
+        .required-field::after {
+            content: " *";
+            color: var(--danger-color);
         }
 
         /* Modal Styles */
@@ -308,9 +336,11 @@
             background-color: white;
             padding: 20px;
             border-radius: 8px;
-            width: 400px;
+            width: 600px;
             max-width: 90%;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-header {
@@ -493,6 +523,7 @@
         .account-menu-item:focus {
             background-color: var(--hover-bg);
             color: var(--primary-color);
+            outline: none;
         }
 
         .account-menu-item i {
@@ -654,6 +685,123 @@
             gap: 10px;
         }
 
+        /* Existing Machine Types Table */
+        .existing-types-section {
+            margin-top: 30px;
+        }
+
+        .existing-types-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .existing-types-table th,
+        .existing-types-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .existing-types-table th {
+            background-color: var(--light-color);
+            font-weight: 600;
+        }
+
+        .existing-types-table tr:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .table-btn {
+            padding: 5px 10px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .table-btn-edit {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .table-btn-delete {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        /* Field item styling */
+        .field-item {
+            border: 1px solid #eee;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+        }
+
+        .field-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .field-title {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .field-properties {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        /* Enhanced field modal styling */
+        .field-config-group {
+            margin-bottom: 15px;
+            padding: 12px;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            background-color: #f9f9f9;
+        }
+
+        .field-config-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .field-config-title i {
+            color: var(--primary-color);
+        }
+
+        /* Validation error styling */
+        .error-message {
+            color: var(--danger-color);
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .input-error {
+            border-color: var(--danger-color) !important;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .container {
@@ -663,96 +811,72 @@
             .sidebar {
                 display: none;
             }
+            
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .field-properties {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 95%;
+            }
         }
-/* Shifts Section Styling */
-#shifts-section {
-    margin-top: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    padding: 15px;
-}
+        
+        /* Toggle switch for required field */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+            margin-left: 10px;
+        }
 
-#shifts-section .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
-}
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
 
-#shifts-section .section-title {
-    font-size: 1.2rem;
-    color: var(--dark-color);
-    font-weight: 600;
-}
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
 
-#shifts-section .form-group {
-    margin-bottom: 15px;
-}
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
 
-#shifts-section .form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: var(--dark-color);
-}
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
 
-#shifts-section .form-group input[type="text"],
-#shifts-section .form-group input[type="time"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-/* Time input specific styling */
-#shifts-section .form-group input[type="time"] {
-    /* For better cross-browser compatibility */
-    padding: 9px;
-}
-
-/* NEW: Flex layout for shift inputs */
-#shifts-section .shift-inputs-container {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-#shifts-section .shift-name-container {
-    flex: 2; /* Takes more space than time inputs */
-    min-width: 200px;
-}
-
-#shifts-section .time-inputs-container {
-    display: flex;
-    gap: 15px;
-    flex: 3; /* Takes more space than individual inputs */
-}
-
-#shifts-section .time-input {
-    flex: 1;
-    min-width: 120px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    #shifts-section .shift-inputs-container {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    #shifts-section .time-inputs-container {
-        flex-direction: column;
-    }
-    
-    #shifts-section .shift-name-container,
-    #shifts-section .time-input {
-        min-width: 100%;
-    }
-}
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 
@@ -801,12 +925,13 @@
                 <p>Define a new machine type and its properties</p>
             </div>
 
-            <!-- Machine Type Name Section (separate from Basic Details) -->
+            <!-- Machine Type Name Section -->
             <div class="machine-type-header">
                 <h2>Machine Type Identification</h2>
                 <div class="form-group">
-                    <label for="machine-type-name">Machine Type Name</label>
-                    <input type="text" id="machine-type-name" placeholder="e.g., Crane, Excavator, Forklift">
+                    <label for="machine-type-name" class="required-field">Machine Type Name</label>
+                    <input type="text" id="machine-type-name" placeholder="e.g., Crane, Excavator, Forklift" required>
+                    <div class="error-message" id="machine-type-name-error">Machine type name is required</div>
                 </div>
             </div>
 
@@ -817,48 +942,40 @@
             </div>
 
             <div class="table-container">
-                <!-- Basic Details Section (without machine type name) -->
+                <!-- Basic Details Section -->
                 <div class="section" id="basic-details">
                     <div class="section-header">
                         <h3 class="section-title">Basic Details</h3>
                     </div>
-                    <div class="form-group">
-                        <label for="manufacturer">Manufacturer</label>
-                        <input type="text" id="manufacturer" placeholder="Enter manufacturer">
-                    </div>
-                    <div class="form-group">
-                        <label for="model">Model</label>
-                        <input type="text" id="model" placeholder="Enter model">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="manufacturer">Manufacturer</label>
+                                <input type="text" id="manufacturer" placeholder="Enter manufacturer">
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="model">Model</label>
+                                <input type="text" id="model" placeholder="Enter model">
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="iot-gateway">IoT Gateway</label>
+                                <select id="iot-gateway">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-<div class="section" id="shifts-section">
-    <div class="section-header">
-        <h3 class="section-title">Shifts</h3>
-    </div>
-    
-    <div class="shift-inputs-container">
-        <!-- Shift Name -->
-        <div class="form-group shift-name-container">
-            <label for="shift-name">Shift Name</label>
-            <input type="text" id="shift-name" placeholder="Enter Shift Name">
-        </div>
-        
-        <!-- Time Inputs -->
-        <div class="time-inputs-container">
-            <div class="form-group time-input">
-                <label for="shift-from">From</label>
-                <input type="time" id="shift-from">
-            </div>
-            <div class="form-group time-input">
-                <label for="shift-to">To</label>
-                <input type="time" id="shift-to">
-            </div>
-        </div>
-    </div>
-</div>     <!-- Dynamic Sections Container -->
+                <!-- Dynamic Sections Container -->
                 <div id="dynamic-sections"></div>
             </div>
+
+            <!-- Existing Machine Types Table moved to bottom after Save/Cancel -->
 
             <div class="action-buttons" style="margin-top: 20px;">
                 <button id="save-form-btn" class="btn btn-primary">
@@ -867,6 +984,28 @@
                 <button id="cancel-btn" class="btn btn-secondary">
                     <i class="fas fa-times"></i> Cancel
                 </button>
+            </div>
+
+            <!-- Machine Type Table -->
+            <div class="section existing-types-section">
+                <div class="section-header">
+                    <h3 class="section-title">Machine Type</h3>
+                </div>
+                <table class="existing-types-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Manufacturer</th>
+                            <th>Model</th>
+                            <th>IoT Gateway</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="existing-types-body">
+                        <!-- Will be populated by JavaScript -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -880,8 +1019,9 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="section-name">Section Name</label>
-                    <input type="text" id="section-name" placeholder="Enter section name">
+                    <label for="section-name" class="required-field">Section Name</label>
+                    <input type="text" id="section-name" placeholder="Enter section name" required>
+                    <div class="error-message" id="section-name-error">Section name is required</div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -891,7 +1031,7 @@
         </div>
     </div>
 
-    <!-- Modal for Field Creation -->
+    <!-- Enhanced Modal for Field Creation -->
     <div class="modal" id="field-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -899,10 +1039,118 @@
                 <button class="close-modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label for="field-name">Field Name</label>
-                    <input type="text" id="field-name" placeholder="Enter field name">
+                <div class="field-config-group">
+                    <div class="field-config-title">
+                        <i class="fas fa-font"></i>
+                        <span>Basic Information</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="field-name" class="required-field">Field Name</label>
+                        <input type="text" id="field-name" placeholder="Enter field name" required>
+                        <div class="error-message" id="field-name-error">Field name is required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="field-description">Description</label>
+                        <textarea id="field-description" placeholder="Enter field description" rows="2"></textarea>
+                    </div>
                 </div>
+
+                <div class="field-config-group">
+                    <div class="field-config-title">
+                        <i class="fas fa-cog"></i>
+                        <span>Data Configuration</span>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="field-data-type" class="required-field">Data Type</label>
+                                <select id="field-data-type">
+                                    <option value="text">Text</option>
+                                    <option value="number">Number</option>
+                                    <option value="decimal">Decimal</option>
+                                    <option value="date">Date</option>
+                                    <option value="datetime">Date & Time</option>
+                                    <option value="boolean">Yes/No</option>
+                                    <option value="options">Options</option>
+                                    <option value="file">File</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="field-length">Length/Precision</label>
+                                <input type="number" id="field-length" placeholder="Enter length" min="1">
+                                <div class="error-message" id="field-length-error">Length must be a positive number</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" id="options-container" style="display: none;">
+                        <label for="field-options" class="required-field">Options (comma separated)</label>
+                        <input type="text" id="field-options" placeholder="Option 1, Option 2, Option 3">
+                        <div class="error-message" id="field-options-error">Options are required for this data type</div>
+                    </div>
+                    
+                    <!-- formula removed per requirement -->
+                </div>
+
+                <div class="field-config-group">
+                    <div class="field-config-title">
+                        <i class="fas fa-database"></i>
+                        <span>Data Feed Configuration</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="field-feed-type" class="required-field">Feed Type</label>
+                        <select id="field-feed-type">
+                            <option value="manual">Manual Input</option>
+                            <option value="auto">Auto Feed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field-config-group">
+                    <div class="field-config-title">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Validation Rules</span>
+                    </div>
+                    <div class="toggle-label">
+                        <span>Required Field</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="field-required">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="field-validation">Validation Rule</label>
+                        <select id="field-validation">
+                            <option value="none">None</option>
+                            <option value="email">Email</option>
+                            <option value="url">URL</option>
+                            <option value="phone">Phone Number</option>
+                            <option value="custom">Custom Regex</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="custom-regex-container" style="display: none;">
+                        <label for="field-custom-regex" class="required-field">Custom Regular Expression</label>
+                        <input type="text" id="field-custom-regex" placeholder="Enter regex pattern">
+                        <div class="error-message" id="field-custom-regex-error">Regular expression is required for custom validation</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="field-min-value">Minimum Value</label>
+                        <input type="number" id="field-min-value" placeholder="Enter minimum value">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="field-max-value">Maximum Value</label>
+                        <input type="number" id="field-max-value" placeholder="Enter maximum value">
+                        <div class="error-message" id="field-max-value-error">Maximum value must be greater than minimum value</div>
+                    </div>
+                </div>
+                
+                
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" id="cancel-field">Cancel</button>
@@ -939,6 +1187,13 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Initialize sample data for existing machine types
+            const sampleMachineTypes = [
+                { id: 'MT001', name: 'Crane', manufacturer: 'Caterpillar', model: 'C-200', iotGateway: 'Gateway-1' },
+                { id: 'MT002', name: 'Excavator', manufacturer: 'Komatsu', model: 'PC200-8', iotGateway: 'Gateway-2' },
+                { id: 'MT003', name: 'Forklift', manufacturer: 'Toyota', model: '8FGCU25', iotGateway: 'Gateway-3' }
+            ];
+
             // Load the sidebar
             fetch('sidebar.html')
                 .then(response => response.text())
@@ -950,6 +1205,75 @@
                     console.error('Error loading sidebar:', error);
                     showNotification('Error', 'Failed to load sidebar', 'error');
                 });
+
+            // Populate existing machine types table
+            function populateExistingMachineTypes() {
+                const tableBody = document.getElementById('existing-types-body');
+                tableBody.innerHTML = '';
+                
+                let machineTypes = JSON.parse(localStorage.getItem('machineTypes') || '[]');
+                
+                // Add sample data if no machine types exist
+                if (machineTypes.length === 0) {
+                    machineTypes = sampleMachineTypes;
+                    localStorage.setItem('machineTypes', JSON.stringify(machineTypes));
+                }
+                
+        machineTypes.forEach(type => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${type.id}</td>
+                        <td>${type.name}</td>
+                        <td>${type.manufacturer || '-'}</td>
+                        <td>${type.model || '-'}</td>
+            <td>${type.iotGateway || '-'}</td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="table-btn table-btn-edit" data-id="${type.id}">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="table-btn table-btn-delete" data-id="${type.id}">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+                
+                // Add event listeners to action buttons
+                document.querySelectorAll('.table-btn-edit').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = this.dataset.id;
+                        editMachineType(id);
+                    });
+                });
+                
+                document.querySelectorAll('.table-btn-delete').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = this.dataset.id;
+                        deleteMachineType(id);
+                    });
+                });
+            }
+            
+            // Edit machine type
+            function editMachineType(id) {
+                showNotification('Info', `Edit functionality for ${id} would open here`, 'info');
+            }
+            
+            // Delete machine type
+            function deleteMachineType(id) {
+                showConfirmation('Confirm Deletion', `Are you sure you want to delete machine type ${id}?`, function(confirmed) {
+                    if (confirmed) {
+                        let machineTypes = JSON.parse(localStorage.getItem('machineTypes') || '[]');
+                        machineTypes = machineTypes.filter(type => type.id !== id);
+                        localStorage.setItem('machineTypes', JSON.stringify(machineTypes));
+                        populateExistingMachineTypes();
+                        showNotification('Deleted', `Machine type ${id} has been deleted`, 'success');
+                    }
+                });
+            }
 
             // Initialize sidebar functionality
             function initializeSidebar() {
@@ -1052,6 +1376,9 @@
                     case 'error':
                         iconClass = 'fas fa-times-circle error';
                         break;
+                    case 'info':
+                        iconClass = 'fas fa-info-circle info';
+                        break;
                     default:
                         iconClass = 'fas fa-info-circle';
                 }
@@ -1149,15 +1476,145 @@
             const fieldModal = document.getElementById('field-modal');
             const closeModalButtons = document.querySelectorAll('.close-modal, .btn-secondary');
 
+            // Enhanced field configuration logic
+            document.getElementById('field-data-type').addEventListener('change', function() {
+                const optionsContainer = document.getElementById('options-container');
+                const lengthField = document.getElementById('field-length');
+
+                optionsContainer.style.display = this.value === 'options' ? 'block' : 'none';
+
+                // Show/hide length field based on data type
+                if (['text', 'number', 'decimal'].includes(this.value)) {
+                    lengthField.closest('.form-group').style.display = 'block';
+                } else {
+                    lengthField.closest('.form-group').style.display = 'none';
+                }
+            });
+
+            // Feed type now only supports manual and auto; no extra config containers
+
+            document.getElementById('field-validation').addEventListener('change', function() {
+                const customRegexContainer = document.getElementById('custom-regex-container');
+                customRegexContainer.style.display = this.value === 'custom' ? 'block' : 'none';
+            });
+
+            // Validation functions
+            function validateRequiredField(inputId, errorId) {
+                const input = document.getElementById(inputId);
+                const error = document.getElementById(errorId);
+                
+                if (!input.value.trim()) {
+                    input.classList.add('input-error');
+                    error.style.display = 'block';
+                    return false;
+                } else {
+                    input.classList.remove('input-error');
+                    error.style.display = 'none';
+                    return true;
+                }
+            }
+            
+            function validateNumberField(inputId, errorId, min = null, max = null) {
+                const input = document.getElementById(inputId);
+                const error = document.getElementById(errorId);
+                const value = parseFloat(input.value);
+                
+                if (input.value && !isNaN(value)) {
+                    if ((min !== null && value < min) || (max !== null && value > max)) {
+                        input.classList.add('input-error');
+                        error.textContent = `Value must be between ${min} and ${max}`;
+                        error.style.display = 'block';
+                        return false;
+                    }
+                }
+                
+                input.classList.remove('input-error');
+                error.style.display = 'none';
+                return true;
+            }
+            
+            function validateMinMaxValues() {
+                const minValue = document.getElementById('field-min-value').value;
+                const maxValue = document.getElementById('field-max-value').value;
+                const error = document.getElementById('field-max-value-error');
+                
+                if (minValue && maxValue && parseFloat(minValue) > parseFloat(maxValue)) {
+                    error.textContent = 'Maximum value must be greater than minimum value';
+                    error.style.display = 'block';
+                    return false;
+                }
+                
+                error.style.display = 'none';
+                return true;
+            }
+            
+            function validateFieldModal() {
+                let isValid = true;
+                
+                // Validate field name
+                if (!validateRequiredField('field-name', 'field-name-error')) {
+                    isValid = false;
+                }
+                
+                // Validate options if options data type is selected
+                const dataType = document.getElementById('field-data-type').value;
+                if (dataType === 'options') {
+                    if (!validateRequiredField('field-options', 'field-options-error')) {
+                        isValid = false;
+                    }
+                }
+                
+                // No formula, sensor or api validations required per updated requirements
+                
+                // Validate custom regex if custom validation is selected
+                const validation = document.getElementById('field-validation').value;
+                if (validation === 'custom') {
+                    if (!validateRequiredField('field-custom-regex', 'field-custom-regex-error')) {
+                        isValid = false;
+                    }
+                }
+                
+                // Validate length field
+                const length = document.getElementById('field-length').value;
+                if (length && !validateNumberField('field-length', 'field-length-error', 1)) {
+                    isValid = false;
+                }
+                
+                // Validate min/max values
+                if (!validateMinMaxValues()) {
+                    isValid = false;
+                }
+                
+                return isValid;
+            }
+            
+            function validateMainForm() {
+                let isValid = true;
+                
+                // Validate machine type name
+                if (!validateRequiredField('machine-type-name', 'machine-type-name-error')) {
+                    isValid = false;
+                }
+                
+                return isValid;
+            }
+
             // Open section modal
             document.getElementById('add-section-btn').addEventListener('click', function () {
                 document.getElementById('section-name').value = '';
+                document.getElementById('section-name-error').style.display = 'none';
+                document.getElementById('section-name').classList.remove('input-error');
                 sectionModal.style.display = 'flex';
             });
 
             // Confirm section creation
             document.getElementById('confirm-section').addEventListener('click', function () {
                 const sectionName = document.getElementById('section-name').value.trim();
+                
+                if (!validateRequiredField('section-name', 'section-name-error')) {
+                    return;
+                }
+                
                 if (sectionName) {
                     sectionCounter.count++;
                     const sectionId = `custom-section-${sectionCounter.count}`;
@@ -1170,7 +1627,7 @@
                                     <button class="btn btn-primary add-field" data-section="${sectionId}">
                                         <i class="fas fa-plus"></i> Add Field
                                     </button>
-                                    <button class="btn btn-secondary remove-section" data-section="${sectionId}">
+                                    <button class="btn btn-danger remove-section" data-section="${sectionId}">
                                         <i class="fas fa-trash"></i> Remove
                                     </button>
                                 </div>
@@ -1185,31 +1642,83 @@
                     document.querySelector(`#${sectionId} .remove-section`).addEventListener('click', removeSection);
                     document.querySelector(`#${sectionId} .add-field`).addEventListener('click', function () {
                         currentSectionId = this.dataset.section;
+                        // Reset field modal
                         document.getElementById('field-name').value = '';
+                        document.getElementById('field-description').value = '';
+                        document.getElementById('field-data-type').value = 'text';
+                        document.getElementById('field-length').value = '';
+                        document.getElementById('field-feed-type').value = 'manual';
+                        document.getElementById('field-options').value = '';
+                        document.getElementById('field-required').checked = false;
+                        document.getElementById('field-validation').value = 'none';
+                        document.getElementById('field-custom-regex').value = '';
+                        document.getElementById('field-min-value').value = '';
+                        document.getElementById('field-max-value').value = '';
+
+                        // Hide conditional fields
+                        document.getElementById('options-container').style.display = 'none';
+                        document.getElementById('custom-regex-container').style.display = 'none';
+                        document.getElementById('field-length').closest('.form-group').style.display = 'block';
+                        
+                        // Clear error messages
+                        document.querySelectorAll('.error-message').forEach(el => {
+                            el.style.display = 'none';
+                        });
+                        document.querySelectorAll('.input-error').forEach(el => {
+                            el.classList.remove('input-error');
+                        });
+                        
                         fieldModal.style.display = 'flex';
                     });
 
                     sectionModal.style.display = 'none';
                     showNotification('Section Added', `"${sectionName}" section has been added`, 'success');
-                } else {
-                    showNotification('Error', 'Please enter a section name', 'error');
                 }
             });
 
             // Confirm field creation
             document.getElementById('confirm-field').addEventListener('click', function () {
+                if (!validateFieldModal()) {
+                    return;
+                }
+                
                 const fieldName = document.getElementById('field-name').value.trim();
+                const fieldDescription = document.getElementById('field-description').value.trim();
+                const dataType = document.getElementById('field-data-type').value;
+                const length = document.getElementById('field-length').value;
+                const feedType = document.getElementById('field-feed-type').value;
+                const options = document.getElementById('field-options').value;
+                const sensorId = '';
+                const apiEndpoint = '';
+                const isRequired = document.getElementById('field-required').checked;
+                const validation = document.getElementById('field-validation').value;
+                const customRegex = document.getElementById('field-custom-regex').value;
+                const minValue = document.getElementById('field-min-value').value;
+                const maxValue = document.getElementById('field-max-value').value;
                 if (fieldName && currentSectionId) {
                     const section = document.getElementById(currentSectionId);
                     const fieldsContainer = section.querySelector('.section-fields');
 
                     const fieldHtml = `
-                        <div class="form-group field-item">
-                            <label>${fieldName}</label>
-                            <input type="text" placeholder="Enter value">
-                            <button class="btn btn-danger remove-field" style="margin-top: 5px; padding: 5px 10px; font-size: 0.8rem;">
-                                <i class="fas fa-trash"></i> Remove Field
-                            </button>
+                        <div class="field-item">
+                            <div class="field-header">
+                                <div class="field-title">${fieldName} ${isRequired ? '<span style="color: red;">*</span>' : ''}</div>
+                                <button class="btn btn-danger remove-field">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </div>
+                            <div class="field-properties">
+                                <div><strong>Description:</strong> ${fieldDescription || 'N/A'}</div>
+                                <div><strong>Data Type:</strong> ${dataType}</div>
+                                ${length ? `<div><strong>Length/Precision:</strong> ${length}</div>` : ''}
+                                <div><strong>Feed Type:</strong> ${feedType}</div>
+                                ${options ? `<div><strong>Options:</strong> ${options}</div>` : ''}
+                                <div><strong>Required:</strong> ${isRequired ? 'Yes' : 'No'}</div>
+                                ${validation !== 'none' ? `<div><strong>Validation:</strong> ${validation}</div>` : ''}
+                                ${customRegex ? `<div><strong>Custom Regex:</strong> ${customRegex}</div>` : ''}
+                                ${minValue ? `<div><strong>Min Value:</strong> ${minValue}</div>` : ''}
+                                ${maxValue ? `<div><strong>Max Value:</strong> ${maxValue}</div>` : ''}
+                            </div>
                         </div>
                     `;
 
@@ -1227,8 +1736,6 @@
 
                     fieldModal.style.display = 'none';
                     showNotification('Field Added', `"${fieldName}" field has been added`, 'success');
-                } else {
-                    showNotification('Error', 'Please enter a field name', 'error');
                 }
             });
 
@@ -1252,79 +1759,148 @@
                     }
                 });
             }
-// Save form
-document.getElementById('save-form-btn').addEventListener('click', function () {
-    const machineTypeName = document.getElementById('machine-type-name').value;
 
-    if (!machineTypeName) {
-        showNotification('Error', 'Please enter a machine type name', 'error');
-        return;
-    }
-
-    // Collect all form data
-    const formData = {
-        id: Date.now(), // Generate unique ID
-        name: machineTypeName,
-        fields: {
-            basicDetails: {
-                manufacturer: { 
-                    type: "text", 
-                    required: true,
-                    value: document.getElementById('manufacturer').value
-                },
-                model: { 
-                    type: "text", 
-                    required: true,
-                    value: document.getElementById('model').value
+            // Save form
+            document.getElementById('save-form-btn').addEventListener('click', function () {
+                if (!validateMainForm()) {
+                    showNotification('Validation Error', 'Please fix the validation errors before saving', 'error');
+                    return;
                 }
-            },
-            shifts: {
-                shiftName: { 
-                    type: "text", 
-                    required: true,
-                    value: document.getElementById('shift-name').value
-                },
-                shiftFrom: { 
-                    type: "time", 
-                    required: true,
-                    value: document.getElementById('shift-from').value
-                },
-                shiftTo: { 
-                    type: "time", 
-                    required: true,
-                    value: document.getElementById('shift-to').value
+                
+                const machineTypeName = document.getElementById('machine-type-name').value;
+                const manufacturer = document.getElementById('manufacturer').value;
+                const model = document.getElementById('model').value;
+                const iotGateway = document.getElementById('iot-gateway').value;
+
+                // Generate a unique ID for the machine type
+                const machineId = 'MT' + Date.now().toString().slice(-4);
+
+                // Collect all form data
+                const formData = {
+                    id: machineId,
+                    name: machineTypeName,
+                    manufacturer: manufacturer,
+                    model: model,
+                    iotGateway: iotGateway,
+                    fields: {
+                        basicDetails: {
+                            manufacturer: { 
+                                type: "text", 
+                                required: false,
+                                value: manufacturer
+                            },
+                            model: { 
+                                type: "text", 
+                                required: false,
+                                value: model
+                            },
+                            iotGateway: {
+                                type: "text",
+                                required: false,
+                                value: iotGateway
+                            }
+                        }
+                    }
+                };
+
+                // Get custom sections
+                document.querySelectorAll('#dynamic-sections .section').forEach(section => {
+                    const sectionTitle = section.querySelector('.section-title').textContent;
+                    formData.fields[sectionTitle] = {};
+
+                    section.querySelectorAll('.field-item').forEach(field => {
+                        const fieldTitle = field.querySelector('.field-title').textContent.replace(/\s*\*$/, '');
+                        const properties = field.querySelectorAll('.field-properties > div');
+                        
+                        // Extract all field properties
+                        const description = properties[0].textContent.replace('Description: ', '');
+                        const dataType = properties[1].textContent.replace('Data Type: ', '');
+                        const length = properties[2]?.textContent.replace('Length/Precision: ', '') || '';
+                        const feedType = properties[3].textContent.replace('Feed Type: ', '');
+                        const options = properties[4]?.textContent.replace('Options: ', '') || '';
+                        const required = properties[5].textContent.replace('Required: ', '') === 'Yes';
+                        const validation = properties[6]?.textContent.replace('Validation: ', '') || 'none';
+                        const customRegex = properties[7]?.textContent.replace('Custom Regex: ', '') || '';
+                        const minValue = properties[8]?.textContent.replace('Min Value: ', '') || '';
+                        const maxValue = properties[9]?.textContent.replace('Max Value: ', '') || '';
+
+                        
+                        // Normalize/save metadata so machine-form can consume validation rules
+                        const minNum = minValue ? parseFloat(minValue) : null;
+                        const maxNum = maxValue ? parseFloat(maxValue) : null;
+                        // Convert options string to array when comma separated
+                        let optionsNormalized = options;
+                        if (typeof options === 'string' && options.trim()) {
+                            // if comma separated, convert to array
+                            if (options.indexOf(',') !== -1) {
+                                optionsNormalized = options.split(',').map(s => s.trim()).filter(Boolean);
+                            } else {
+                                optionsNormalized = [options.trim()];
+                            }
+                        }
+
+                        formData.fields[sectionTitle][fieldTitle] = { 
+                            description: description === 'N/A' ? '' : description,
+                            // primary type key used by machine-form
+                            type: dataType,
+                            // keep legacy key as well
+                            dataType: dataType,
+                            length: length === 'N/A' || length === '' ? null : parseInt(length),
+                            feedType: feedType,
+                            options: optionsNormalized,
+                            required: required,
+                            validation: validation,
+                            customRegex: customRegex,
+                            // provide both min/max and minValue/maxValue for compatibility
+                            min: minNum,
+                            max: maxNum,
+                            minValue: minNum,
+                            maxValue: maxNum,
+
+                            value: ""
+                        };
+                    });
+                });
+
+                // Save to localStorage (in a real app, you would send to server)
+                let machineTypes = JSON.parse(localStorage.getItem('machineTypes') || '[]');
+                
+                // Check if ID already exists
+                const existingIndex = machineTypes.findIndex(type => type.id === machineId);
+                if (existingIndex !== -1) {
+                    // Update existing
+                    machineTypes[existingIndex] = formData;
+                    showNotification('Updated', 'Machine type updated successfully!', 'success');
+                } else {
+                    // Add new
+                    machineTypes.push(formData);
+                    showNotification('Success', 'Machine type saved successfully!', 'success');
                 }
-            }
-        }
-    };
+                
+                localStorage.setItem('machineTypes', JSON.stringify(machineTypes));
+                
+                // Refresh the existing types table
+                populateExistingMachineTypes();
 
-    // Get custom sections
-    document.querySelectorAll('#dynamic-sections .section').forEach(section => {
-        const sectionTitle = section.querySelector('.section-title').textContent;
-        formData.fields[sectionTitle] = {};
-
-        section.querySelectorAll('.field-item').forEach(field => {
-            const label = field.querySelector('label').textContent;
-            const value = field.querySelector('input').value;
-            formData.fields[sectionTitle][label] = { 
-                type: "text", 
-                required: true,
-                value: value
-            };
-        });
-    });
-
-    // Save to localStorage (in a real app, you would send to server)
-    let machineTypes = JSON.parse(localStorage.getItem('machineTypes') || '[]');
-    machineTypes.push(formData);
-    localStorage.setItem('machineTypes', JSON.stringify(machineTypes));
-
-    showNotification('Success', 'Machine type saved successfully!', 'success');
-
-    setTimeout(() => {
-        window.location.href = 'machine.html';
-    }, 1500);
-});
+                setTimeout(() => {
+                    // Clear form for new entry
+                    document.getElementById('machine-type-name').value = '';
+                    document.getElementById('manufacturer').value = '';
+                    document.getElementById('model').value = '';
+                    document.getElementById('iot-gateway').value = '';
+                    
+                    // Clear dynamic sections
+                    document.getElementById('dynamic-sections').innerHTML = '';
+                    
+                    // Clear error states
+                    document.querySelectorAll('.error-message').forEach(el => {
+                        el.style.display = 'none';
+                    });
+                    document.querySelectorAll('.input-error').forEach(el => {
+                        el.classList.remove('input-error');
+                    });
+                }, 1500);
+            });
 
             // Cancel button
             document.getElementById('cancel-btn').addEventListener('click', function () {
@@ -1334,6 +1910,9 @@ document.getElementById('save-form-btn').addEventListener('click', function () {
                     }
                 });
             });
+
+            // Initialize the page
+            populateExistingMachineTypes();
         });
     </script>
 </body>

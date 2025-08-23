@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iot Gateway Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --gray-color: #95a5a6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+.container {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    min-height: 100vh;
+    transition: grid-template-columns 0.3s ease;
+}
+
+.container.sidebar-expanded {
+    grid-template-columns: 250px 1fr;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    background-color: var(--dark-color);
+    color: white;
+    padding: 20px 0;
+    position: relative;
+    z-index: 10;
+    width: 60px;
+    transition: width 0.3s ease, background-color 0.2s ease;
+    overflow: hidden;
+}
+
+.sidebar:hover {
+    width: 250px;
+}
+
+.sidebar:hover .nav-link span {
+    display: inline;
+    opacity: 1;
+}
+
+.sidebar.expanded {
+    width: 250px;
+}
+
+.sidebar.expanded .nav-link span {
+    display: inline;
+    opacity: 1;
+}
+.logo {
+    text-align: center;
+    padding: 0 20px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: none;
+}
+
+.nav-link {
+    color: inherit;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 12px 15px;
+}
+
+.nav-item.active .nav-link {
+    color: white;
+}
+
+.nav-item:hover .nav-link {
+    color: white;
+}
+
+.nav-menu {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 100px);
+    justify-content: space-between;
+}
+
+.nav-item {
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.nav-item:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.nav-item.active {
+    background-color: var(--primary-color);
+}
+
+.nav-item i {
+    width: 30px;
+    text-align: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.nav-link span {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    margin-left: 10px;
+}
+
+/* Main Content */
+.main-content {
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.page-title {
+margin-bottom: 20px;
+}
+
+.page-title h1 {
+    font-size: 1.8rem;
+    color: var(--dark-color);
+}
+
+.page-title p {
+    font-size: 0.9rem;
+    color: var(--gray-color);
+}
+        
+        /* Device Form Styles */
+        .device-form-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-title {
+            font-size: 1.2rem;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 0.85rem;
+        }
+        
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus, select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            grid-column: span 2;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        
+        .btn-secondary {
+            background-color: var(--gray-color);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+        
+        /* Device Table Styles */
+        .device-table-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 20px;
+            overflow-x: auto;
+        }
+        
+        .device-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        
+        .device-table th {
+            text-align: left;
+            padding: 12px 15px;
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: var(--dark-color);
+            border-bottom: 2px solid #eee;
+        }
+        
+        .device-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .device-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .device-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .action-btns {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .action-btns button {
+            padding: 5px 8px;
+            font-size: 0.8rem;
+            border-radius: 3px;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .edit-btn {
+            background-color: var(--warning-color);
+            color: white;
+        }
+        
+        .edit-btn:hover {
+            background-color: #e0a800;
+        }
+        
+        .delete-btn {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+        
+        .logout-button {
+            margin-left: 15px;
+            padding: 6px 12px;
+            background-color: var(--danger-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.2s;
+        }
+        
+        .logout-button:hover {
+            background-color: #c0392b;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                grid-column: span 1;
+                flex-wrap: wrap;
+            }
+            
+            .btn {
+                flex: 1;
+            }
+        }
+        .dropdown-menu {
+    display: none;
+    padding-left: 20px;
+}
+/* Dropdown menu styles */
+.dropdown-menu {
+    display: none;
+    padding-left: 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.dropdown-menu.show {
+    display: block;
+    max-height: 200px;
+}
+
+.dropdown-item {
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-item i {
+    margin-right: 10px;
+}
+
+.dropdown-toggle .dropdown-icon {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+.dropdown-toggle.show .dropdown-icon,
+.sidebar:hover .dropdown-toggle.show .dropdown-icon {
+    transform: rotate(180deg);
+}
+
+/* Close dropdowns when sidebar is collapsed */
+.sidebar:not(:hover):not(.expanded) .dropdown-menu {
+    display: none !important;
+    max-height: 0 !important;
+    padding: 0 !important;
+}
+
+.sidebar:not(:hover):not(.expanded) .dropdown-toggle.show .dropdown-icon {
+    transform: rotate(0deg) !important;
+}
+
+/* Account Dropdown */
+.user-info-wrapper {
+    --primary-color: #4361ee;
+    --danger-color: #ef233c;
+    --text-color: #2b2d42;
+    --hover-bg: #f8f9fa;
+    --transition-speed: 0.25s;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.account-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.account-trigger {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+}
+
+.account-trigger:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.account-trigger:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.account-trigger .fa-user-circle {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+.account-trigger span {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.account-trigger .fa-caret-down {
+    font-size: 0.75rem;
+    transition: transform var(--transition-speed);
+}
+
+.account-trigger.active .fa-caret-down {
+    transform: rotate(180deg);
+}
+
+.account-menu {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.5rem);
+    background-color: white;
+    min-width: 180px;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 0;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(-10px);
+    visibility: hidden;
+    transition: 
+        opacity var(--transition-speed) ease,
+        transform var(--transition-speed) ease;
+}
+
+.account-menu.show {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+}
+
+.account-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.625rem 1rem;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: 
+        background-color var(--transition-speed),
+        color var(--transition-speed);
+}
+
+.account-menu-item:hover,
+.account-menu-item:focus {
+    background-color: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+.account-menu-item i {
+    width: 1.25rem;
+    text-align: center;
+    color: inherit;
+}
+
+.account-menu-divider {
+    height: 1px;
+    background-color: #e9ecef;
+    margin: 0.5rem 0;
+}
+
+.logout-account-btn {
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+}
+
+.logout-account-btn:hover,
+.logout-account-btn:focus {
+    color: var(--danger-color) !important;
+}
+.account-menu-item.plan-info {
+    background-color: #f8f9fa;
+    color: var(--dark-color);
+    font-weight: 600;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.account-menu-item.plan-info i {
+    margin-right: 8px;
+}
+
+/* Different colors for different plans */
+.plan-basic { color: var(--primary-color); }
+.plan-advanced { color: var(--success-color); }
+.plan-pro { color: gold; }
+.customer-logo{
+    width:30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+
+
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 5px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transform: translateX(120%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification-success {
+    background-color: var(--success-color);
+}
+
+.notification-error {
+    background-color: var(--danger-color);
+}
+
+/* Settings dropdown without arrow */
+.settings-dropdown .dropdown-icon {
+    display: none;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container" id="mainContainer">
+        <!-- Sidebar Navigation -->
+
+          <div id="sidebar-container"></div>
+        
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <div class="header">
+                <div class="header-left">
+                    <div class="header-logo">CraneIQ</div>
+                </div>
+     
+               <div class="user-info-wrapper">
+    <div class="account-dropdown">
+        <div class="account-trigger" id="accountDropdownTrigger">
+           <img src="image/houzz.png" class="customer-logo">
+            <span>Hilton (Pro Plan)</span>
+            <i class="fas fa-caret-down"></i>
+        </div>
+        <div class="account-menu" id="accountDropdownMenu">
+            <div class="account-menu-item plan-info">
+                <i class="fas fa-crown" style="color: gold;"></i>
+                <span>Pro Plan</span>
+            </div>
+            <div class="account-menu-divider"></div>
+            <a href="#" class="account-menu-item">
+                <i class="fas fa-user"></i> Profile
+            </a>
+            <a href="#" class="account-menu-item">
+                <i class="fas fa-sync-alt"></i> Upgrade Plan
+            </a>
+            <div class="account-menu-divider"></div>
+            <button id="accountLogoutBtn" class="account-menu-item logout-account-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </div>
+</div>
+            </div>
+                       <div class="page-title">
+       <h1>Gateway Management</h1>
+                    <p>Manage all Gateway configurations and details</p>
+                </div>
+            
+            
+            <!-- Device Form -->
+            <div class="device-form-container">
+                <h2 class="form-title"><i class="fas fa-plus-circle"></i> Add Gateway</h2>
+                <form id="deviceForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="deviceName">Gateway Name</label>
+                            <input type="text" id="deviceName" name="deviceName" placeholder="Enter Gateway Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="deviceId">Device Token</label>
+                            <input type="text" id="devicetoken" name="devicetoken" placeholder="eg: 3489209" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="protocol">Protocol</label>
+                            <select id="protocol" name="protocol" required>
+                                <option value="">Select Protocol</option>
+                                <option value="MQTT">MQTT</option>
+                                <option value="HTTP">HTTP</option>
+                                <option value="CoAP">CoAP</option>
+                                <option value="WebSocket">WebSocket</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="topic"> Pub Topic</label>
+                            <input type="text" id="pubtopic" name="pubtopic" placeholder="eg: crane/sensor/data" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subTopic">Sub Topic</label>
+                            <input type="text" id="subTopic" name="subTopic" placeholder="eg: /status">
+                        </div>
+                        <div class="form-group">
+                            <label for="hardwareVersion">Hardware Version</label>
+                            <input type="text" id="hardwareVersion" name="hardwareVersion" placeholder="eg: 2.3.0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="softwareVersion">Software Version</label>
+                            <input type="text" id="softwareVersion" name="softwareVersion" placeholder="eg: 1.2.0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="model">Api Path</label>
+                            <input type="text" id="apipath" name="apipath" placeholder="Api Path" required>
+                        </div>
+                         <div class="form-group">
+                            <label for="model">Gateway Status</label>
+                            <input type="text" id="devicestatus" name="devicestatus" placeholder="Device status" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Add Gateway
+                        </button>
+                        <button type="button" id="clearBtn" class="btn btn-secondary">
+                            <i class="fas fa-eraser"></i> Clear
+                        </button>
+                        <button type="button" id="deleteBtn" class="btn btn-danger" style="display: none;">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Device Table -->
+            <div class="device-table-container">
+                <h2 class="form-title"><i class="fas fa-list"></i> Gateway List</h2>
+                <table class="device-table" id="deviceTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Gateway Name</th>
+                            <th>Device Token</th>
+                            <th>Protocol</th>
+                            <th>Pub Topic</th>
+                            <th>Sub Topic</th>
+                            <th>Hardware Version</th>
+                            <th>Software Version</th>
+                            <th>Api Path</th>
+                            <th>Gateway status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Sample data rows will be added by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Load the sidebar
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('sidebar-container').innerHTML = data;
+                initializeSidebar(); // Call this after loading
+            });
+
+        function initializeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            
+            if (sidebar && sidebarToggle) {
+                sidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('expanded');
+                    document.querySelector('.container').classList.toggle('sidebar-expanded');
+                });
+
+                // Dropdown functionality
+                document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+                    toggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const dropdown = this.closest('.dropdown');
+                        const menu = dropdown.querySelector('.dropdown-menu');
+                        
+                        // Close all other dropdowns
+                        closeAllDropdownsExcept(menu, this);
+                        
+                        // Toggle current dropdown
+                        menu.classList.toggle('show');
+                        this.classList.toggle('show');
+                    });
+                });
+
+                // Function to close all dropdowns
+                function closeAllDropdowns() {
+                    document.querySelectorAll('.dropdown-menu').forEach(m => {
+                        m.classList.remove('show');
+                    });
+                    document.querySelectorAll('.dropdown-toggle').forEach(t => {
+                        t.classList.remove('show');
+                    });
+                }
+
+                // Function to close all dropdowns except a specific one
+                function closeAllDropdownsExcept(exceptMenu = null, exceptToggle = null) {
+                    document.querySelectorAll('.dropdown-menu').forEach(m => {
+                        if (m !== exceptMenu) m.classList.remove('show');
+                    });
+                    document.querySelectorAll('.dropdown-toggle').forEach(t => {
+                        if (t !== exceptToggle) t.classList.remove('show');
+                    });
+                }
+
+                // Close dropdowns when sidebar is collapsed
+                sidebarToggle.addEventListener('click', function() {
+                    if (!sidebar.classList.contains('expanded')) {
+                        closeAllDropdowns();
+                    }
+                });
+
+                // Also close dropdowns when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('.dropdown')) {
+                        closeAllDropdowns();
+                    }
+                });
+            }
+        }
+    });
+</script>
+    <script>
+        
+  document.addEventListener('DOMContentLoaded', function() {
+    // Account dropdown functionality
+    const accountDropdownTrigger = document.getElementById('accountDropdownTrigger');
+    const accountDropdownMenu = document.getElementById('accountDropdownMenu');
+    
+    accountDropdownTrigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        accountDropdownMenu.classList.toggle('show');
+    });
+    
+    // Close account dropdown when clicking elsewhere
+    document.addEventListener('click', function() {
+        accountDropdownMenu.classList.remove('show');
+    });
+    
+    // Prevent account dropdown from closing when clicking inside it
+    accountDropdownMenu.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+
+    // Sidebar toggle functionality
+  
+    const mainContainer = document.getElementById('mainContainer');
+    
+    sidebarToggle.addEventListener('click', function() {
+        sidebar.classList.toggle('expanded');
+        mainContainer.classList.toggle('sidebar-expanded');
+    });
+
+
+    // Close dropdowns when clicking elsewhere
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown')) {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.classList.remove('show');
+            });
+            
+            // Reset all dropdown icons
+            document.querySelectorAll('.dropdown-icon').forEach(icon => {
+                icon.classList.add('fa-chevron-down');
+                icon.classList.remove('fa-chevron-up');
+            });
+        }
+    });
+
+    // User plan display
+    const userPlan = 'pro'; // This would come from your auth system
+
+    function displayUserPlan() {
+        const planName = userPlan.charAt(0).toUpperCase() + userPlan.slice(1);
+        document.querySelector('.account-trigger span').textContent = `Hilton (${planName} Plan)`;
+        
+        const planItem = document.querySelector('.account-menu-item.plan-info');
+        planItem.innerHTML = `<i class="fas ${userPlan === 'pro' ? 'fa-crown' : userPlan === 'advanced' ? 'fa-star' : 'fa-user'}"></i>
+                            <span>${planName} Plan</span>`;
+        planItem.classList.add(`plan-${userPlan}`);
+    }
+    
+    displayUserPlan();
+
+    // Sample data
+    let devices = [
+        {
+            id: 1,
+            deviceName: "Main Crane Sensor",
+            devicetoken: "DEV3489209",
+            protocol: "MQTT",
+            pubtopic: "crane/sensor/main",
+            subTopic: "/status",
+            hardwareVersion: "2.3.0",
+            softwareVersion: "1.2.0",
+            
+        },
+        {
+            id: 2,
+            deviceName: "Auxiliary Sensor",
+            devicetoken: "DEV3489210",
+            protocol: "HTTP",
+            pubtopic: "crane/sensor/aux",
+            subTopic: "/diagnostics",
+            hardwareVersion: "2.4.1",
+            softwareVersion: "1.3.2",
+            
+        },
+        {
+            id: 3,
+            deviceName: "Backup Sensor",
+            devicetoken: "DEV3489211",
+            protocol: "WebSocket",
+            pubtopic: "crane/sensor/backup",
+            subTopic: "/alerts",
+            hardwareVersion: "3.0.0",
+            softwareVersion: "2.0.0",
+           
+        }
+    ];
+
+    // DOM elements
+    const form = document.getElementById("deviceForm");
+    const clearBtn = document.getElementById("clearBtn");
+    const deleteBtn = document.getElementById("deleteBtn");
+    const tableBody = document.querySelector("#deviceTable tbody");
+    const accountLogoutBtn = document.getElementById("accountLogoutBtn");
+    let editId = null;
+
+    // Render table
+    function renderTable() {
+        tableBody.innerHTML = '';
+        devices.forEach((device, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${device.deviceName}</td>
+                <td>${device.devicetoken}</td>
+                <td>${device.protocol}</td>
+                <td>${device.pubtopic}</td>
+                <td>${device.subTopic || '-'}</td>
+                <td>${device.hardwareVersion}</td>
+                <td>${device.softwareVersion}</td>
+               <td></td>
+                <td></td>
+                <td class="action-btns">
+                    <button class="edit-btn" data-id="${device.id}">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="delete-btn" data-id="${device.id}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+
+        // Add event listeners to edit buttons
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', editDevice);
+        });
+
+        // Add event listeners to delete buttons
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', deleteDevice);
+        });
+    }
+
+    // Edit device
+    function editDevice(e) {
+        const deviceId = parseInt(e.currentTarget.getAttribute('data-id'));
+        const device = devices.find(d => d.id === deviceId);
+        
+        if (device) {
+            // Populate form
+            document.getElementById('deviceName').value = device.deviceName;
+            document.getElementById('deviceId').value = device.deviceId;
+            document.getElementById('protocol').value = device.protocol;
+            document.getElementById('topic').value = device.topic;
+            document.getElementById('subTopic').value = device.subTopic;
+            document.getElementById('hardwareVersion').value = device.hardwareVersion;
+            document.getElementById('softwareVersion').value = device.softwareVersion;
+            document.getElementById('model').value = device.model;
+            
+            // Set edit mode
+            editId = deviceId;
+            
+            // Change buttons
+            document.querySelector('.btn-primary').innerHTML = '<i class="fas fa-save"></i> Update Device';
+            deleteBtn.style.display = 'block';
+        }
+    }
+
+    // Delete device from table
+    function deleteDevice(e) {
+        const deviceId = parseInt(e.currentTarget.getAttribute('data-id'));
+        confirmDelete(deviceId);
+    }
+
+    // Confirm and delete device
+    function confirmDelete(deviceId) {
+        if (confirm('Are you sure you want to delete this device?')) {
+            devices = devices.filter(d => d.id !== deviceId);
+            renderTable();
+            if (editId === deviceId) {
+                clearForm();
+            }
+        }
+    }
+
+    // Clear form
+    function clearForm() {
+        form.reset();
+        editId = null;
+        document.querySelector('.btn-primary').innerHTML = '<i class="fas fa-save"></i> Add Device';
+        deleteBtn.style.display = 'none';
+    }
+
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const deviceName = document.getElementById('deviceName').value;
+        const deviceId = document.getElementById('deviceId').value;
+        const protocol = document.getElementById('protocol').value;
+        const topic = document.getElementById('topic').value;
+        const subTopic = document.getElementById('subTopic').value;
+        const hardwareVersion = document.getElementById('hardwareVersion').value;
+        const softwareVersion = document.getElementById('softwareVersion').value;
+        const model = document.getElementById('model').value;
+        
+        if (editId) {
+            // Update existing device
+            const index = devices.findIndex(d => d.id === editId);
+            if (index !== -1) {
+                devices[index] = {
+                    ...devices[index],
+                    deviceName,
+                    devicetoken,
+                    protocol,
+                    pubtopic,
+                    subTopic,
+                    hardwareVersion,
+                    softwareVersion,
+                    apipath,
+                    devicestatus
+                };
+            }
+        } else {
+            // Add new device
+            const newDevice = {
+                id: devices.length > 0 ? Math.max(...devices.map(d => d.id)) + 1 : 1,
+                 deviceName,
+                    devicetoken,
+                    protocol,
+                    pubtopic,
+                    subTopic,
+                    hardwareVersion,
+                    softwareVersion,
+                    apipath,
+                    devicestatus
+            };
+            devices.push(newDevice);
+        }
+        
+        renderTable();
+        clearForm();
+    });
+
+    // Event listeners
+    clearBtn.addEventListener('click', clearForm);
+    
+    deleteBtn.addEventListener('click', () => {
+        if (editId) {
+            confirmDelete(editId);
+        }
+    });
+
+    // Account logout button
+    accountLogoutBtn.addEventListener('click', () => {
+        if (confirm('Are you sure you want to logout?')) {
+            // In a real app, you would redirect to logout
+            alert('Logged out successfully!');
+            window.location.href = 'login.html';
+        }
+    });
+
+    // Initial render
+    renderTable();
+});
+
+    </script>
+</body>
+</html>
