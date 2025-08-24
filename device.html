@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Device Management</title>
+    <title>Device Management | CraneIQ Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
@@ -16,19 +16,19 @@
             --dark-color: #2c3e50;
             --gray-color: #95a5a6;
         }
-
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
             background-color: #f5f7fa;
             color: #333;
         }
-
+        
         .container {
             display: grid;
             grid-template-columns: 60px 1fr;
@@ -51,32 +51,25 @@
             transition: width 0.3s ease, background-color 0.2s ease;
             overflow: hidden;
         }
-
+        
         .sidebar:hover {
             width: 250px;
         }
-
+        
         .sidebar:hover .nav-link span {
             display: inline;
             opacity: 1;
         }
-
+        
         .sidebar.expanded {
             width: 250px;
         }
-
+        
         .sidebar.expanded .nav-link span {
             display: inline;
             opacity: 1;
         }
-
-        .logo {
-            text-align: center;
-            padding: 0 20px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            display: none;
-        }
-
+        
         .nav-link {
             color: inherit;
             text-decoration: none;
@@ -85,15 +78,15 @@
             width: 100%;
             padding: 12px 15px;
         }
-
+        
         .nav-item.active .nav-link {
             color: white;
         }
-
+        
         .nav-item:hover .nav-link {
             color: white;
         }
-
+        
         .nav-menu {
             margin-top: 20px;
             display: flex;
@@ -101,29 +94,29 @@
             height: calc(100vh - 100px);
             justify-content: space-between;
         }
-
+        
         .nav-item {
             cursor: pointer;
             transition: all 0.3s;
             white-space: nowrap;
             overflow: hidden;
         }
-
+        
         .nav-item:hover {
             background-color: rgba(255,255,255,0.1);
         }
-
+        
         .nav-item.active {
             background-color: var(--primary-color);
         }
-
+        
         .nav-item i {
             width: 30px;
             text-align: center;
             font-size: 1.2rem;
             flex-shrink: 0;
         }
-
+        
         .nav-link span {
             display: none;
             opacity: 0;
@@ -175,7 +168,45 @@
             font-size: 0.9rem;
             color: var(--gray-color);
         }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
         
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .btn-secondary {
+            background-color: var(--gray-color);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+
         /* Device Form Styles */
         .device-form-container {
             background-color: white;
@@ -231,46 +262,6 @@
             gap: 10px;
             margin-top: 20px;
             grid-column: span 2;
-        }
-        
-        .btn {
-            padding: 8px 16px;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: all 0.2s;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--secondary-color);
-        }
-        
-        .btn-danger {
-            background-color: var(--danger-color);
-            color: white;
-        }
-        
-        .btn-danger:hover {
-            background-color: #c0392b;
-        }
-        
-        .btn-secondary {
-            background-color: var(--gray-color);
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #7f8c8d;
         }
         
         /* Device Table Styles */
@@ -340,26 +331,7 @@
         .delete-btn:hover {
             background-color: #c82333;
         }
-        
-        .logout-button {
-            margin-left: 15px;
-            padding: 6px 12px;
-            background-color: var(--danger-color);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: background-color 0.2s;
-        }
-        
-        .logout-button:hover {
-            background-color: #c0392b;
-        }
-        
+
         /* Dropdown menu styles */
         .dropdown-menu {
             display: none;
@@ -401,17 +373,6 @@
             transform: rotate(180deg);
         }
 
-        /* Close dropdowns when sidebar is collapsed */
-        .sidebar:not(:hover):not(.expanded) .dropdown-menu {
-            display: none !important;
-            max-height: 0 !important;
-            padding: 0 !important;
-        }
-
-        .sidebar:not(:hover):not(.expanded) .dropdown-toggle.show .dropdown-icon {
-            transform: rotate(0deg) !important;
-        }
-
         /* Account Dropdown */
         .user-info-wrapper {
             --primary-color: #4361ee;
@@ -444,28 +405,11 @@
             background-color: rgba(0, 0, 0, 0.05);
         }
 
-        .account-trigger:focus {
-            outline: 2px solid var(--primary-color);
-            outline-offset: 2px;
-        }
-
-        .account-trigger .fa-user-circle {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-        }
-
-        .account-trigger span {
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
-
-        .account-trigger .fa-caret-down {
-            font-size: 0.75rem;
-            transition: transform var(--transition-speed);
-        }
-
-        .account-trigger.active .fa-caret-down {
-            transform: rotate(180deg);
+        .customer-logo {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
         .account-menu {
@@ -553,13 +497,8 @@
         .plan-basic { color: var(--primary-color); }
         .plan-advanced { color: var(--success-color); }
         .plan-pro { color: gold; }
-        .customer-logo{
-            width:30px;
-            height: 30px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
 
+        /* Notification styles */
         .notification {
             position: fixed;
             top: 20px;
@@ -587,11 +526,6 @@
             background-color: var(--danger-color);
         }
 
-        /* Settings dropdown without arrow */
-        .settings-dropdown .dropdown-icon {
-            display: none;
-        }
-
         /* Modal Styles */
         .modal {
             display: none;
@@ -610,7 +544,7 @@
             background-color: white;
             padding: 20px;
             border-radius: 8px;
-            width: 600px;
+            width: 500px;
             max-width: 90%;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             max-height: 90vh;
@@ -686,6 +620,16 @@
             border-color: var(--danger-color) !important;
         }
 
+        /* Dynamic field styles */
+        .dynamic-field {
+            display: none;
+        }
+        
+        .dynamic-field.required label::after {
+            content: " *";
+            color: var(--danger-color);
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .container {
@@ -712,13 +656,16 @@
             .modal-content {
                 width: 95%;
             }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container" id="mainContainer">
-        <!-- Sidebar Navigation -->
-        <div id="sidebar-container"></div>
+     <div id="sidebar-container"></div>
         
         <!-- Main Content Area -->
         <div class="main-content">
@@ -726,43 +673,46 @@
                 <div class="header-left">
                     <div class="header-logo">CraneIQ</div>
                 </div>
-     
-               <div class="user-info-wrapper">
-    <div class="account-dropdown">
-        <div class="account-trigger" id="accountDropdownTrigger">
-           <img src="image/houzz.png" class="customer-logo">
-            <span>Hilton (Pro Plan)</span>
-            <i class="fas fa-caret-down"></i>
-        </div>
-        <div class="account-menu" id="accountDropdownMenu">
-            <div class="account-menu-item plan-info">
-                <i class="fas fa-crown" style="color: gold;"></i>
-                <span>Pro Plan</span>
-            </div>
-            <div class="account-menu-divider"></div>
-            <a href="#" class="account-menu-item">
-                <i class="fas fa-user"></i> Profile
-            </a>
-            <a href="#" class="account-menu-item">
-                <i class="fas fa-sync-alt"></i> Upgrade Plan
-            </a>
-            <div class="account-menu-divider"></div>
-            <button id="accountLogoutBtn" class="account-menu-item logout-account-btn">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </button>
-        </div>
-    </div>
-</div>
-            </div>
-                       <div class="page-title">
-       <h1>Device Management</h1>
-                    <p>Manage all sensor devices connected to IoT Gateways</p>
+             
+                <div class="user-info-wrapper">
+                    <div class="account-dropdown">
+                        <div class="account-trigger" id="accountDropdownTrigger">
+                            <div class="customer-logo">H</div>
+                            <span>Hilton (Pro Plan)</span>
+                            <i class="fas fa-caret-down"></i>
+                        </div>
+                        <div class="account-menu" id="accountDropdownMenu">
+                            <div class="account-menu-item plan-info">
+                                <i class="fas fa-crown" style="color: gold;"></i>
+                                <span>Pro Plan</span>
+                            </div>
+                            <div class="account-menu-divider"></div>
+                            <a href="#" class="account-menu-item">
+                                <i class="fas fa-user"></i> Profile
+                            </a>
+                            <a href="#" class="account-menu-item">
+                                <i class="fas fa-sync-alt"></i> Upgrade Plan
+                            </a>
+                            <div class="account-menu-divider"></div>
+                            <button id="accountLogoutBtn" class="account-menu-item logout-account-btn">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            
+            <div class="page-title">
+                <h1>Device Management</h1>
+                <p>Manage all sensor devices connected to IoT Gateways</p>
+            </div>
             
             <!-- Add Device Type Button -->
-            <button id="add-device-type-btn" class="btn btn-primary" style="margin-bottom: 20px;">
-                <i class="fas fa-plus"></i> Add Device Type
-            </button>
+            <div class="action-buttons">
+                <button id="add-device-type-btn" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add Device Type
+                </button>
+            </div>
             
             <!-- Device Form -->
             <div class="device-form-container">
@@ -770,40 +720,31 @@
                 <form id="deviceForm">
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="deviceName">Device Name</label>
+                            <label for="deviceName" class="required-field">Device Name</label>
                             <input type="text" id="deviceName" name="deviceName" placeholder="Enter Device Name" required>
                         </div>
                         <div class="form-group">
-                            <label for="deviceId">Device ID</label>
+                            <label for="deviceId" class="required-field">Device ID</label>
                             <input type="text" id="deviceId" name="deviceId" placeholder="Enter unique device ID" required>
                         </div>
                         <div class="form-group">
-                            <label for="gateway">IoT Gateway</label>
+                            <label for="gateway" class="required-field">IoT Gateway</label>
                             <select id="gateway" name="gateway" required>
                                 <option value="">Select Gateway</option>
                                 <!-- Will be populated by JavaScript -->
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="deviceType">Device Type</label>
+                            <label for="deviceType" class="required-field">Device Type</label>
                             <select id="deviceType" name="deviceType" required>
                                 <option value="">Select Type</option>
-                                <option value="temperature">Temperature Sensor</option>
-                                <option value="pressure">Pressure Sensor</option>
-                                <option value="humidity">Humidity Sensor</option>
-                                <option value="vibration">Vibration Sensor</option>
-                                <option value="proximity">Proximity Sensor</option>
-                                <option value="load">Load Sensor</option>
-                                <option value="other">Other</option>
+                                <!-- Will be populated by JavaScript from device types -->
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="pollingInterval">Polling Interval (ms)</label>
-                            <input type="number" id="pollingInterval" name="pollingInterval" placeholder="e.g., 1000" value="5000" min="100">
-                        </div>
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <textarea id="description" name="description" placeholder="Device description and purpose" rows="2"></textarea>
+                        
+                        <!-- Dynamic fields will be inserted here based on device type -->
+                        <div id="dynamic-fields-container">
+                            <!-- Fields like description, polling interval, etc. will be added here -->
                         </div>
                     </div>
                     
@@ -864,66 +805,7 @@
                     </div>
                     <div class="form-group">
                         <label for="device-type-description">Description</label>
-                        <textarea id="device-type-description" placeholder="Enter device type description" rows="2"></textarea>
-                    </div>
-                </div>
-
-                <div class="field-config-group">
-                    <div class="field-config-title">
-                        <i class="fas fa-cog"></i>
-                        <span>Device Properties</span>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-col">
-                            <div class="form-group">
-                                <label for="device-category" class="required-field">Category</label>
-                                <select id="device-category" required>
-                                    <option value="">Select Category</option>
-                                    <option value="sensor">Sensor</option>
-                                    <option value="actuator">Actuator</option>
-                                    <option value="controller">Controller</option>
-                                    <option value="gateway">Gateway</option>
-                                    <option value="other">Other</option>
-                                </select>
-                                <div class="error-message" id="device-category-error">Category is required</div>
-                            </div>
-                        </div>
-                        <div class="form-col">
-                            <div class="form-group">
-                                <label for="data-unit">Data Unit</label>
-                                <input type="text" id="data-unit" placeholder="e.g., °C, kPa, %">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-col">
-                            <div class="form-group">
-                                <label for="min-range">Minimum Range</label>
-                                <input type="number" id="min-range" placeholder="Minimum value">
-                            </div>
-                        </div>
-                        <div class="form-col">
-                            <div class="form-group">
-                                <label for="max-range">Maximum Range</label>
-                                <input type="number" id="max-range" placeholder="Maximum value">
-                                <div class="error-message" id="range-error">Maximum must be greater than minimum</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="communication-protocol">Communication Protocol</label>
-                        <select id="communication-protocol">
-                            <option value="">Select Protocol</option>
-                            <option value="modbus">Modbus</option>
-                            <option value="opc-ua">OPC-UA</option>
-                            <option value="mqtt">MQTT</option>
-                            <option value="http">HTTP/REST</option>
-                            <option value="ble">Bluetooth Low Energy</option>
-                            <option value="lora">LoRaWAN</option>
-                            <option value="other">Other</option>
-                        </select>
+                        <textarea id="device-type-description" placeholder="Enter device type description" rows="3"></textarea>
                     </div>
                 </div>
 
@@ -932,33 +814,36 @@
                         <i class="fas fa-database"></i>
                         <span>Data Configuration</span>
                     </div>
-                    <div class="form-row">
-                        <div class="form-col">
-                            <div class="form-group">
-                                <label for="data-type" class="required-field">Data Type</label>
-                                <select id="data-type" required>
-                                    <option value="">Select Data Type</option>
-                                    <option value="integer">Integer</option>
-                                    <option value="float">Float</option>
-                                    <option value="boolean">Boolean</option>
-                                    <option value="string">String</option>
-                                    <option value="enum">Enumeration</option>
-                                </select>
-                                <div class="error-message" id="data-type-error">Data type is required</div>
-                            </div>
-                        </div>
-                        <div class="form-col">
-                            <div class="form-group">
-                                <label for="polling-interval">Default Polling Interval (ms)</label>
-                                <input type="number" id="polling-interval" placeholder="e.g., 5000" value="5000" min="100">
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label for="data-type" class="required-field">Data Type</label>
+                        <select id="data-type" required>
+                            <option value="">Select Data Type</option>
+                            <option value="integer">Integer</option>
+                            <option value="float">Float</option>
+                            <option value="boolean">Boolean</option>
+                            <option value="string">String</option>
+                            <option value="enum">Enumeration</option>
+                        </select>
+                        <div class="error-message" id="data-type-error">Data type is required</div>
                     </div>
                     
                     <div class="form-group" id="enum-options-container" style="display: none;">
                         <label for="enum-options" class="required-field">Enumeration Options (comma separated)</label>
                         <input type="text" id="enum-options" placeholder="Option1, Option2, Option3">
                         <div class="error-message" id="enum-options-error">Options are required for enumeration type</div>
+                    </div>
+                </div>
+                
+                <!-- Polling Interval Configuration -->
+                <div class="field-config-group">
+                    <div class="field-config-title">
+                        <i class="fas fa-clock"></i>
+                        <span>Polling Configuration</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="polling-interval" class="required-field">Default Polling Interval (ms)</label>
+                        <input type="number" id="polling-interval" min="100" step="100" value="5000" required>
+                        <div class="error-message" id="polling-interval-error">Polling interval is required (minimum 100ms)</div>
                     </div>
                 </div>
             </div>
@@ -971,12 +856,11 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Load the sidebar
         fetch('sidebar.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('sidebar-container').innerHTML = data;
-                initializeSidebar(); // Call this after loading
+                initializeSidebar();
             });
 
         function initializeSidebar() {
@@ -997,45 +881,21 @@
                         const menu = dropdown.querySelector('.dropdown-menu');
                         
                         // Close all other dropdowns
-                        closeAllDropdownsExcept(menu, this);
+                        document.querySelectorAll('.dropdown-menu').forEach(m => {
+                            if (m !== menu) m.classList.remove('show');
+                        });
                         
                         // Toggle current dropdown
                         menu.classList.toggle('show');
-                        this.classList.toggle('show');
                     });
                 });
 
-                // Function to close all dropdowns
-                function closeAllDropdowns() {
-                    document.querySelectorAll('.dropdown-menu').forEach(m => {
-                        m.classList.remove('show');
-                    });
-                    document.querySelectorAll('.dropdown-toggle').forEach(t => {
-                        t.classList.remove('show');
-                    });
-                }
-
-                // Function to close all dropdowns except a specific one
-                function closeAllDropdownsExcept(exceptMenu = null, exceptToggle = null) {
-                    document.querySelectorAll('.dropdown-menu').forEach(m => {
-                        if (m !== exceptMenu) m.classList.remove('show');
-                    });
-                    document.querySelectorAll('.dropdown-toggle').forEach(t => {
-                        if (t !== exceptToggle) t.classList.remove('show');
-                    });
-                }
-
-                // Close dropdowns when sidebar is collapsed
-                sidebarToggle.addEventListener('click', function() {
-                    if (!sidebar.classList.contains('expanded')) {
-                        closeAllDropdowns();
-                    }
-                });
-
-                // Also close dropdowns when clicking outside
+                // Close dropdowns when clicking outside
                 document.addEventListener('click', function(e) {
                     if (!e.target.closest('.dropdown')) {
-                        closeAllDropdowns();
+                        document.querySelectorAll('.dropdown-menu').forEach(m => {
+                            m.classList.remove('show');
+                        });
                     }
                 });
             }
@@ -1054,11 +914,7 @@
         document.addEventListener('click', function() {
             accountDropdownMenu.classList.remove('show');
         });
-        
-        // Prevent account dropdown from closing when clicking inside it
-        accountDropdownMenu.addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
+
 
         // Sample data for gateways (would come from API in real app)
         const gateways = [
@@ -1113,7 +969,122 @@
         const deleteBtn = document.getElementById("deleteBtn");
         const tableBody = document.querySelector("#deviceTable tbody");
         const accountLogoutBtn = document.getElementById("accountLogoutBtn");
+        const deviceTypeSelect = document.getElementById("deviceType");
+        const dynamicFieldsContainer = document.getElementById("dynamic-fields-container");
         let editId = null;
+
+        // Load device types and populate dropdown
+        function loadDeviceTypes() {
+            // Clear existing options except the first one
+            while (deviceTypeSelect.options.length > 1) {
+                deviceTypeSelect.remove(1);
+            }
+            
+            // Get device types from localStorage
+            const deviceTypes = JSON.parse(localStorage.getItem('deviceTypes') || '[]');
+            
+            // Add sample device types if none exist
+            if (deviceTypes.length === 0) {
+                const sampleDeviceTypes = [
+                    {
+                        id: 'temperature',
+                        name: 'Temperature Sensor',
+                        description: 'Measures temperature values',
+                        dataType: 'float',
+                        pollingInterval: 5000
+                    },
+                    {
+                        id: 'pressure',
+                        name: 'Pressure Sensor',
+                        description: 'Measures pressure values',
+                        dataType: 'integer',
+                        pollingInterval: 3000
+                    },
+                    {
+                        id: 'proximity',
+                        name: 'Proximity Sensor',
+                        description: 'Detects presence of objects',
+                        dataType: 'boolean',
+                        pollingInterval: 1000
+                    }
+                ];
+                
+                localStorage.setItem('deviceTypes', JSON.stringify(sampleDeviceTypes));
+                deviceTypes.push(...sampleDeviceTypes);
+            }
+            
+            // Add device types to dropdown
+            deviceTypes.forEach(deviceType => {
+                const option = document.createElement('option');
+                option.value = deviceType.id;
+                option.textContent = deviceType.name;
+                deviceTypeSelect.appendChild(option);
+            });
+        }
+
+        // Update form fields based on selected device type
+        function updateFormFields(deviceTypeId) {
+            // Clear dynamic fields
+            dynamicFieldsContainer.innerHTML = '';
+            
+            // Get device type from localStorage
+            const deviceTypes = JSON.parse(localStorage.getItem('deviceTypes') || '[]');
+            const selectedDeviceType = deviceTypes.find(dt => dt.id === deviceTypeId);
+            
+            if (!selectedDeviceType) return;
+            
+            // Add description field
+            const descriptionGroup = document.createElement('div');
+            descriptionGroup.className = 'form-group dynamic-field';
+            descriptionGroup.innerHTML = `
+                <label for="description">Description</label>
+                <textarea id="description" name="description" placeholder="Device description and purpose" rows="2"></textarea>
+            `;
+            dynamicFieldsContainer.appendChild(descriptionGroup);
+            descriptionGroup.style.display = 'block';
+            
+            // Add polling interval field
+            const pollingGroup = document.createElement('div');
+            pollingGroup.className = 'form-group dynamic-field';
+            pollingGroup.innerHTML = `
+                <label for="pollingInterval" class="required-field">Polling Interval (ms)</label>
+                <input type="number" id="pollingInterval" name="pollingInterval" value="${selectedDeviceType.pollingInterval || 5000}" min="100" step="100" required>
+            `;
+            dynamicFieldsContainer.appendChild(pollingGroup);
+            pollingGroup.style.display = 'block';
+            
+            // Add data type field
+            const dataTypeGroup = document.createElement('div');
+            dataTypeGroup.className = 'form-group dynamic-field';
+            dataTypeGroup.innerHTML = `
+                <label for="dataType">Data Type</label>
+                <input type="text" id="dataType" name="dataType" value="${selectedDeviceType.dataType}" readonly>
+            `;
+            dynamicFieldsContainer.appendChild(dataTypeGroup);
+            dataTypeGroup.style.display = 'block';
+            
+            // Add enum options if data type is enumeration
+            if (selectedDeviceType.dataType === 'enum' && selectedDeviceType.enumOptions && selectedDeviceType.enumOptions.length > 0) {
+                const enumGroup = document.createElement('div');
+                enumGroup.className = 'form-group dynamic-field';
+                enumGroup.innerHTML = `
+                    <label for="enumValue">Allowed Values</label>
+                    <select id="enumValue" name="enumValue">
+                        <option value="">Select Value</option>
+                        ${selectedDeviceType.enumOptions.map(option => 
+                            `<option value="${option}">${option}</option>`
+                        ).join('')}
+                    </select>
+                `;
+                dynamicFieldsContainer.appendChild(enumGroup);
+                enumGroup.style.display = 'block';
+            }
+        }
+
+        // Event listener for device type change
+        deviceTypeSelect.addEventListener('change', function() {
+            updateFormFields(this.value);
+        });
 
         // Render table
         function renderTable() {
@@ -1161,9 +1132,16 @@
                 document.getElementById('deviceName').value = device.deviceName;
                 document.getElementById('deviceId').value = device.deviceId;
                 document.getElementById('gateway').value = device.gateway;
-                document.getElementById('deviceType').value = device.deviceType;
-                document.getElementById('pollingInterval').value = device.pollingInterval;
-                document.getElementById('description').value = device.description || '';
+                
+                // Set device type and update form fields
+                deviceTypeSelect.value = device.deviceType;
+                updateFormFields(device.deviceType);
+                
+                // Populate dynamic fields
+                if (device.description) document.getElementById('description').value = device.description;
+                if (device.pollingInterval) document.getElementById('pollingInterval').value = device.pollingInterval;
+                if (device.dataType) document.getElementById('dataType').value = device.dataType;
+                if (device.enumValue) document.getElementById('enumValue').value = device.enumValue;
                 
                 // Set edit mode
                 editId = deviceId;
@@ -1201,9 +1179,23 @@
             const deviceName = document.getElementById('deviceName').value;
             const deviceId = document.getElementById('deviceId').value;
             const gateway = document.getElementById('gateway').value;
-            const deviceType = document.getElementById('deviceType').value;
-            const pollingInterval = parseInt(document.getElementById('pollingInterval').value);
-            const description = document.getElementById('description').value;
+            const deviceType = deviceTypeSelect.value;
+            const description = document.getElementById('description') ? document.getElementById('description').value : '';
+            const pollingInterval = document.getElementById('pollingInterval') ? parseInt(document.getElementById('pollingInterval').value) : 5000;
+            
+            // Get additional fields based on device type
+            const formData = {
+                deviceName,
+                deviceId,
+                gateway,
+                deviceType,
+                description,
+                pollingInterval
+            };
+            
+            // Add optional fields if they exist
+            if (document.getElementById('dataType')) formData.dataType = document.getElementById('dataType').value;
+            if (document.getElementById('enumValue')) formData.enumValue = document.getElementById('enumValue').value;
             
             if (editId) {
                 // Update existing device
@@ -1211,12 +1203,7 @@
                 if (index !== -1) {
                     devices[index] = {
                         ...devices[index],
-                        deviceName,
-                        deviceId,
-                        gateway,
-                        deviceType,
-                        pollingInterval,
-                        description
+                        ...formData
                     };
                     
                     showNotification('Device updated successfully', 'success');
@@ -1225,12 +1212,7 @@
                 // Add new device
                 const newDevice = {
                     id: devices.length > 0 ? Math.max(...devices.map(d => d.id)) + 1 : 1,
-                    deviceName,
-                    deviceId,
-                    gateway,
-                    deviceType,
-                    pollingInterval,
-                    description
+                    ...formData
                 };
                 
                 devices.push(newDevice);
@@ -1247,6 +1229,7 @@
 
         function resetForm() {
             form.reset();
+            dynamicFieldsContainer.innerHTML = '';
             editId = null;
             document.querySelector('.btn-primary').innerHTML = '<i class="fas fa-save"></i> Add Device';
             deleteBtn.style.display = 'none';
@@ -1289,7 +1272,8 @@
             }, 3000);
         }
 
-        // Initial render
+        // Initial load
+        loadDeviceTypes();
         renderTable();
 
         // Device Type Modal Functionality
@@ -1302,10 +1286,18 @@
         // Form field elements
         const dataTypeSelect = document.getElementById('data-type');
         const enumOptionsContainer = document.getElementById('enum-options-container');
+        const pollingIntervalInput = document.getElementById('polling-interval');
         
         // Toggle enum options based on data type selection
         dataTypeSelect.addEventListener('change', function() {
             enumOptionsContainer.style.display = this.value === 'enum' ? 'block' : 'none';
+        });
+        
+        // Validate polling interval
+        pollingIntervalInput.addEventListener('input', function() {
+            if (this.value < 100) {
+                this.value = 100;
+            }
         });
         
         // Open device type modal
@@ -1313,14 +1305,9 @@
             // Reset form
             document.getElementById('device-type-name').value = '';
             document.getElementById('device-type-description').value = '';
-            document.getElementById('device-category').value = '';
-            document.getElementById('data-unit').value = '';
-            document.getElementById('min-range').value = '';
-            document.getElementById('max-range').value = '';
-            document.getElementById('communication-protocol').value = '';
             document.getElementById('data-type').value = '';
-            document.getElementById('polling-interval').value = '5000';
             document.getElementById('enum-options').value = '';
+            document.getElementById('polling-interval').value = 5000;
             enumOptionsContainer.style.display = 'none';
             
             // Clear errors
@@ -1349,17 +1336,6 @@
                 document.getElementById('device-type-name-error').style.display = 'none';
             }
             
-            // Validate category
-            const deviceCategory = document.getElementById('device-category');
-            if (!deviceCategory.value) {
-                deviceCategory.classList.add('input-error');
-                document.getElementById('device-category-error').style.display = 'block';
-                isValid = false;
-            } else {
-                deviceCategory.classList.remove('input-error');
-                document.getElementById('device-category-error').style.display = 'none';
-            }
-            
             // Validate data type
             const dataType = document.getElementById('data-type');
             if (!dataType.value) {
@@ -1384,16 +1360,15 @@
                 }
             }
             
-            // Validate range values
-            const minRange = document.getElementById('min-range').value;
-            const maxRange = document.getElementById('max-range').value;
-            if (minRange && maxRange && parseFloat(minRange) >= parseFloat(maxRange)) {
-                document.getElementById('max-range').classList.add('input-error');
-                document.getElementById('range-error').style.display = 'block';
+            // Validate polling interval
+            const pollingInterval = document.getElementById('polling-interval');
+            if (!pollingInterval.value || pollingInterval.value < 100) {
+                pollingInterval.classList.add('input-error');
+                document.getElementById('polling-interval-error').style.display = 'block';
                 isValid = false;
             } else {
-                document.getElementById('max-range').classList.remove('input-error');
-                document.getElementById('range-error').style.display = 'none';
+                pollingInterval.classList.remove('input-error');
+                document.getElementById('polling-interval-error').style.display = 'none';
             }
             
             return isValid;
@@ -1410,13 +1385,8 @@
                 id: 'DT' + Date.now().toString().slice(-4),
                 name: document.getElementById('device-type-name').value,
                 description: document.getElementById('device-type-description').value,
-                category: document.getElementById('device-category').value,
-                dataUnit: document.getElementById('data-unit').value,
-                minRange: document.getElementById('min-range').value || null,
-                maxRange: document.getElementById('max-range').value || null,
-                protocol: document.getElementById('communication-protocol').value,
                 dataType: document.getElementById('data-type').value,
-                pollingInterval: document.getElementById('polling-interval').value,
+                pollingInterval: parseInt(document.getElementById('polling-interval').value),
                 enumOptions: document.getElementById('enum-options').value ? 
                     document.getElementById('enum-options').value.split(',').map(opt => opt.trim()) : []
             };
@@ -1428,10 +1398,10 @@
             
             // Close modal and show success message
             deviceTypeModal.style.display = 'none';
-            showNotification('Success', 'Device type created successfully!', 'success');
+            showNotification('Device type created successfully!', 'success');
             
-            // If you have a device types table, refresh it here
-            // refreshDeviceTypesTable();
+            // Refresh device type dropdown
+            loadDeviceTypes();
         });
         
         // Close modal
